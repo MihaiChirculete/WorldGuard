@@ -2,6 +2,8 @@ name: WorldGuard
 main: WorldGuard\WorldGuard
 api: [2.0.0, 3.0.0-ALPHA3, 3.0.0-ALPHA4]
 version: 1.0
+author: Muqsit
+website: https://github.com/Muqsit
 commands:
   region:
     aliases: ["rg"]
