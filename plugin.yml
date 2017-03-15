@@ -1,0 +1,15 @@
+name: WorldGuard
+main: WorldGuard\WorldGuard
+api: [2.0.0, 3.0.0-ALPHA3, 3.0.0-ALPHA4]
+version: 1.0
+commands:
+  region:
+    aliases: ["rg"]
+    default: op
+permissions:
+  worldguard.create:
+    default: op
+  worldguard.modify:
+    default: op
+  worldguard.delete:
+    default: op
