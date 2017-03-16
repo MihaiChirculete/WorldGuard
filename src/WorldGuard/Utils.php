@@ -23,7 +23,32 @@
 
 namespace WorldGuard;
 
+use pocketmine\Player;
+use pocketmine\network\protocol\SetPlayerGameTypePacket;
+
 class Utils {
+
+    const GAMEMODES = [
+        "0" => 0,
+        "s" => 0,
+        "survival" => 0,
+        "1" => 1,
+        "c" => 1,
+        "creative" => 1,
+        "2" => 2,
+        "a" => 2,
+        "adventure" => 2,
+        "3" => 3,
+        "sp" => 3,
+        "spectator" => 3
+    ];
+
+    const GM2STRING = [
+        0 => "survival",
+        1 => "creative",
+        2 => "adventure",
+        3 => "spectator"
+    ];
 
     public static function getRomanNumber(int $integer, $upcase = true) : string
     {
@@ -39,5 +64,20 @@ class Utils {
             }
         }
         return $return;
+    }
+
+    public static function disableFlight(Player $player)
+    {
+        $player->setAllowFlight(false);
+        $pk = new SetPlayerGameTypePacket();
+        $pk->gamemode = $player->gamemode & 0x01;
+        $player->dataPacket($pk);
+        //$player->setFlying(false);
+        $player->sendSettings();
+    }
+
+    public static function gm2string(int $gm) : string
+    {
+        return self::GM2STRING[$gm] ?? "survival";
     }
 }

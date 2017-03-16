@@ -117,7 +117,6 @@ class Region {
             if (!is_numeric($value)) {
                 return TF::RED.'Value of "effect" flag must be numeric.';
             }
-
             if (isset($avalue[1])) {
                 if (is_numeric($avalue[1])) {
                     $this->flags["effects"][$value] = $avalue[1];
@@ -131,8 +130,13 @@ class Region {
                 $this->effects[$value] = Effect::getEffect($value)->setAmplifier(0)->setDuration(999999999);
                 return TF::YELLOW.'Added "'.($this->effects[$value])->getName().' I" effect to "'.$this->name.'" region.';
             }
-
             return;
+        }
+
+        if ($flag === "game-mode") {
+            $gm = Utils::GAMEMODES[$value] ?? 0;
+            $this->flags["game-mode"] = $gm;
+            return TF::YELLOW.$this->name."'s gamemode has been set to ".Utils::gm2string($gm).'.';
         }
 
         switch (WorldGuard::FLAG_TYPE[$flag]) {
@@ -238,6 +242,11 @@ class Region {
     public function getEffects() : array
     {
         return $this->effects;
+    }
+
+    public function getGamemode() : int
+    {
+        return $this->flags["game-mode"];
     }
 
     public function toArray() : array

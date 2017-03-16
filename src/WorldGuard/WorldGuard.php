@@ -45,7 +45,12 @@ class WorldGuard extends PluginBase {
         "potions" => "true",
         "allowed-enter" => "true",
         "allowed-leave" => "true",
-        "whitelist" => []
+        "whitelist" => [],
+        "game-mode" => 0,
+        "sleep" => "true",
+        "send-chat" => "true",
+        "receive-chat" => "true",
+        "enderpearl" => "true"
     ];
 
     const FLAG_TYPE = [
@@ -62,13 +67,19 @@ class WorldGuard extends PluginBase {
         "potions" => "boolean",
         "allowed-enter" => "boolean",
         "allowed-leave" => "boolean",
-        "whitelist" => "array"
+        "whitelist" => "array",
+        "game-mode" => "integer",
+        "sleep" => "boolean",
+        "send-chat" => "boolean",
+        "receive-chat" => "boolean",
+        "enderpearl" => "boolean"
     ];
 
     public $creating = [];
     private $process = [];
     private $regions = [];
     private $players = [];
+    public $muted = [];
 
     public function onEnable()
     {
@@ -175,9 +186,18 @@ class WorldGuard extends PluginBase {
             if (($msg = $old->getFlag("notify-leave")) !== "") {
                 $player->sendMessage($msg);
             }
+            if ($old->getFlag("receive-chat") === "false") {
+                unset($this->muted[$player->getRawUniqueId()]);
+            }
             foreach ($player->getEffects() as $effect) {
                 if ($effect->getDuration() >= 999999) {
                     $player->removeEffect($effect->getId());
+                }
+            }
+            if (!$old->isWhitelisted($player)) {
+                if ($old->getGamemode() !== ($gm = $this->getServer()->getDefaultGamemode())) {
+                    $player->setGamemode($gm);
+                    if ($gm === 0 || $gm === 2) Utils::disableFlight($player);
                 }
             }
         }
@@ -187,8 +207,17 @@ class WorldGuard extends PluginBase {
                 $player->sendPopup(TF::RED.'You cannot enter this area.');
                 return false;
             }
+            if (!$new->isWhitelisted($player)) {
+                if (($gm = $new->getGamemode()) !== $player->gamemode) {
+                    $player->setGamemode($gm);
+                    if ($gm === 0 || $gm === 2) Utils::disableFlight($player);
+                }
+            }
             if (($msg = $new->getFlag("notify-enter")) !== "") {
                 $player->sendMessage($msg);
+            }
+            if ($new->getFlag("receive-chat") === "false") {
+                $this->muted[$player->getRawUniqueId()] = $player;
             }
             $effects =  $new->getEffects();
             if (!empty($effects)) {
