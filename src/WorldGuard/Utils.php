@@ -72,7 +72,7 @@ class Utils {
         $pk = new SetPlayerGameTypePacket();
         $pk->gamemode = $player->gamemode & 0x01;
         $player->dataPacket($pk);
-        //$player->setFlying(false);
+        $player->setFlying(false);
         $player->sendSettings();
     }
 

@@ -133,13 +133,26 @@ class Region {
             return;
         }
 
-        if ($flag === "game-mode") {
-            $gm = Utils::GAMEMODES[$value] ?? 0;
-            $this->flags["game-mode"] = $gm;
-            return TF::YELLOW.$this->name."'s gamemode has been set to ".Utils::gm2string($gm).'.';
-        }
-
         switch (WorldGuard::FLAG_TYPE[$flag]) {
+            case "integer":
+                if ($flag === "game-mode") {
+                    $gm = Utils::GAMEMODES[$value] ?? 0;
+                    $this->flags["game-mode"] = $gm;
+                    return TF::YELLOW.$this->name."'s gamemode has been set to ".Utils::gm2string($gm).'.';
+                } elseif ($flag === "fly-mode") {
+                    if ($value < 0 || $value > 3) {
+                        return implode("\n", [
+                            TF::RED.'Flight flag should be either 0, 1, 2 or 3.',
+                            TF::GRAY.'0 => No changes to flight. Vanilla behaviour.',
+                            TF::GRAY.'1 => Enable flight.',
+                            TF::GRAY.'2 => Disable flight.',
+                            TF::GRAY.'3 => Enable flight, but disable it when the player leaves the area.'
+                        ]);
+                    }
+                    $this->flags["fly-mode"] = (int)$value;
+                    return TF::YELLOW.'Flight mode was changed to: '.$value.'.';
+                }
+                break;
             case "boolean":
                 if ($value !== "true" && $value !== "false") {
                     return TF::RED.'Value of "'.$flag.'" must either be "true" or "false"';
@@ -247,6 +260,11 @@ class Region {
     public function getGamemode() : int
     {
         return $this->flags["game-mode"];
+    }
+
+    public function getFlight() : int
+    {
+        return $this->flags["fly-mode"];
     }
 
     public function toArray() : array

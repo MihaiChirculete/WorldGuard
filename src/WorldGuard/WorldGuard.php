@@ -50,7 +50,8 @@ class WorldGuard extends PluginBase {
         "sleep" => "true",
         "send-chat" => "true",
         "receive-chat" => "true",
-        "enderpearl" => "true"
+        "enderpearl" => "true",
+        "fly-mode" => 0
     ];
 
     const FLAG_TYPE = [
@@ -72,8 +73,14 @@ class WorldGuard extends PluginBase {
         "sleep" => "boolean",
         "send-chat" => "boolean",
         "receive-chat" => "boolean",
-        "enderpearl" => "boolean"
+        "enderpearl" => "boolean",
+        "fly-mode" => "integer"
     ];
+
+    const FLY_VANILLA = 0;
+    const FLY_ENABLE = 1;
+    const FLY_DISABLE = 2;
+    const FLY_SUPERVISED = 3;
 
     public $creating = [];
     private $process = [];
@@ -194,6 +201,9 @@ class WorldGuard extends PluginBase {
                     $player->removeEffect($effect->getId());
                 }
             }
+            if ($old->getFlight() === self::FLY_SUPERVISED) {
+                Utils::disableFlight($player);
+            }
             if (!$old->isWhitelisted($player)) {
                 if ($old->getGamemode() !== ($gm = $this->getServer()->getDefaultGamemode())) {
                     $player->setGamemode($gm);
@@ -218,6 +228,19 @@ class WorldGuard extends PluginBase {
             }
             if ($new->getFlag("receive-chat") === "false") {
                 $this->muted[$player->getRawUniqueId()] = $player;
+            }
+            if (($flight = $new->getFlight()) !== self::FLY_VANILLA) {
+                switch ($flight) {
+                    case self::FLY_ENABLE:
+                    case self::FLY_SUPERVISED:
+                        if (!$player->getAllowFlight()) {
+                            $player->setAllowFlight(true);
+                        }
+                        break;
+                    case self::FLY_DISABLE:
+                        Utils::disableFlight($player);
+                        break;
+                }
             }
             $effects =  $new->getEffects();
             if (!empty($effects)) {
