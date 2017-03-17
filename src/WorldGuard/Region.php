@@ -41,7 +41,7 @@ class Region {
     private $vector1;
     private $vector2;
     private $level;
-    private $effects;
+    private $effects = [];
 
     public function __construct(string $name, array $pos1, array $pos2, string $level, array $flags)
     {
