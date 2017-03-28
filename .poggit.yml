@@ -4,4 +4,6 @@ branches:
 projects:
   WorldGuard:
     path: ""
+    icon: icon.png
+    model: default
 ...
