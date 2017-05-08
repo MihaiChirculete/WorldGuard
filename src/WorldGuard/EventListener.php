@@ -23,13 +23,13 @@
 
 namespace WorldGuard;
 
+use pocketmine\event\block\{BlockPlaceEvent, BlockBreakEvent};
+use pocketmine\event\entity\{EntityDamageEvent, EntityDamageByEntityEvent, EntityExplodeEvent, ProjectileLaunchEvent};
 use pocketmine\event\Listener;
 use pocketmine\event\player\{PlayerJoinEvent, PlayerMoveEvent, PlayerInteractEvent, PlayerCommandPreprocessEvent, PlayerDropItemEvent, PlayerBedEnterEvent, PlayerChatEvent};
-use pocketmine\utils\TextFormat as TF;
 use pocketmine\item\Item;
-use pocketmine\event\entity\{EntityDamageEvent, EntityDamageByEntityEvent, EntityExplodeEvent, ProjectileLaunchEvent};
-use pocketmine\entity\Human;
-use pocketmine\event\block\{BlockPlaceEvent, BlockBreakEvent};
+use pocketmine\Player;
+use pocketmine\utils\TextFormat as TF;
 
 class EventListener implements Listener {
 
@@ -150,8 +150,8 @@ class EventListener implements Listener {
     {
         if ($event instanceof EntityDamageByEntityEvent) {
             if (($reg = $this->plugin->getRegionByPlayer($event->getEntity())) !== "") {
-                if (!$reg->getFlag("pvp") && ($damager = $event->getDamager())::NETWORK_ID === Human::NETWORK_ID) {
-                    $damager->sendMessage(TF::RED.'You cannot hurt players of this region.');
+                if (!$reg->getFlag("pvp") && $event->getDamager() instanceof Player) {
+                    $event->getDamager()->sendMessage(TF::RED.'You cannot hurt players of this region.');
                     $event->setCancelled();
                 }
             }
