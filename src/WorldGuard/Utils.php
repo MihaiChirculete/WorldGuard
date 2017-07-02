@@ -24,7 +24,7 @@
 namespace WorldGuard;
 
 use pocketmine\Player;
-use pocketmine\network\protocol\SetPlayerGameTypePacket;
+use pocketmine\network\mcpe\protocol\SetPlayerGameTypePacket;
 
 class Utils {
 
