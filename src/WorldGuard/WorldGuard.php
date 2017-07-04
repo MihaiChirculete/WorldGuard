@@ -99,9 +99,11 @@ class WorldGuard extends PluginBase {
         } else {
             yaml_emit_file($path.'regions.yml', []);
         }
-
-        foreach ($regions as $name => $data) {
-            $this->regions[$name] = new Region($name, $data["pos1"], $data["pos2"], $data["level"], $data["flags"]);
+        
+        if (isset($regions)) {
+            foreach ($regions as $name => $data) {
+                $this->regions[$name] = new Region($name, $data["pos1"], $data["pos2"], $data["level"], $data["flags"]);
+            }
         }
 
         $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
