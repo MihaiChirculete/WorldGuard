@@ -110,6 +110,10 @@ class EventListener implements Listener {
         }
     }
 
+    /**
+     * @param BlockPlaceEvent $event
+     * @ignoreCancelled true
+     */
     public function onPlace(BlockPlaceEvent $event)
     {
         if (($region = $this->plugin->getRegionFromPosition($event->getBlock())) !== "") {
@@ -122,6 +126,10 @@ class EventListener implements Listener {
         }
     }
 
+    /**
+     * @param BlockBreakEvent $event
+     * @ignoreCancelled true
+     */
     public function onBreak(BlockBreakEvent $event)
     {
         if (($region = $this->plugin->getRegionFromPosition($event->getBlock())) !== "") {
@@ -146,9 +154,13 @@ class EventListener implements Listener {
         }
     }
 
+    /**
+     * @param EntityDamageEvent $event
+     * @ignoreCancelled true
+     */
     public function onHurt(EntityDamageEvent $event)
     {
-        if ($event instanceof EntityDamageByEntityEvent) {
+        if ($event->getEntity() instanceof Player && $event instanceof EntityDamageByEntityEvent) {
             if (($reg = $this->plugin->getRegionByPlayer($event->getEntity())) !== "") {
                 if (!$reg->getFlag("pvp") && $event->getDamager() instanceof Player) {
                     $event->getDamager()->sendMessage(TF::RED.'You cannot hurt players of this region.');
@@ -158,16 +170,25 @@ class EventListener implements Listener {
         }
     }
 
+    /**
+     * @param PlayerCommandPreprocessEvent $event
+     * @ignoreCancelled true
+     */
     public function onCommand(PlayerCommandPreprocessEvent $event)
     {
         $cmd = explode(" ", $event->getMessage())[0];
-        if (substr($cmd, 0, 1) !== '/') return;
-        if (($region = $this->plugin->getRegionByPlayer($player = $event->getPlayer())) !== "" && !$region->isCommandAllowed($cmd)) {
-            $player->sendMessage(TF::RED.'You cannot use '.$cmd.' in this area.');
-            $event->setCancelled();
+        if (substr($cmd, 0, 1) === '/') {
+            if (($region = $this->plugin->getRegionByPlayer($player = $event->getPlayer())) !== "" && !$region->isCommandAllowed($cmd)) {
+                $player->sendMessage(TF::RED.'You cannot use '.$cmd.' in this area.');
+                $event->setCancelled();
+            }
         }
     }
 
+    /**
+     * @param PlayerDropItemEvent $event
+     * @ignoreCancelled true
+     */
     public function onDrop(PlayerDropItemEvent $event)
     {
         if (($reg = $this->plugin->getRegionByPlayer($player = $event->getPlayer())) !== "") {
@@ -181,6 +202,10 @@ class EventListener implements Listener {
         }
     }
 
+    /**
+     * @param EntityExplodeEvent $event
+     * @ignoreCancelled true
+     */
     public function onExplode(EntityExplodeEvent $event)
     {
         foreach ($event->getBlockList() as $block) {
@@ -193,6 +218,10 @@ class EventListener implements Listener {
         }
     }
 
+    /**
+     * @param PlayerBedEnterEvent $event
+     * @ignoreCancelled true
+     */
     public function onSleep(PlayerBedEnterEvent $event)
     {
         if (($region = $this->plugin->getRegionFromPosition($event->getBed())) !== "") {
@@ -204,6 +233,10 @@ class EventListener implements Listener {
         }
     }
 
+    /**
+     * @param PlayerChatEvent $event
+     * @ignoreCancelled true
+     */
     public function onChat(PlayerChatEvent $event)
     {
         if (($reg = $this->plugin->getRegionByPlayer($player = $event->getPlayer())) !== "") {
@@ -215,11 +248,19 @@ class EventListener implements Listener {
                 }
             }
         }
-        $diff = array_diff($this->plugin->getServer()->getOnlinePlayers(), $this->plugin->muted);
-        if (!in_array($player, $diff)) $diff[] = $player;
-        $event->setRecipients($diff);
+        if (!empty($this->plugin->muted)) {
+            $diff = array_diff($this->plugin->getServer()->getOnlinePlayers(), $this->plugin->muted);
+            if (!in_array($player, $diff)) {
+                $diff[] = $player;
+            }
+            $event->setRecipients($diff);
+        }
     }
 
+    /**
+     * @param ProjectileLaunchEvent $event
+     * @ignoreCancelled true
+     */
     public function onEnderpearl(ProjectileLaunchEvent $event)
     {
         if ($event->getEntity()::NETWORK_ID !== 87) return;
