@@ -43,6 +43,10 @@ class EventListener implements Listener {
     const POTIONS = [
         373, 374, 437, 438, 444
     ];
+    
+    const OTHER = [
+        256, 259, 269, 273, 277, 284, 290, 291, 292, 293, 294, 325
+    ];
 
     private $plugin;
 
@@ -98,7 +102,7 @@ class EventListener implements Listener {
                 } else $event->setCancelled(false);
 
                 if ($reg->getFlag("editable") === "false") {
-                    if ($event->getItem()->getId() === Item::FLINT_AND_STEEL) {
+                    if (in_array($event->getItem()->getId(), self::OTHER)) {
                         $player->sendMessage(TF::RED.'You cannot use '.$event->getItem()->getName().'.');
                         $event->setCancelled();
                         return;
