@@ -82,12 +82,20 @@ class WorldGuard extends PluginBase {
     const FLY_DISABLE = 2;
     const FLY_SUPERVISED = 3;
 
+    /** @var array */
     public $creating = [];
+    /** @var array */
     private $process = [];
+    /** @var array */
     private $regions = [];
+    /** @var array */
     private $players = [];
+    /** @var array */
     public $muted = [];
 
+    /**
+     * @return void
+     */
     public function onEnable()
     {
         if (!is_dir($path = $this->getDataFolder())) {
@@ -109,6 +117,9 @@ class WorldGuard extends PluginBase {
         $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
     }
 
+    /**
+     * @return void
+     */
     public function onDisable()
     {
         $data = [];
@@ -118,32 +129,62 @@ class WorldGuard extends PluginBase {
         yaml_emit_file($this->getDataFolder().'regions.yml', $data);
     }
 
+    /**
+     * @param string $region
+     *
+     * @return string
+     */
     public function getRegion(string $region)
     {
         return $this->regions[$region] ?? "";
     }
 
+    /**
+     * @param Player $player
+     *
+     * @return string
+     */
     public function getRegionByPlayer(Player $player)
     {
         $reg = $this->getRegionOf($player);
         return $reg !== "" ? $this->getRegion($reg) : "";
     }
 
+    /**
+     * @param Player $player
+     *
+     * @return string
+     */
     public function getRegionOf(Player $player): string
     {
         return $this->players[$player->getRawUniqueId()] ?? "";
     }
 
+    /**
+     * @param string $name
+     *
+     * @return bool
+     */
     public function regionExists(string $name) : bool
     {
         return isset($this->regions[$name]);
     }
 
+    /**
+     * @param string $flag
+     *
+     * @return bool
+     */
     public function flagExists(string $flag) : bool
     {
         return isset(self::FLAGS[$flag]);
     }
 
+    /**
+     * @param Player $player
+     *
+     * @return void
+     */
     public function sessionizePlayer(Player $player)
     {
         foreach ($player->getEffects() as $effect) {
@@ -155,12 +196,22 @@ class WorldGuard extends PluginBase {
         $this->updateRegion($player);
     }
 
+    /**
+     * @param Position $pos
+     *
+     * @return string
+     */
     public function getRegionFromPosition(Position $pos)
     {
         $name = $this->getRegionNameFromPosition($pos);
         return $name !== "" ? $this->getRegion($name) : "";
     }
 
+    /**
+     * @param Position $pos
+     *
+     * @return string
+     */
     public function getRegionNameFromPosition(Position $pos) : string
     {
         foreach ($this->regions as $name => $region) {
@@ -182,6 +233,13 @@ class WorldGuard extends PluginBase {
         return "";
     }
 
+    /**
+     * @param Player $player
+     * @param string $oldregion
+     * @param string $newregion
+     *
+     * @return bool
+     */
     public function onRegionChange(Player $player, string $oldregion, string $newregion)
     {
         $new = $this->getRegion($newregion);
@@ -256,6 +314,11 @@ class WorldGuard extends PluginBase {
         return true;
     }
 
+    /**
+     * @param Player $player
+     *
+     * @return bool
+     */
     public function updateRegion(Player $player)
     {
         $region = $this->players[$id = $player->getRawUniqueId()];
@@ -266,6 +329,11 @@ class WorldGuard extends PluginBase {
         return true;
     }
 
+    /**
+     * @param Player $player
+     *
+     * @return bool|string
+     */
     public function processCreation(Player $player)
     {
         if (isset($this->creating[$id = $player->getRawUniqueId()], $this->process[$id])) {
@@ -280,6 +348,14 @@ class WorldGuard extends PluginBase {
         return false;
     }
 
+    /**
+     * @param CommandSender $issuer
+     * @param Command $cmd
+     * @param string $label
+     * @param string[] $args
+     *
+     * @return bool
+     */
     public function onCommand(CommandSender $issuer, Command $cmd, string $label, array $args): bool
     {
         switch (strtolower($cmd->getName())) {
