@@ -286,23 +286,23 @@ class WorldGuard extends PluginBase {
             case "region":
                 if (!$issuer->hasPermission("worldguard.create") || !$issuer->hasPermission("worldguard.modify") || !$issuer->hasPermission("worldguard.delete")) {
                     $issuer->sendMessage("You do not have permission to use this command.");
-                    return;
+                    return false;
                 }
                 if (isset($args[0])) {
                     switch ($args[0]) {
                         case "create":
                             if (!$issuer->hasPermission("worldguard.create")) {
                                 $issuer->sendMessage("You do not have permission to use this command.");
-                                return;
+                                return false;
                             }
                             if (isset($args[1])) {
                                 if (!ctype_alnum($args[1])) {
                                     $issuer->sendMessage(TF::RED.'Region name must be alpha numeric.');
-                                    return;
+                                    return false;
                                 }
                                 if ($this->regionExists($args[1])) {
                                     $issuer->sendMessage(TF::RED.'This region already exists. Remap it using /region remap '.$args[1].', or remove it using /region remove '.$args[1]);
-                                    return;
+                                    return false;
                                 } else {
                                     unset($this->creating[$id = $issuer->getRawUniqueId()], $this->process[$id]);
                                     $this->creating[$id] = [];
@@ -316,12 +316,12 @@ class WorldGuard extends PluginBase {
                         case "delete":
                             if (!$issuer->hasPermission("worldguard.delete")) {
                                 $issuer->sendMessage("You do not have permission to use this command.");
-                                return;
+                                return false;
                             }
                             if (isset($args[1])) {
                                 if (!ctype_alnum($args[1])) {
                                     $issuer->sendMessage(TF::RED.'Region name must be alpha numeric.');
-                                    return;
+                                    return false;
                                 }
                                 if ($this->regionExists($args[1])) {
                                     unset($this->regions[$args[1]]);
@@ -365,20 +365,20 @@ class WorldGuard extends PluginBase {
                         case "flags":
                             if (!$issuer->hasPermission("worldguard.modify")) {
                                 $issuer->sendMessage("You do not have permission to use this command.");
-                                return;
+                                return false;
                             }
                             if (isset($args[1], $args[2])) {
                                 if (!$this->regionExists($args[2])) {
                                     $issuer->sendMessage(TF::RED.'The specified region does not exist. Use /region list to get a list of all regions.');
-                                    return;
+                                    return false;
                                 }
                                 if ($args[1] !== "get") {
                                     if (!isset($args[3])) {
                                         $issuer->sendMessage(TF::RED."You haven't specified the <flag>.");
-                                        return;
+                                        return false;
                                     } elseif (!$this->flagExists($args[3])) {
                                         $issuer->sendMessage(TF::RED."The specified flag does not exist. Available flags:\n".TF::LIGHT_PURPLE.implode(TF::WHITE.', '.TF::LIGHT_PURPLE, array_keys(self::FLAGS)));
-                                        return;
+                                        return false;
                                     }
                                 }
                                 switch ($args[1]) {
@@ -389,7 +389,7 @@ class WorldGuard extends PluginBase {
                                     case "set":
                                         if (!isset($args[4])) {
                                             $issuer->sendMessage(TF::RED.'You must specify the <value> of the flag.');
-                                            return;
+                                            return false;
                                         }
                                         $val = $args;
                                         unset($val[0], $val[1], $val[2], $val[3]);
