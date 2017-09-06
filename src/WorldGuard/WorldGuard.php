@@ -293,7 +293,7 @@ class WorldGuard extends PluginBase {
                         case "create":
                             if (!$issuer->hasPermission("worldguard.create")) {
                                 $issuer->sendMessage("You do not have permission to use this command.");
-                                return false ;
+                                return false;
                             }
                             if (isset($args[1])) {
                                 if (!ctype_alnum($args[1])) {
