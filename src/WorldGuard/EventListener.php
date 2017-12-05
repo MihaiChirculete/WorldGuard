@@ -166,7 +166,7 @@ class EventListener implements Listener {
     {
         if ($event->getEntity() instanceof Player && $event instanceof EntityDamageByEntityEvent) {
             if (($reg = $this->plugin->getRegionByPlayer($event->getEntity())) !== "") {
-                if (!$reg->getFlag("pvp") && $event->getDamager() instanceof Player) {
+                if ($reg->getFlag("pvp") === "false" && $event->getDamager() instanceof Player) {
                     $event->getDamager()->sendMessage(TF::RED.'You cannot hurt players of this region.');
                     $event->setCancelled();
                 }
