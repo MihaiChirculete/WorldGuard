@@ -72,9 +72,9 @@ class EventListener implements Listener {
                 $this->plugin->creating[$id][] = [$block->x, $block->y, $block->z, $block->getLevel()->getName()];
                 if (count($this->plugin->creating[$id]) >= 2) {
                     if (($reg = $this->plugin->processCreation($player)) !== false) {
-                        $player->sendMessage(TF::GREEN.'Successfully created region '.$reg);
+                        $player->sendMessage(TF::GREEN.'Successfully created region! Now, you can use: /rg flags <set/get> '.$reg);
                     } else {
-                        $player->sendMessage(TF::RED.'An error occurred while creating the region.');
+                        $player->sendMessage(TF::RED.'An error occurred while creating the region. Are you sure you entered the command correctly?');
                     }
                 }
                 $event->setCancelled();
@@ -167,7 +167,7 @@ class EventListener implements Listener {
         if ($event->getEntity() instanceof Player && $event instanceof EntityDamageByEntityEvent) {
             if (($reg = $this->plugin->getRegionByPlayer($event->getEntity())) !== "") {
                 if ($reg->getFlag("pvp") === "false" && $event->getDamager() instanceof Player) {
-                    $event->getDamager()->sendMessage(TF::RED.'You cannot hurt players of this region.');
+                    $event->getDamager()->sendMessage(TF::RED.'You cannot hurt players in this region.');
                     $event->setCancelled();
                 }
             }
