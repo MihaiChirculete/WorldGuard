@@ -167,9 +167,9 @@ class Region {
         }
 
         if ($flag === "notify-enter" || $flag === "notify-leave") {
-            $this->flags[$flag] = implode(" ", $avalue);
+            $this->flags[$flag] = implode(" ", str_replace("&","§",$avalue));
         } else {
-            $this->flags[$flag] = $value;
+            $this->flags[$flag] = str_replace("&","§",$value);
         }
         return TF::YELLOW.'Flag "'.$flag.'" (of "'.$this->name.'") has been updated to "'.$this->flags[$flag].'".';
     }
