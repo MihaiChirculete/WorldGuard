@@ -63,7 +63,7 @@ class EventListener implements Listener {
         $this->plugin->sessionizePlayer($event->getPlayer());
     }
 
-        public function onInteract(PlayerInteractEvent $event)
+    public function onInteract(PlayerInteractEvent $event)
     {
         if (isset($this->plugin->creating[$id = ($player = $event->getPlayer())->getRawUniqueId()])) {
             if ($event->getAction() === $event::RIGHT_CLICK_BLOCK) {
@@ -144,8 +144,19 @@ class EventListener implements Listener {
      */
     public function onBreak(BlockBreakEvent $event)
     {
-        if (($region = $this->plugin->getRegionFromPosition($event->getBlock())) !== "") {
-            if (!$region->isWhitelisted($player = $event->getPlayer())) {
+        $player = $event->getPlayer();
+        $block = $event->getBlock();
+        $x = $block->x;
+        $z = $block->z;
+        if ($x < 0){
+            $x = ($x + 1);
+        }
+        if ($z < 0){
+            $z = ($z + 1);
+        }
+        $position = new Position($x,$block->y,$z,$block->getLevel());
+        if ($this->plugin->getRegionFromPosition($position) !== ""){
+            if (!$region->isWhitelisted($player)) {
                 if ($region->getFlag("editable") === "false") {
                     $player->sendMessage(TF::RED.'You cannot break blocks in this region.');
                     $event->setCancelled();
