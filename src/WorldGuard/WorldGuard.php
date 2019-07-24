@@ -205,26 +205,30 @@ class WorldGuard extends PluginBase {
             }
             if ($old->getFlight() === self::FLY_SUPERVISED) {
                 Utils::disableFlight($player);
-            }
+	    }
+	    /* This crashes the server when players walk inside the region
             if (!$old->isWhitelisted($player)) {
                 if ($old->getGamemode() !== ($gm = $this->getServer()->getDefaultGamemode())) {
                     $player->setGamemode($gm);
                     if ($gm === 0 || $gm === 2) Utils::disableFlight($player);
                 }
-            }
+	    }
+	     */
         }
 
         if ($new !== "") {
             if ($new->getFlag("allowed-enter") === "false") {
                 $player->sendPopup(TF::RED.'You cannot enter this area.');
                 return false;
-            }
+	    }
+	    /* This crashes the server when players walk inside the region
             if (!$new->isWhitelisted($player)) {
                 if (($gm = $new->getGamemode()) !== $player->gamemode) {
                     $player->setGamemode($gm);
                     if ($gm === 0 || $gm === 2) Utils::disableFlight($player);
                 }
-            }
+	    }
+	     */
             if (($msg = $new->getFlag("notify-enter")) !== "") {
                 $player->sendMessage($msg);
             }
