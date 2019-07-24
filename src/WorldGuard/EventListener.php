@@ -26,7 +26,7 @@ namespace WorldGuard;
 use pocketmine\event\block\{BlockPlaceEvent, BlockBreakEvent};
 use pocketmine\event\entity\{EntityDamageEvent, EntityDamageByEntityEvent, EntityExplodeEvent, ProjectileLaunchEvent};
 use pocketmine\event\Listener;
-use pocketmine\event\player\{PlayerJoinEvent, PlayerMoveEvent, PlayerInteractEvent, PlayerCommandPreprocessEvent, PlayerDropItemEvent, PlayerBedEnterEvent, PlayerChatEvent};
+use pocketmine\event\player\{PlayerJoinEvent, PlayerMoveEvent, PlayerInteractEvent, PlayerCommandPreprocessEvent, PlayerDropItemEvent, PlayerBedEnterEvent, PlayerChatEvent, PlayerItemHeldEvent};
 use pocketmine\item\Item;
 use pocketmine\Player;
 use pocketmine\utils\TextFormat as TF;
@@ -277,4 +277,22 @@ class EventListener implements Listener {
             }
         }
     }
+
+    /* events added by chalapa */
+
+    public function onFoodHeld(PlayerItemHeldEvent  $event)
+    {
+        $foodIDs = [260, 282, 297, 319, 320, 322, 349, 350, 354, 357, 360, 363, 364, 365, 366, 367, 391, 392, 393, 394, 396, 398, 400, 411, 412, 413, 423, 424, 432, 434, 436];
+
+	    $player = $event->getPlayer();
+	    $item = $event->getItem();
+
+	    if(($region = $this->plugin->getRegionByPlayer($event->getPlayer())) !== "")
+            if(in_array($item->getId(), $foodIDs))
+        	    if($region->getFlag("eat") === "false") {
+        		    $event->setCancelled();
+        		    $player->sendMessage(TF::RED.'You cannot eat in this area.');
+        	    }
+    }
+
 }
