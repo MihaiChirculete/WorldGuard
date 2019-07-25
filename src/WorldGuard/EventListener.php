@@ -28,8 +28,10 @@ use pocketmine\event\entity\{EntityDamageEvent, EntityDamageByEntityEvent, Entit
 use pocketmine\event\Listener;
 use pocketmine\event\player\{PlayerJoinEvent, PlayerMoveEvent, PlayerInteractEvent, PlayerCommandPreprocessEvent, PlayerDropItemEvent, PlayerBedEnterEvent, PlayerChatEvent, PlayerItemHeldEvent};
 use pocketmine\item\Item;
+use pocketmine\item\Food;
 use pocketmine\Player;
 use pocketmine\utils\TextFormat as TF;
+use pocketmine\entity\Animal;
 
 class EventListener implements Listener {
 
@@ -172,6 +174,21 @@ class EventListener implements Listener {
                 }
             }
         }
+
+        /* Check if the target was a mob and then act accordingly */
+
+        if(strpos(get_class($event->getEntity()), "animal") !== false && $event instanceof EntityDamageByEntityEvent)
+        {
+            if(($player = $event->getDamager()) instanceof Player)
+            if(($region = $this->plugin->getRegionByPlayer($player)) !== "")
+            {
+                $player->sendMessage(TF::RED.'Damaged: ' . get_class($event->getEntity()));
+                if ($region->getFlag("allow-damage-animals") === "false") {
+                    $player->sendMessage(TF::RED.'You cannot hurt animals of this region.');
+                    $event->setCancelled();
+                }
+            }
+        }
     }
 
     /**
@@ -280,19 +297,17 @@ class EventListener implements Listener {
 
     /* events added by chalapa */
 
+    /* if eating is disabled, check if player holds a food item and if yes deselect it */
     public function onFoodHeld(PlayerItemHeldEvent  $event)
     {
-        $foodIDs = [260, 282, 297, 319, 320, 322, 349, 350, 354, 357, 360, 363, 364, 365, 366, 367, 391, 392, 393, 394, 396, 398, 400, 411, 412, 413, 423, 424, 432, 434, 436];
-
 	    $player = $event->getPlayer();
 	    $item = $event->getItem();
 
 	    if(($region = $this->plugin->getRegionByPlayer($event->getPlayer())) !== "")
-            if(in_array($item->getId(), $foodIDs))
+            if($item instanceof Food)
         	    if($region->getFlag("eat") === "false") {
         		    $event->setCancelled();
         		    $player->sendMessage(TF::RED.'You cannot eat in this area.');
         	    }
     }
-
 }

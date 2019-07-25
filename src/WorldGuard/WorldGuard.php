@@ -51,8 +51,9 @@ class WorldGuard extends PluginBase {
         "send-chat" => "true",
         "receive-chat" => "true",
         "enderpearl" => "true",
-	"fly-mode" => 0,
-	"eat" => "true"
+        "fly-mode" => 0,
+        "eat" => "true",
+        "allow-damage-animals" => "true"
     ];
 
     const FLAG_TYPE = [
@@ -75,8 +76,9 @@ class WorldGuard extends PluginBase {
         "send-chat" => "boolean",
         "receive-chat" => "boolean",
         "enderpearl" => "boolean",
-	"fly-mode" => "integer",
-	"eat" => "boolean"
+        "fly-mode" => "integer",
+        "eat" => "boolean",
+        "allow-damage-animals" => "boolean"
     ];
 
     const FLY_VANILLA = 0;
