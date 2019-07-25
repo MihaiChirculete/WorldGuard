@@ -1,10 +1,10 @@
-# WorldGuard-Advanced [![Poggit-CI](https://poggit.pmmp.io/ci.badge/MihaiChirculete/WorldGuard/WorldGuard)](https://poggit.pmmp.io/ci/MihaiChirculete/WorldGuard/WorldGuard)
+# WorldGuard-Advanced [![Poggit-CI](https://poggit.pmmp.io/ci.badge/Chalapa13/WorldGuard/WorldGuard)](https://poggit.pmmp.io/ci/Chalapa13/WorldGuard/WorldGuard)
 A World Management plugin for PocketMine-MP and forks.
 Read the [tutorial](https://github.com/Muqsit/WorldGuard/wiki/Tutorial).
 
 Extended capabilities added by Chalapa.
 
-Download a compiled .phar file [here](https://github.com/MihaiChirculete/WorldGuard/tree/master/compiled).
+Download a compiled .phar file [here](https://github.com/Chalapa13/WorldGuard/tree/master/compiled).
 
 # Flags added on top of Muqsit's version
 - eat (boolean): permit/deny eating inside area. known issues: if the player warps inside the area with food already being held in hand, he can eat
