@@ -18,3 +18,5 @@ Download a compiled .phar file [here](https://github.com/MihaiChirculete/WorldGu
 		as long as the mob contains the word 'monster' in its classname
 
 - allow-leaves-decay (boolean): allow/prevent leaf decay
+
+- allow-plant-growth (boolean): allow/prevent growth of plants such as grass, flowers, vines, seeds
