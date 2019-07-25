@@ -55,6 +55,10 @@ class EventListener implements Listener {
     public function __construct(WorldGuard $plugin)
     {
         $this->plugin = $plugin;
+
+        /*
+        $this->getServer()->getPluginManager()->registerEvent(CreatureSpawnEvent::class, $this, EventPriority::NORMAL, new MethodEventExecutor("onCreatureSpawn"), $this, false);
+        */
     }
 
     /**

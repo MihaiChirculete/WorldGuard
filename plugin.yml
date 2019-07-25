@@ -1,7 +1,7 @@
 name: WorldGuard-Advanced
 main: WorldGuard\WorldGuard
 api: [3.0.0]
-version: 1.0.0
+version: 1.0.1
 author: Chalapa
 website: https://github.com/Chalapa13
 commands:
