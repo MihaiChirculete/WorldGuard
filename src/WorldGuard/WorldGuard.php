@@ -54,7 +54,8 @@ class WorldGuard extends PluginBase {
         "fly-mode" => 0,
         "eat" => "true",
         "allow-damage-animals" => "true",
-        "allow-damage-monsters" => "true"
+        "allow-damage-monsters" => "true",
+        "allow-leaves-decay" => "true"
     ];
 
     const FLAG_TYPE = [
@@ -80,7 +81,8 @@ class WorldGuard extends PluginBase {
         "fly-mode" => "integer",
         "eat" => "boolean",
         "allow-damage-animals" => "boolean",
-        "allow-damage-monsters" => "boolean"
+        "allow-damage-monsters" => "boolean",
+        "allow-leaves-decay" => "boolean"
     ];
 
     const FLY_VANILLA = 0;
@@ -421,7 +423,7 @@ class WorldGuard extends PluginBase {
                     }
                 } else {
                     $issuer->sendMessage(implode("\n".TF::LIGHT_PURPLE, [
-                        "WorldGuard Help Page",
+                        "WorldGuard-Advanced (by Chalapa) Help Page",
                         " ",
                         "/region create <name> - Define a new region.",
                         "/region list - List all regions.",

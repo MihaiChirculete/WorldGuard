@@ -23,9 +23,9 @@
 
 namespace WorldGuard;
 
-use pocketmine\event\block\{BlockPlaceEvent, BlockBreakEvent};
+use pocketmine\event\block\{BlockPlaceEvent, BlockBreakEvent, LeavesDecayEvent};
 use pocketmine\event\entity\{EntityDamageEvent, EntityDamageByEntityEvent, EntityExplodeEvent, ProjectileLaunchEvent};
-use pocketmine\event\Listener;
+use pocketmine\event\Listener; 
 use pocketmine\event\player\{PlayerJoinEvent, PlayerMoveEvent, PlayerInteractEvent, PlayerCommandPreprocessEvent, PlayerDropItemEvent, PlayerBedEnterEvent, PlayerChatEvent, PlayerItemHeldEvent};
 use pocketmine\item\Item;
 use pocketmine\item\Food;
@@ -123,7 +123,7 @@ class EventListener implements Listener {
     public function onPlace(BlockPlaceEvent $event)
     {
         if (($region = $this->plugin->getRegionFromPosition($event->getBlock())) !== "") {
-            if (!$region->isWhitelisted($player = $event->getPlayer())) {
+            if (!$region->isWhitelisted($player = $event->getPlayer()) && !($event->getPlayer()->isOp())) {
                 if ($region->getFlag("editable") === "false") {
                     $player->sendMessage(TF::RED.'You cannot place blocks in this region.');
                     $event->setCancelled();
@@ -139,7 +139,7 @@ class EventListener implements Listener {
     public function onBreak(BlockBreakEvent $event)
     {
         if (($region = $this->plugin->getRegionFromPosition($event->getBlock())) !== "") {
-            if (!$region->isWhitelisted($player = $event->getPlayer())) {
+            if (!$region->isWhitelisted($player = $event->getPlayer()) && !($event->getPlayer()->isOp())) {
                 if ($region->getFlag("editable") === "false") {
                     $player->sendMessage(TF::RED.'You cannot break blocks in this region.');
                     $event->setCancelled();
@@ -320,5 +320,25 @@ class EventListener implements Listener {
         		    $event->setCancelled();
         		    $player->sendMessage(TF::RED.'You cannot eat in this area.');
         	    }
+    }
+
+    /* if creature spawning is disabled, cancel all spawn events occuring in this region */
+    /*
+    public function onCreatureSpawn(CreatureSpawnEvent $event)
+    {
+        if(($region = $this->plugin->getRegionFromPosition($event->getEntity()->getPosition())) !== "")
+        {
+            if($region->getFlag("allow-creature-spawning") === "false")
+                $event->setCancelled();
+        }
+    }
+    */
+
+    /* allow or prevent leaf decay */
+    public function onLeafDecay(LeavesDecayEvent $event)
+    {
+        if(($region = $this->plugin->getRegionFromPosition($event->getEntity()->getPosition())) !== "")
+            if($region->getFlag("allow-leaves-decay") === "false")
+                $event->setCancelled();
     }
 }

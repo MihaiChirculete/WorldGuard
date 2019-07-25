@@ -16,3 +16,5 @@ Download a compiled .phar file [here](https://github.com/MihaiChirculete/WorldGu
 - allow-damage-monsters (boolean): permit/deny damaging monsters.
 		tested with monsters from [PureEntitiesX](https://github.com/RevivalPMMP/PureEntitiesX), but should work with other plugins too
 		as long as the mob contains the word 'monster' in its classname
+
+- allow-leaves-decay (boolean): allow/prevent leaf decay
