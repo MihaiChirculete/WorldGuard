@@ -23,7 +23,7 @@
 
 namespace WorldGuard;
 
-use pocketmine\event\block\{BlockPlaceEvent, BlockBreakEvent, LeavesDecayEvent, BlockGrowEvent};
+use pocketmine\event\block\{BlockPlaceEvent, BlockBreakEvent, LeavesDecayEvent, BlockGrowEvent, BlockSpreadEvent};
 use pocketmine\event\entity\{EntityDamageEvent, EntityDamageByEntityEvent, EntityExplodeEvent, ProjectileLaunchEvent};
 use pocketmine\event\Listener; 
 use pocketmine\event\player\{PlayerJoinEvent, PlayerMoveEvent, PlayerInteractEvent, PlayerCommandPreprocessEvent, PlayerDropItemEvent, PlayerBedEnterEvent, PlayerChatEvent, PlayerItemHeldEvent};
@@ -347,6 +347,14 @@ class EventListener implements Listener {
     {
         if(($region = $this->plugin->getRegionFromPosition($event->getBlock()->asPosition())) !== "")
             if($region->getFlag("allow-plant-growth") === "false")
+                $event->setCancelled();
+    }
+
+    /* allow or prevent block spreading such as grass, mycelium etc */
+    public function onBlockSpread(BlockSpreadEvent $event)
+    {
+        if(($region = $this->plugin->getRegionFromPosition($event->getBlock()->asPosition())) !== "")
+            if($region->getFlag("allow-spreading") === "false")
                 $event->setCancelled();
     }
 }

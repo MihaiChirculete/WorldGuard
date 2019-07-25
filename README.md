@@ -20,3 +20,5 @@ Download a compiled .phar file [here](https://github.com/MihaiChirculete/WorldGu
 - allow-leaves-decay (boolean): allow/prevent leaf decay
 
 - allow-plant-growth (boolean): allow/prevent growth of plants such as grass, flowers, vines, seeds
+
+- allow-spreading (boolean): allow/prevent block spreading such as mycelium, grass, etc.

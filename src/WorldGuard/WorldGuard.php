@@ -56,7 +56,8 @@ class WorldGuard extends PluginBase {
         "allow-damage-animals" => "true",
         "allow-damage-monsters" => "true",
         "allow-leaves-decay" => "true",
-        "allow-plant-growth" => "true"
+        "allow-plant-growth" => "true",
+        "allow-spreading" => "true"
     ];
 
     const FLAG_TYPE = [
@@ -84,7 +85,8 @@ class WorldGuard extends PluginBase {
         "allow-damage-animals" => "boolean",
         "allow-damage-monsters" => "boolean",
         "allow-leaves-decay" => "boolean",
-        "allow-plant-growth" => "boolean"
+        "allow-plant-growth" => "boolean",
+        "allow-spreading" => "boolean"
     ];
 
     const FLY_VANILLA = 0;
