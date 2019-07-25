@@ -34,6 +34,7 @@ use pocketmine\utils\TextFormat as TF;
 use pocketmine\entity\Animal;
 use pocketmine\plugin\MethodEventExecutor;
 use pocketmine\event\plugin\PluginEvent;
+use revivalpmmp\pureentities\event\CreatureSpawnEvent;
 
 class EventListener implements Listener {
 
@@ -59,7 +60,7 @@ class EventListener implements Listener {
         $this->plugin = $plugin;
 
         if($plugin->getServer()->getPluginManager()->getPlugin("PureEntitiesX") !== null)
-            $plugin->getServer()->getPluginManager()->registerEvent("revivalpmmp\pureentities\event\CreatureSpawnEvent", $this, 3, new MethodEventExecutor("onCreatureSpawn"), $plugin, false);
+            $plugin->getServer()->getPluginManager()->registerEvent(CreatureSpawnEvent::class, $this, 3, new MethodEventExecutor("onCreatureSpawn"), $plugin, false);
     }
 
     /**
