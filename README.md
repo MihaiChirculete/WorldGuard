@@ -7,9 +7,8 @@ Extended capabilities added by Chalapa.
 Download a compiled .phar file [here](https://github.com/MihaiChirculete/WorldGuard/tree/master/compiled).
 
 # Flags added on top of Musqit's version
-- eat (boolean): permit/deny eating inside area
-		known issues: if the player warps inside the area with food already being held in hand, he can eat
+- eat (boolean): permit/deny eating inside area. known issues: if the player warps inside the area with food already being held in hand, he can eat
 
-- allow-damage-animals (boolean): permit/deny damaging animals
+- allow-damage-animals (boolean): permit/deny damaging animals.
 		tested with animals from [PureEntitiesX](https://github.com/RevivalPMMP/PureEntitiesX), but should work with other plugins too
 		as long as the mob contains the word 'animal' in its classname
