@@ -1,4 +1,4 @@
-# WorldGuard-Advanced
+# WorldGuard-Advanced [![Poggit-CI](https://poggit.pmmp.io/ci.badge/MihaiChirculete/WorldGuard/WorldGuard)](https://poggit.pmmp.io/ci/MihaiChirculete/WorldGuard/WorldGuard)
 A World Management plugin for PocketMine-MP and forks.
 Read the [tutorial](https://github.com/Muqsit/WorldGuard/wiki/Tutorial).
 
