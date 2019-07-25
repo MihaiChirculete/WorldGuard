@@ -180,9 +180,8 @@ class EventListener implements Listener {
         if(strpos(get_class($event->getEntity()), "animal") !== false && $event instanceof EntityDamageByEntityEvent)
         {
             if(($player = $event->getDamager()) instanceof Player)
-            if(($region = $this->plugin->getRegionByPlayer($player)) !== "")
+            if(($region = $this->plugin->getRegionFromPosition($event->getEntity()->getPosition())) !== "")
             {
-                $player->sendMessage(TF::RED.'Damaged: ' . get_class($event->getEntity()));
                 if ($region->getFlag("allow-damage-animals") === "false") {
                     $player->sendMessage(TF::RED.'You cannot hurt animals of this region.');
                     $event->setCancelled();

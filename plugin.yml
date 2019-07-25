@@ -1,9 +1,9 @@
-name: WorldGuard
+name: WorldGuard-Advanced
 main: WorldGuard\WorldGuard
 api: [3.0.0]
 version: 1.0
-author: Muqsit
-website: https://github.com/Muqsit
+author: Chalapa
+website: https://github.com/MihaiChirculete
 commands:
   region:
     aliases: ["rg"]
