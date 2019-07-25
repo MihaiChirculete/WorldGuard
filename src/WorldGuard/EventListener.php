@@ -32,6 +32,8 @@ use pocketmine\item\Food;
 use pocketmine\Player;
 use pocketmine\utils\TextFormat as TF;
 use pocketmine\entity\Animal;
+use pocketmine\plugin\MethodEventExecutor;
+use pocketmine\event\plugin\PluginEvent;
 
 class EventListener implements Listener {
 
@@ -56,9 +58,8 @@ class EventListener implements Listener {
     {
         $this->plugin = $plugin;
 
-        /*
-        $this->getServer()->getPluginManager()->registerEvent(CreatureSpawnEvent::class, $this, EventPriority::NORMAL, new MethodEventExecutor("onCreatureSpawn"), $this, false);
-        */
+        if($plugin->getServer()->getPluginManager()->getPlugin("PureEntitiesX") !== null)
+            $plugin->getServer()->getPluginManager()->registerEvent("revivalpmmp\pureentities\event\CreatureSpawnEvent", $this, 3, new MethodEventExecutor("onCreatureSpawn"), $plugin, false);
     }
 
     /**
@@ -327,16 +328,14 @@ class EventListener implements Listener {
     }
 
     /* if creature spawning is disabled, cancel all spawn events occuring in this region */
-    /*
     public function onCreatureSpawn(CreatureSpawnEvent $event)
     {
-        if(($region = $this->plugin->getRegionFromPosition($event->getEntity()->getPosition())) !== "")
+        if(($region = $this->plugin->getRegionFromPosition($event->getPosition())) !== "")
         {
             if($region->getFlag("allow-creature-spawning") === "false")
                 $event->setCancelled();
         }
     }
-    */
 
     /* allow or prevent leaf decay */
     public function onLeafDecay(LeavesDecayEvent $event)

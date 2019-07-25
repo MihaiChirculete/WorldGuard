@@ -43,3 +43,5 @@ Download a compiled .phar file [here](https://github.com/Chalapa13/WorldGuard/tr
 - allow-plant-growth (boolean): allow/prevent growth of plants such as grass, flowers, vines, seeds
 
 - allow-spreading (boolean): allow/prevent block spreading such as mycelium, grass, etc.
+
+- allow-creature-spawning (boolean): allow/prevent creature spawning
