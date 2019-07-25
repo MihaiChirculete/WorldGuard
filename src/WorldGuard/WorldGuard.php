@@ -53,7 +53,8 @@ class WorldGuard extends PluginBase {
         "enderpearl" => "true",
         "fly-mode" => 0,
         "eat" => "true",
-        "allow-damage-animals" => "true"
+        "allow-damage-animals" => "true",
+        "allow-damage-monsters" => "true"
     ];
 
     const FLAG_TYPE = [
@@ -78,7 +79,8 @@ class WorldGuard extends PluginBase {
         "enderpearl" => "boolean",
         "fly-mode" => "integer",
         "eat" => "boolean",
-        "allow-damage-animals" => "boolean"
+        "allow-damage-animals" => "boolean",
+        "allow-damage-monsters" => "boolean"
     ];
 
     const FLY_VANILLA = 0;

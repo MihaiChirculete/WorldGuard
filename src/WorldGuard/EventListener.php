@@ -188,6 +188,18 @@ class EventListener implements Listener {
                 }
             }
         }
+
+        if(strpos(get_class($event->getEntity()), "monster") !== false && $event instanceof EntityDamageByEntityEvent)
+        {
+            if(($player = $event->getDamager()) instanceof Player)
+            if(($region = $this->plugin->getRegionFromPosition($event->getEntity()->getPosition())) !== "")
+            {
+                if ($region->getFlag("allow-damage-monsters") === "false") {
+                    $player->sendMessage(TF::RED.'You cannot hurt monsters of this region.');
+                    $event->setCancelled();
+                }
+            }
+        }
     }
 
     /**
