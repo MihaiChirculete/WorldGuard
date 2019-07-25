@@ -15,12 +15,10 @@ For the full list of flags check the tutorial below.
 Read the [tutorial](https://github.com/Muqsit/WorldGuard/wiki/Tutorial).  
 
 For the added flags check [here](https://github.com/Chalapa13/WorldGuard).  
-Be sure to check the above link when updating the plugin to see changes and view available flags. (can also be found in-game by doing /rg flags get <region>)
+Be sure to check the above link when updating the plugin to see changes and view available flags. (can also be found in-game by doing /rg flags get region_name)
 
 # Dev builds
 For more frequent updates (risk of bugs) you can download the plugin from [here](https://poggit.pmmp.io/ci/Chalapa13/WorldGuard/WorldGuard).
-
-Extended capabilities added by Chalapa.
 
 Download a compiled .phar file [here](https://github.com/Chalapa13/WorldGuard/tree/master/compiled).
 
