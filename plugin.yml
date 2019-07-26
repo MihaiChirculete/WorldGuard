@@ -15,3 +15,7 @@ permissions:
     default: op
   worldguard.delete:
     default: op
+  worldguard.enter:
+    default: op
+  worldguard.leave:
+    default: op

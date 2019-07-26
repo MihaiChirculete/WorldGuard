@@ -43,3 +43,6 @@ For more frequent updates (risk of bugs) you can download the plugin from [here]
 - allow-spreading (boolean): allow/prevent block spreading such as mycelium, grass, etc.
 
 - allow-creature-spawning (boolean): allow/prevent creature spawning
+
+# Customizable Permissions
+You can also combine the "allowed-enter", "allowed-leave" flags with custom permissions to allow/restrict entering/leaving areas to certain users/groups. See the tutorial for examples.

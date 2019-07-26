@@ -28,6 +28,7 @@ use pocketmine\command\{Command, CommandSender};
 use pocketmine\utils\TextFormat as TF;
 use pocketmine\Player;
 use pocketmine\level\Position;
+use pocketmine\permission\{Permission, Permissible, PermissionManager};
 
 class WorldGuard extends PluginBase {
 
@@ -202,9 +203,13 @@ class WorldGuard extends PluginBase {
         $old = $this->getRegion($oldregion);
 
         if ($old !== "") {
-            if ($old->getFlag("allowed-leave") === "false") {
-                $player->sendPopup(TF::RED.'You cannot leave this area.');
-                return false;
+            if ($old->getFlag("allowed-leave") === "false") 
+            {
+            	if(!$player->hasPermission("worldguard.leave." . $oldregion))
+            	{
+	                $player->sendMessage(TF::RED.'You cannot leave this area.');
+	                return false;
+	            }
             }
             if (($msg = $old->getFlag("notify-leave")) !== "") {
                 $player->sendMessage($msg);
@@ -231,10 +236,14 @@ class WorldGuard extends PluginBase {
         }
 
         if ($new !== "") {
-            if ($new->getFlag("allowed-enter") === "false") {
-                $player->sendPopup(TF::RED.'You cannot enter this area.');
-                return false;
-	    }
+            if ($new->getFlag("allowed-enter") === "false") 
+            {
+            	if(!$player->hasPermission("worldguard.enter." . $newregion))
+            	{
+                	$player->sendMessage(TF::RED.'You cannot enter this area.');
+                	return false;
+                }
+            }
 	    /* This crashes the server when players walk inside the region
             if (!$new->isWhitelisted($player)) {
                 if (($gm = $new->getGamemode()) !== $player->gamemode) {
@@ -293,6 +302,17 @@ class WorldGuard extends PluginBase {
             unset($map[0][3], $map[1][3]);
             $this->regions[$name] = new Region($name, $map[0], $map[1], $level, self::FLAGS);
             unset($this->process[$id], $this->creating[$id]);
+
+            /* add permission for accesing this region */
+			$permission = new Permission("worldguard.enter." . $name, "Allows player to enter the " . $name . " region.", Permission::DEFAULT_OP);
+			$permission->addParent("worldguard.enter", true);
+			PermissionManager::getInstance()->addPermission($permission);
+
+			/* add permission for leaving this region */
+			$permission = new Permission("worldguard.leave." . $name, "Allows player to enter the " . $name . " region.", Permission::DEFAULT_OP);
+			$permission->addParent("worldguard.leave", true);
+			PermissionManager::getInstance()->addPermission($permission);
+
             return $name;
         }
         return false;
