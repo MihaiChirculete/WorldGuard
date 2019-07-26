@@ -17,15 +17,13 @@ This plugin is a port of the popular bukkit plugin called ["WorldGuard"](https:/
 For the full list of flags check the tutorial below.
 
 # Tutorial
-Read the [tutorial](https://github.com/Muqsit/WorldGuard/wiki/Tutorial).  
+Read the [tutorial](https://github.com/Chalapa13/WorldGuard/wiki/Tutorial).  
 
 For the added flags check [here](https://github.com/Chalapa13/WorldGuard).  
 Be sure to check the above link when updating the plugin to see changes and view available flags. (can also be found in-game by doing /rg flags get region_name)
 
 # Dev builds
 For more frequent updates (risk of bugs) you can download the plugin from [here](https://poggit.pmmp.io/ci/Chalapa13/WorldGuard/WorldGuard).
-
-Download a compiled .phar file [here](https://github.com/Chalapa13/WorldGuard/tree/master/compiled).
 
 # Flags added on top of Muqsit's version
 - eat (boolean): permit/deny eating inside area. known issues: if the player warps inside the area with food already being held in hand, he can eat
