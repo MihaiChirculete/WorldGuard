@@ -10,15 +10,14 @@
 * |   _   ||       ||   |  | ||       ||       ||   |_| ||       ||   _   ||   |  | ||       |
 * |__| |__||_______||___|  |_||_______||______| |_______||_______||__| |__||___|  |_||______| 
 *
-* By Muqsit Rayyan.
+* By Chalapa13.
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU Lesser General Public License as published by
 * the Free Software Foundation, either version 3 of the License, or
 * (at your option) any later version.
 *
-* Twitter: @muqsitrayyan
-* GitHub: https://github.com/Muqsit
+* GitHub: https://github.com/Chalapa13
 */
 
 namespace WorldGuard;
@@ -314,6 +313,11 @@ class WorldGuard extends PluginBase {
             /* add permission for editing blocks in this region */
             $permission = new Permission("worldguard.edit." . $name, "Allows player to enter the " . $name . " region.", Permission::DEFAULT_OP);
             $permission->addParent("worldguard.edit", true);
+            PermissionManager::getInstance()->addPermission($permission);
+
+            /* add permission for eating in this region */
+            $permission = new Permission("worldguard.eat." . $name, "Allows player to enter the " . $name . " region.", Permission::DEFAULT_OP);
+            $permission->addParent("worldguard.eat", true);
             PermissionManager::getInstance()->addPermission($permission);
 
             return $name;
