@@ -70,7 +70,7 @@ class Utils {
     {
         $player->setAllowFlight(false);
         $pk = new SetPlayerGameTypePacket();
-        $pk->gamemode = $player->gamemode & 0x01;
+        $pk->gamemode = $player->getGamemode() & 0x01;
         $player->dataPacket($pk);
         $player->setFlying(false);
         $player->sendSettings();

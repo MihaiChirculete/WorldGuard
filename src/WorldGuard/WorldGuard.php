@@ -33,7 +33,6 @@ use pocketmine\permission\{Permission, Permissible, PermissionManager};
 class WorldGuard extends PluginBase {
 
     const FLAGS = [
-        "editable" => "false",
         "pvp" => "true",
         "effects" => [],
         "blocked-cmds" => [],
@@ -46,7 +45,6 @@ class WorldGuard extends PluginBase {
         "potions" => "true",
         "allowed-enter" => "true",
         "allowed-leave" => "true",
-        "whitelist" => [],
         "game-mode" => 0,
         "sleep" => "true",
         "send-chat" => "true",
@@ -63,7 +61,6 @@ class WorldGuard extends PluginBase {
     ];
 
     const FLAG_TYPE = [
-        "editable" => "boolean",
         "pvp" => "boolean",
         "effects" => "array",
         "blocked-cmds" => "array",
@@ -76,7 +73,6 @@ class WorldGuard extends PluginBase {
         "potions" => "boolean",
         "allowed-enter" => "boolean",
         "allowed-leave" => "boolean",
-        "whitelist" => "array",
         "game-mode" => "integer",
         "sleep" => "boolean",
         "send-chat" => "boolean",
@@ -224,15 +220,11 @@ class WorldGuard extends PluginBase {
             }
             if ($old->getFlight() === self::FLY_SUPERVISED) {
                 Utils::disableFlight($player);
-	    }
-	    /* This crashes the server when players walk inside the region
-            if (!$old->isWhitelisted($player)) {
-                if ($old->getGamemode() !== ($gm = $this->getServer()->getDefaultGamemode())) {
-                    $player->setGamemode($gm);
-                    if ($gm === 0 || $gm === 2) Utils::disableFlight($player);
-                }
-	    }
-	     */
+	    	}
+            if ($old->getGamemode() !== ($gm = $this->getServer()->getDefaultGamemode())) {
+                $player->setGamemode($gm);
+                if ($gm === 0 || $gm === 2) Utils::disableFlight($player);
+            }
         }
 
         if ($new !== "") {
@@ -244,14 +236,10 @@ class WorldGuard extends PluginBase {
                 	return false;
                 }
             }
-	    /* This crashes the server when players walk inside the region
-            if (!$new->isWhitelisted($player)) {
-                if (($gm = $new->getGamemode()) !== $player->gamemode) {
-                    $player->setGamemode($gm);
-                    if ($gm === 0 || $gm === 2) Utils::disableFlight($player);
-                }
-	    }
-	     */
+            if (($gm = $new->getGamemode()) !== $player->getGamemode()) {
+                $player->setGamemode($gm);
+                if ($gm === 0 || $gm === 2) Utils::disableFlight($player);
+            }
             if (($msg = $new->getFlag("notify-enter")) !== "") {
                 $player->sendMessage($msg);
             }
@@ -312,6 +300,21 @@ class WorldGuard extends PluginBase {
 			$permission = new Permission("worldguard.leave." . $name, "Allows player to enter the " . $name . " region.", Permission::DEFAULT_OP);
 			$permission->addParent("worldguard.leave", true);
 			PermissionManager::getInstance()->addPermission($permission);
+
+            /* add permission for building in this region */
+            $permission = new Permission("worldguard.build." . $name, "Allows player to enter the " . $name . " region.", Permission::DEFAULT_OP);
+            $permission->addParent("worldguard.build", true);
+            PermissionManager::getInstance()->addPermission($permission);
+
+            /* add permission for breaking blocks in this region */
+            $permission = new Permission("worldguard.break." . $name, "Allows player to enter the " . $name . " region.", Permission::DEFAULT_OP);
+            $permission->addParent("worldguard.break", true);
+            PermissionManager::getInstance()->addPermission($permission);
+
+            /* add permission for editing blocks in this region */
+            $permission = new Permission("worldguard.edit." . $name, "Allows player to enter the " . $name . " region.", Permission::DEFAULT_OP);
+            $permission->addParent("worldguard.edit", true);
+            PermissionManager::getInstance()->addPermission($permission);
 
             return $name;
         }
@@ -449,7 +452,7 @@ class WorldGuard extends PluginBase {
                     }
                 } else {
                     $issuer->sendMessage(implode("\n".TF::LIGHT_PURPLE, [
-                        "WorldGuard-Advanced (by Chalapa) Help Page",
+                        "WorldGuard (by Chalapa) Help Page",
                         "Download link: https://github.com/Chalapa13/WorldGuard/tree/master/compiled",
                         " ",
                         "/region create <name> - Define a new region.",

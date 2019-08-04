@@ -19,3 +19,9 @@ permissions:
     default: op
   worldguard.leave:
     default: op
+  worldguard.build:
+    default: op
+  worldguard.break:
+    default: op
+  worldguard.edit:
+    default: op

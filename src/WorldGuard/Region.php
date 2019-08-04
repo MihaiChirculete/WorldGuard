@@ -210,9 +210,6 @@ class Region {
                 case "effects":
                     $array[] = $flag.' => '.TF::GRAY.$this->getEffectsString();
                     break;
-                case "whitelist":
-                    $array[] = $flag.' => '.TF::GRAY.$this->getWhitelistString();
-                    break;
                 default:
                     $array[] = $flag.' => '.TF::GRAY.'"'.$value.'"';
                     break;
@@ -230,26 +227,6 @@ class Region {
             return true;
         }
         return isset($allowed[$command]);
-    }
-
-    public function addToWhitelist(string $playername)
-    {
-        return isset($this->flags["whitelist"][strtolower($playername)]);
-    }
-
-    public function removeFromWhitelist(string $playername)
-    {
-        unset($this->flags["whitelist"][strtolower($playername)]);
-    }
-
-    public function isWhitelisted(Player $player)
-    {
-        return isset($this->flags["whitelist"][strtolower($player->getName())]);
-    }
-
-    public function getWhitelistString() : string
-    {
-        return implode(", ", array_keys($this->flags["whitelist"]));
     }
 
     public function getEffects() : array

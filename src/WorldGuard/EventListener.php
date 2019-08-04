@@ -91,8 +91,6 @@ class EventListener implements Listener {
         }
 
         if (($reg = $this->plugin->getRegionByPlayer($player)) !== "") {
-            if (!$reg->isWhitelisted($player)) {
-
                 if ($reg->getFlag("use") === "false") {
                     if (in_array($event->getBlock()->getId(), self::USABLES)) {
                         $player->sendMessage(TF::RED.'You cannot interact with '.$event->getBlock()->getName().'s.');
@@ -109,7 +107,7 @@ class EventListener implements Listener {
                     }
                 } else $event->setCancelled(false);
 
-                if ($reg->getFlag("editable") === "false") {
+                if(!$player->hasPermission("worldguard.edit." . $reg->getName())){
                     if (in_array($event->getItem()->getId(), self::OTHER)) {
                         $player->sendMessage(TF::RED.'You cannot use '.$event->getItem()->getName().'.');
                         $event->setCancelled();
@@ -117,7 +115,6 @@ class EventListener implements Listener {
                     }
                 } else $event->setCancelled(false);
 
-            }
             return;
         }
     }
@@ -129,11 +126,9 @@ class EventListener implements Listener {
     public function onPlace(BlockPlaceEvent $event)
     {
         if (($region = $this->plugin->getRegionFromPosition($event->getBlock())) !== "") {
-            if (!$region->isWhitelisted($player = $event->getPlayer()) && !($event->getPlayer()->isOp())) {
-                if ($region->getFlag("editable") === "false") {
-                    $player->sendMessage(TF::RED.'You cannot place blocks in this region.');
-                    $event->setCancelled();
-                }
+            if(!$event->getPlayer()->hasPermission("worldguard.place." . $region->getName())){
+                $event->getPlayer()->sendMessage(TF::RED.'You cannot place blocks in this region.');
+                $event->setCancelled();
             }
         }
     }
@@ -145,11 +140,9 @@ class EventListener implements Listener {
     public function onBreak(BlockBreakEvent $event)
     {
         if (($region = $this->plugin->getRegionFromPosition($event->getBlock())) !== "") {
-            if (!$region->isWhitelisted($player = $event->getPlayer()) && !($event->getPlayer()->isOp())) {
-                if ($region->getFlag("editable") === "false") {
-                    $player->sendMessage(TF::RED.'You cannot break blocks in this region.');
-                    $event->setCancelled();
-                }
+            if(!$event->getPlayer()->hasPermission("worldguard.break." . $region->getName())){
+                $event->getPlayer()->sendMessage(TF::RED.'You cannot break blocks in this region.');
+                $event->setCancelled();
             }
         }
     }
@@ -230,12 +223,10 @@ class EventListener implements Listener {
     public function onDrop(PlayerDropItemEvent $event)
     {
         if (($reg = $this->plugin->getRegionByPlayer($player = $event->getPlayer())) !== "") {
-            if (!$reg->isWhitelisted($player)) {
-                if ($reg->getFlag("item-drop") === "false") {
-                    $player->sendMessage(TF::RED.'You cannot drop items in this region.');
-                    $event->setCancelled();
-                    return;
-                }
+            if ($reg->getFlag("item-drop") === "false") {
+                $player->sendMessage(TF::RED.'You cannot drop items in this region.');
+                $event->setCancelled();
+                return;
             }
         }
     }
@@ -263,10 +254,8 @@ class EventListener implements Listener {
     public function onSleep(PlayerBedEnterEvent $event)
     {
         if (($region = $this->plugin->getRegionFromPosition($event->getBed())) !== "") {
-            if (!$region->isWhitelisted($player = $event->getPlayer())) {
-                if ($region->getFlag("sleep") === "false") {
-                    $event->setCancelled();
-                }
+            if ($region->getFlag("sleep") === "false") {
+                $event->setCancelled();
             }
         }
     }
@@ -278,13 +267,11 @@ class EventListener implements Listener {
     public function onChat(PlayerChatEvent $event)
     {
         if (($reg = $this->plugin->getRegionByPlayer($player = $event->getPlayer())) !== "") {
-            if (!$reg->isWhitelisted($player)) {
-                if ($reg->getFlag("send-chat") === "false") {
-                    $player->sendMessage(TF::RED.'You cannot chat in this region.');
-                    $event->setCancelled();
-                    return;
-                }
-            }
+            if ($reg->getFlag("send-chat") === "false") {
+                $player->sendMessage(TF::RED.'You cannot chat in this region.');
+                $event->setCancelled();
+                return;
+            }            
         }
         if (!empty($this->plugin->muted)) {
             $diff = array_diff($this->plugin->getServer()->getOnlinePlayers(), $this->plugin->muted);
@@ -304,7 +291,7 @@ class EventListener implements Listener {
         if ($event->getEntity()::NETWORK_ID !== 87) return;
         if (($region = $this->plugin->getRegionFromPosition($entity = $event->getEntity())) !== "") {
             if ($region->getFlag("enderpearl") === "false") {
-                if ((($player = $entity->shootingEntity) !== null) && !$region->isWhitelisted($player)) {
+                if ((($player = $entity->shootingEntity) !== null)) {
                     $event->setCancelled();
                     $player->sendMessage(TF::RED.'You cannot use ender pearls in this area.');
                 }
