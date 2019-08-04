@@ -320,6 +320,11 @@ class WorldGuard extends PluginBase {
             $permission->addParent("worldguard.eat", true);
             PermissionManager::getInstance()->addPermission($permission);
 
+            /* add permission for dropping items in this region */
+            $permission = new Permission("worldguard.drop." . $name, "Allows player to enter the " . $name . " region.", Permission::DEFAULT_OP);
+            $permission->addParent("worldguard.drop", true);
+            PermissionManager::getInstance()->addPermission($permission);
+
             return $name;
         }
         return false;

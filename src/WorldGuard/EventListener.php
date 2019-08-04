@@ -222,7 +222,7 @@ class EventListener implements Listener {
     public function onDrop(PlayerDropItemEvent $event)
     {
         if (($reg = $this->plugin->getRegionByPlayer($player = $event->getPlayer())) !== "") {
-            if ($reg->getFlag("item-drop") === "false") {
+            if ($reg->getFlag("item-drop") === "false" && !$player->hasPermission("worldguard.drop." . $reg->getName())) {
                 $player->sendMessage(TF::RED.'You cannot drop items in this region.');
                 $event->setCancelled();
                 return;

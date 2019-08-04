@@ -27,3 +27,5 @@ permissions:
     default: op
   worldguard.eat:
     default: op
+  worldguard.drop:
+    default: op
