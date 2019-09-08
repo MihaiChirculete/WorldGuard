@@ -27,3 +27,6 @@ You can download the compiled plugin from [here](https://zee.gl/XCVfgC).
 
 # Customizable Permissions
 Some flags come with their own permission in order to customize regions even more and only allow certain groups of players do certain actions in a region.
+
+# Discord
+[Discord server invite link](https://zee.gl/nNwsSBk)
