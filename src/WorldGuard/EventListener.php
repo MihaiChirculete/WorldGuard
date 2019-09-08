@@ -75,8 +75,16 @@ class EventListener implements Listener {
         if (isset($this->plugin->creating[$id = ($player = $event->getPlayer())->getRawUniqueId()])) {
             if ($event->getAction() === $event::RIGHT_CLICK_BLOCK) {
                 $block = $event->getBlock();
-                $player->sendMessage(TF::YELLOW.'Selected position: X'.$block->x.', Y: '.$block->y.', Z: '.$block->z.', Level: '.$block->getLevel()->getName());
-                $this->plugin->creating[$id][] = [$block->x, $block->y, $block->z, $block->getLevel()->getName()];
+                $x = $block->x;
+                $z = $block->z;
+                if ($x < 0){
+                    $x = ($x + 1);
+                }
+                if ($z < 0){
+                    $z = ($z + 1);
+                }
+                $player->sendMessage(TF::YELLOW.'Selected position: X'.$x.', Y: '.$block->y.', Z: '.$z.', Level: '.$block->getLevel()->getName());
+                $this->plugin->creating[$id][] = [$x, $block->y, $z, $block->getLevel()->getName()];
                 if (count($this->plugin->creating[$id]) >= 2) {
                     if (($reg = $this->plugin->processCreation($player)) !== false) {
                         $player->sendMessage(TF::GREEN.'Successfully created region '.$reg);
@@ -176,12 +184,23 @@ class EventListener implements Listener {
      */
     public function onBreak(BlockBreakEvent $event)
     {
-        if (($region = $this->plugin->getRegionFromPosition($event->getBlock())) !== "") {
-            if(!$event->getPlayer()->hasPermission("worldguard.break." . $region->getName())){
-                $event->getPlayer()->sendMessage(TF::RED.'You cannot break blocks in this region.');
-                $event->setCancelled();
-            }
+        $player = $event->getPlayer();
+        $block = $event->getBlock();
+        $x = $block->x;
+        $z = $block->z;
+        if ($x < 0){
+            $x = ($x + 1);
         }
+        if ($z < 0){
+            $z = ($z + 1);
+        }
+        $position = new Position($x,$block->y,$z,$block->getLevel());
+        if ($this->plugin->getRegionFromPosition($position) !== ""){
+            if(!$event->getPlayer()->hasPermission("worldguard.break." . $region->getName())){
+                    $player->sendMessage(TF::RED.'You cannot break blocks in this region.');
+                    $event->setCancelled();
+            }
+         }
     }
 
     /**
