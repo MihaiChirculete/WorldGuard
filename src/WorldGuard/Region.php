@@ -10,15 +10,14 @@
 * |   _   ||       ||   |  | ||       ||       ||   |_| ||       ||   _   ||   |  | ||       |
 * |__| |__||_______||___|  |_||_______||______| |_______||_______||__| |__||___|  |_||______| 
 *
-* By Muqsit Rayyan.
+* By Chalapa13.
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU Lesser General Public License as published by
 * the Free Software Foundation, either version 3 of the License, or
 * (at your option) any later version.
 *
-* Twitter: @muqsitrayyan
-* GitHub: https://github.com/Muqsit
+* GitHub: https://github.com/Chalapa13
 */
 
 namespace WorldGuard;
@@ -210,9 +209,6 @@ class Region {
                 case "effects":
                     $array[] = $flag.' => '.TF::GRAY.$this->getEffectsString();
                     break;
-                case "whitelist":
-                    $array[] = $flag.' => '.TF::GRAY.$this->getWhitelistString();
-                    break;
                 default:
                     $array[] = $flag.' => '.TF::GRAY.'"'.$value.'"';
                     break;
@@ -230,26 +226,6 @@ class Region {
             return true;
         }
         return isset($allowed[$command]);
-    }
-
-    public function addToWhitelist(string $playername)
-    {
-        return isset($this->flags["whitelist"][strtolower($playername)]);
-    }
-
-    public function removeFromWhitelist(string $playername)
-    {
-        unset($this->flags["whitelist"][strtolower($playername)]);
-    }
-
-    public function isWhitelisted(Player $player)
-    {
-        return isset($this->flags["whitelist"][strtolower($player->getName())]);
-    }
-
-    public function getWhitelistString() : string
-    {
-        return implode(", ", array_keys($this->flags["whitelist"]));
     }
 
     public function getEffects() : array

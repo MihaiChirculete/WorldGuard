@@ -10,15 +10,14 @@
 * |   _   ||       ||   |  | ||       ||       ||   |_| ||       ||   _   ||   |  | ||       |
 * |__| |__||_______||___|  |_||_______||______| |_______||_______||__| |__||___|  |_||______| 
 *
-* By Muqsit Rayyan.
+* By Chalapa13.
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU Lesser General Public License as published by
 * the Free Software Foundation, either version 3 of the License, or
 * (at your option) any later version.
 *
-* Twitter: @muqsitrayyan
-* GitHub: https://github.com/Muqsit
+* GitHub: https://github.com/Chalapa13
 */
 
 namespace WorldGuard;
@@ -28,11 +27,11 @@ use pocketmine\command\{Command, CommandSender};
 use pocketmine\utils\TextFormat as TF;
 use pocketmine\Player;
 use pocketmine\level\Position;
+use pocketmine\permission\{Permission, Permissible, PermissionManager};
 
 class WorldGuard extends PluginBase {
 
     const FLAGS = [
-        "editable" => "false",
         "pvp" => "true",
         "effects" => [],
         "blocked-cmds" => [],
@@ -45,17 +44,24 @@ class WorldGuard extends PluginBase {
         "potions" => "true",
         "allowed-enter" => "true",
         "allowed-leave" => "true",
-        "whitelist" => [],
         "game-mode" => 0,
         "sleep" => "true",
         "send-chat" => "true",
         "receive-chat" => "true",
         "enderpearl" => "true",
-        "fly-mode" => 0
+        "fly-mode" => 0,
+        "eat" => "true",
+        /*
+        "allow-damage-animals" => "true",
+        "allow-damage-monsters" => "true",
+        */
+        "allow-leaves-decay" => "true",
+        "allow-plant-growth" => "true",
+        "allow-spreading" => "true",
+        "priority" => 0
     ];
 
     const FLAG_TYPE = [
-        "editable" => "boolean",
         "pvp" => "boolean",
         "effects" => "array",
         "blocked-cmds" => "array",
@@ -68,13 +74,21 @@ class WorldGuard extends PluginBase {
         "potions" => "boolean",
         "allowed-enter" => "boolean",
         "allowed-leave" => "boolean",
-        "whitelist" => "array",
         "game-mode" => "integer",
         "sleep" => "boolean",
         "send-chat" => "boolean",
         "receive-chat" => "boolean",
         "enderpearl" => "boolean",
-        "fly-mode" => "integer"
+        "fly-mode" => "integer",
+        "eat" => "boolean",
+        /*
+        "allow-damage-animals" => "boolean",
+        "allow-damage-monsters" => "boolean",
+        */
+        "allow-leaves-decay" => "boolean",
+        "allow-plant-growth" => "boolean",
+        "allow-spreading" => "boolean",
+        "priority" => "integer"
     ];
 
     const FLY_VANILLA = 0;
@@ -163,6 +177,9 @@ class WorldGuard extends PluginBase {
 
     public function getRegionNameFromPosition(Position $pos) : string
     {
+        $highestPriorityName = "";
+        $highestPriority = -1;
+
         foreach ($this->regions as $name => $region) {
             if ($region->getLevelName() === $pos->getLevel()->getName()) {
                 $reg1 = $region->getPos1();
@@ -173,13 +190,17 @@ class WorldGuard extends PluginBase {
                     if (isset($y[$pos->y])) {
                         $z = array_flip(range($reg1[2], $reg2[2]));
                         if (isset($z[$pos->z])) {
-                            return $name;
+                            if($highestPriority<intval($region->getFlag("priority")))
+                            {
+                                $highestPriority = intval($region->getFlag("priority"));
+                                $highestPriorityName = $name;
+                            }
                         }
                     }
                 }
             }
         }
-        return "";
+        return $highestPriorityName;
     }
 
     public function onRegionChange(Player $player, string $oldregion, string $newregion)
@@ -188,9 +209,13 @@ class WorldGuard extends PluginBase {
         $old = $this->getRegion($oldregion);
 
         if ($old !== "") {
-            if ($old->getFlag("allowed-leave") === "false") {
-                $player->sendPopup(TF::RED.'You cannot leave this area.');
-                return false;
+            if ($old->getFlag("allowed-leave") === "false") 
+            {
+            	if(!$player->hasPermission("worldguard.leave." . $oldregion))
+            	{
+	                $player->sendMessage(TF::RED.'You cannot leave this area.');
+	                return false;
+	            }
             }
             if (($msg = $old->getFlag("notify-leave")) !== "") {
                 $player->sendMessage($msg);
@@ -205,25 +230,25 @@ class WorldGuard extends PluginBase {
             }
             if ($old->getFlight() === self::FLY_SUPERVISED) {
                 Utils::disableFlight($player);
-            }
-            if (!$old->isWhitelisted($player)) {
-                if ($old->getGamemode() !== ($gm = $this->getServer()->getDefaultGamemode())) {
-                    $player->setGamemode($gm);
-                    if ($gm === 0 || $gm === 2) Utils::disableFlight($player);
-                }
+	    	}
+            if ($old->getGamemode() !== ($gm = $this->getServer()->getDefaultGamemode())) {
+                $player->setGamemode($gm);
+                if ($gm === 0 || $gm === 2) Utils::disableFlight($player);
             }
         }
 
         if ($new !== "") {
-            if ($new->getFlag("allowed-enter") === "false") {
-                $player->sendPopup(TF::RED.'You cannot enter this area.');
-                return false;
-            }
-            if (!$new->isWhitelisted($player)) {
-                if (($gm = $new->getGamemode()) !== $player->gamemode) {
-                    $player->setGamemode($gm);
-                    if ($gm === 0 || $gm === 2) Utils::disableFlight($player);
+            if ($new->getFlag("allowed-enter") === "false") 
+            {
+            	if(!$player->hasPermission("worldguard.enter." . $newregion))
+            	{
+                	$player->sendMessage(TF::RED.'You cannot enter this area.');
+                	return false;
                 }
+            }
+            if (($gm = $new->getGamemode()) !== $player->getGamemode()) {
+                $player->setGamemode($gm);
+                if ($gm === 0 || $gm === 2) Utils::disableFlight($player);
             }
             if (($msg = $new->getFlag("notify-enter")) !== "") {
                 $player->sendMessage($msg);
@@ -275,6 +300,72 @@ class WorldGuard extends PluginBase {
             unset($map[0][3], $map[1][3]);
             $this->regions[$name] = new Region($name, $map[0], $map[1], $level, self::FLAGS);
             unset($this->process[$id], $this->creating[$id]);
+
+            /* add permission for accesing this region */
+			$permission = new Permission("worldguard.enter." . $name, "Allows player to enter the " . $name . " region.", Permission::DEFAULT_OP);
+			$permission->addParent("worldguard.enter", true);
+			PermissionManager::getInstance()->addPermission($permission);
+
+			/* add permission for leaving this region */
+			$permission = new Permission("worldguard.leave." . $name, "Allows player to enter the " . $name . " region.", Permission::DEFAULT_OP);
+			$permission->addParent("worldguard.leave", true);
+			PermissionManager::getInstance()->addPermission($permission);
+
+            /* add permission for building in this region */
+            $permission = new Permission("worldguard.build." . $name, "Allows player to enter the " . $name . " region.", Permission::DEFAULT_OP);
+            $permission->addParent("worldguard.build", true);
+            PermissionManager::getInstance()->addPermission($permission);
+
+            /* add permission for breaking blocks in this region */
+            $permission = new Permission("worldguard.break." . $name, "Allows player to enter the " . $name . " region.", Permission::DEFAULT_OP);
+            $permission->addParent("worldguard.break", true);
+            PermissionManager::getInstance()->addPermission($permission);
+
+            /* add permission for editing blocks in this region */
+            $permission = new Permission("worldguard.edit." . $name, "Allows player to enter the " . $name . " region.", Permission::DEFAULT_OP);
+            $permission->addParent("worldguard.edit", true);
+            PermissionManager::getInstance()->addPermission($permission);
+
+            /* add permission for eating in this region */
+            $permission = new Permission("worldguard.eat." . $name, "Allows player to enter the " . $name . " region.", Permission::DEFAULT_OP);
+            $permission->addParent("worldguard.eat", true);
+            PermissionManager::getInstance()->addPermission($permission);
+
+            /* add permission for dropping items in this region */
+            $permission = new Permission("worldguard.drop." . $name, "Allows player to enter the " . $name . " region.", Permission::DEFAULT_OP);
+            $permission->addParent("worldguard.drop", true);
+            PermissionManager::getInstance()->addPermission($permission);
+
+            /* add permission for using chests in this region */
+            $permission = new Permission("worldguard.usechest." . $name, "Allows player to use chests in " . $name . " region.", Permission::DEFAULT_OP);
+            $permission->addParent("worldguard.usechest", true);
+            PermissionManager::getInstance()->addPermission($permission);
+
+            $permission = new Permission("worldguard.usechestender." . $name, "Allows player to use ender chests in " . $name . " region.", Permission::DEFAULT_OP);
+            $permission->addParent("worldguard.usechestender", true);
+            PermissionManager::getInstance()->addPermission($permission);
+
+            /* add permission for using enchanting tables in this region */
+            $permission = new Permission("worldguard.enchantingtable." . $name, "Allows player to use enchanting table in " . $name . " region.", Permission::DEFAULT_OP);
+            $permission->addParent("worldguard.enchantingtable", true);
+            PermissionManager::getInstance()->addPermission($permission);
+
+            /* add permission for using doors in this region */
+            $permission = new Permission("worldguard.usedoors." . $name, "Allows player to use doors in " . $name . " region.", Permission::DEFAULT_OP);
+            $permission->addParent("worldguard.usedoors", true);
+            PermissionManager::getInstance()->addPermission($permission);
+
+            /* add permission for using trapdoors in this region */
+            $permission = new Permission("worldguard.usetrapdoors." . $name, "Allows player to use doors in " . $name . " region.", Permission::DEFAULT_OP);
+            $permission->addParent("worldguard.usetrapdoors", true);
+            PermissionManager::getInstance()->addPermission($permission);
+
+            /* add permission for using gates in this region */
+            $permission = new Permission("worldguard.usetrapdoors." . $name, "Allows player to use doors in " . $name . " region.", Permission::DEFAULT_OP);
+            $permission->addParent("worldguard.usetrapdoors", true);
+            PermissionManager::getInstance()->addPermission($permission);
+
+
             return $name;
         }
         return false;
@@ -411,7 +502,8 @@ class WorldGuard extends PluginBase {
                     }
                 } else {
                     $issuer->sendMessage(implode("\n".TF::LIGHT_PURPLE, [
-                        "WorldGuard Help Page",
+                        "WorldGuard (by Chalapa) Help Page",
+                        "Download link: https://github.com/Chalapa13/WorldGuard/tree/master/compiled",
                         " ",
                         "/region create <name> - Define a new region.",
                         "/region list - List all regions.",

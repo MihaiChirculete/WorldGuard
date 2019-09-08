@@ -1,9 +1,9 @@
 name: WorldGuard
 main: WorldGuard\WorldGuard
 api: [3.0.0]
-version: 1.0
-author: Muqsit
-website: https://github.com/Muqsit
+version: 1.0.0
+author: Chalapa
+website: https://github.com/Chalapa13
 commands:
   region:
     aliases: ["rg"]
@@ -14,4 +14,30 @@ permissions:
   worldguard.modify:
     default: op
   worldguard.delete:
+    default: op
+  worldguard.enter:
+    default: op
+  worldguard.leave:
+    default: op
+  worldguard.build:
+    default: op
+  worldguard.break:
+    default: op
+  worldguard.edit:
+    default: op
+  worldguard.eat:
+    default: op
+  worldguard.drop:
+    default: op
+  worldguard.usechest:
+    default: op
+  worldguard.usechestender:
+    default: op
+  worldguard.enchantingtable:
+    default: op
+  worldguard.usedoors:
+    default: op
+  worldguard.usegates:
+    default: op
+  worldguard.usetrapdoors:
     default: op
