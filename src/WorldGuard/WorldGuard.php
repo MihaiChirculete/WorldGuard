@@ -51,12 +51,14 @@ class WorldGuard extends PluginBase {
         "enderpearl" => "true",
         "fly-mode" => 0,
         "eat" => "true",
+        /*
         "allow-damage-animals" => "true",
         "allow-damage-monsters" => "true",
+        */
         "allow-leaves-decay" => "true",
         "allow-plant-growth" => "true",
         "allow-spreading" => "true",
-        "allow-creature-spawning" => "true"
+        "priority" => 0
     ];
 
     const FLAG_TYPE = [
@@ -79,12 +81,14 @@ class WorldGuard extends PluginBase {
         "enderpearl" => "boolean",
         "fly-mode" => "integer",
         "eat" => "boolean",
+        /*
         "allow-damage-animals" => "boolean",
         "allow-damage-monsters" => "boolean",
+        */
         "allow-leaves-decay" => "boolean",
         "allow-plant-growth" => "boolean",
         "allow-spreading" => "boolean",
-        "allow-creature-spawning" => "boolean"
+        "priority" => "integer"
     ];
 
     const FLY_VANILLA = 0;
@@ -173,6 +177,9 @@ class WorldGuard extends PluginBase {
 
     public function getRegionNameFromPosition(Position $pos) : string
     {
+        $highestPriorityName = "";
+        $highestPriority = -1;
+
         foreach ($this->regions as $name => $region) {
             if ($region->getLevelName() === $pos->getLevel()->getName()) {
                 $reg1 = $region->getPos1();
@@ -183,13 +190,17 @@ class WorldGuard extends PluginBase {
                     if (isset($y[$pos->y])) {
                         $z = array_flip(range($reg1[2], $reg2[2]));
                         if (isset($z[$pos->z])) {
-                            return $name;
+                            if($highestPriority<intval($region->getFlag("priority")))
+                            {
+                                $highestPriority = intval($region->getFlag("priority"));
+                                $highestPriorityName = $name;
+                            }
                         }
                     }
                 }
             }
         }
-        return "";
+        return $highestPriorityName;
     }
 
     public function onRegionChange(Player $player, string $oldregion, string $newregion)
@@ -324,6 +335,36 @@ class WorldGuard extends PluginBase {
             $permission = new Permission("worldguard.drop." . $name, "Allows player to enter the " . $name . " region.", Permission::DEFAULT_OP);
             $permission->addParent("worldguard.drop", true);
             PermissionManager::getInstance()->addPermission($permission);
+
+            /* add permission for using chests in this region */
+            $permission = new Permission("worldguard.usechest." . $name, "Allows player to use chests in " . $name . " region.", Permission::DEFAULT_OP);
+            $permission->addParent("worldguard.usechest", true);
+            PermissionManager::getInstance()->addPermission($permission);
+
+            $permission = new Permission("worldguard.usechestender." . $name, "Allows player to use ender chests in " . $name . " region.", Permission::DEFAULT_OP);
+            $permission->addParent("worldguard.usechestender", true);
+            PermissionManager::getInstance()->addPermission($permission);
+
+            /* add permission for using enchanting tables in this region */
+            $permission = new Permission("worldguard.enchantingtable." . $name, "Allows player to use enchanting table in " . $name . " region.", Permission::DEFAULT_OP);
+            $permission->addParent("worldguard.enchantingtable", true);
+            PermissionManager::getInstance()->addPermission($permission);
+
+            /* add permission for using doors in this region */
+            $permission = new Permission("worldguard.usedoors." . $name, "Allows player to use doors in " . $name . " region.", Permission::DEFAULT_OP);
+            $permission->addParent("worldguard.usedoors", true);
+            PermissionManager::getInstance()->addPermission($permission);
+
+            /* add permission for using trapdoors in this region */
+            $permission = new Permission("worldguard.usetrapdoors." . $name, "Allows player to use doors in " . $name . " region.", Permission::DEFAULT_OP);
+            $permission->addParent("worldguard.usetrapdoors", true);
+            PermissionManager::getInstance()->addPermission($permission);
+
+            /* add permission for using gates in this region */
+            $permission = new Permission("worldguard.usetrapdoors." . $name, "Allows player to use doors in " . $name . " region.", Permission::DEFAULT_OP);
+            $permission->addParent("worldguard.usetrapdoors", true);
+            PermissionManager::getInstance()->addPermission($permission);
+
 
             return $name;
         }

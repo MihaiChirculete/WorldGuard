@@ -1,4 +1,4 @@
-name: WorldGuard-Advanced
+name: WorldGuard
 main: WorldGuard\WorldGuard
 api: [3.0.0]
 version: 1.0.0
@@ -28,4 +28,16 @@ permissions:
   worldguard.eat:
     default: op
   worldguard.drop:
+    default: op
+  worldguard.usechest:
+    default: op
+  worldguard.usechestender:
+    default: op
+  worldguard.enchantingtable:
+    default: op
+  worldguard.usedoors:
+    default: op
+  worldguard.usegates:
+    default: op
+  worldguard.usetrapdoors:
     default: op

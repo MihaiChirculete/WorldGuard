@@ -21,7 +21,7 @@
 */
 
 namespace WorldGuard;
-
+use pocketmine\block\Block;
 use pocketmine\event\block\{BlockPlaceEvent, BlockBreakEvent, LeavesDecayEvent, BlockGrowEvent, BlockSpreadEvent};
 use pocketmine\event\entity\{EntityDamageEvent, EntityDamageByEntityEvent, EntityExplodeEvent, ProjectileLaunchEvent};
 use pocketmine\event\Listener; 
@@ -33,7 +33,6 @@ use pocketmine\utils\TextFormat as TF;
 use pocketmine\entity\Animal;
 use pocketmine\plugin\MethodEventExecutor;
 use pocketmine\event\plugin\PluginEvent;
-use revivalpmmp\pureentities\event\CreatureSpawnEvent;
 
 class EventListener implements Listener {
 
@@ -58,8 +57,9 @@ class EventListener implements Listener {
     {
         $this->plugin = $plugin;
 
+        /*
         if($plugin->getServer()->getPluginManager()->getPlugin("PureEntitiesX") !== null)
-            $plugin->getServer()->getPluginManager()->registerEvent(CreatureSpawnEvent::class, $this, 3, new MethodEventExecutor("onCreatureSpawn"), $plugin, false);
+            $plugin->getServer()->getPluginManager()->registerEvent(CreatureSpawnEvent::class, $this, 3, new MethodEventExecutor("onCreatureSpawn"), $plugin, false);*/
     }
 
     /**
@@ -90,8 +90,46 @@ class EventListener implements Listener {
         }
 
         if (($reg = $this->plugin->getRegionByPlayer($player)) !== "") {
+                $block = $event->getBlock()->getId();
                 if ($reg->getFlag("use") === "false") {
-                    if (in_array($event->getBlock()->getId(), self::USABLES)) {
+
+                    /* if its a chest check for permission and override if necesary */
+                    if($player->hasPermission("worldguard.usechest." . $reg->getName()) && $block === Block::CHEST)
+                        return;
+
+                    if($player->hasPermission("worldguard.usechestender." . $reg->getName()) && $block === Block::ENDER_CHEST)
+                        return;
+
+                    /* if its an enchanting table check for permission and override if necesary */
+                    if($player->hasPermission("worldguard.enchantingtable." . $reg->getName()) && $block === Block::ENCHANTING_TABLE)
+                        return;
+
+                    /* if its a door/trapdoor/gate check for perms and override if necesary */
+                    if($player->hasPermission("worldguard.usedoors." . $reg->getName()) && ($block === Block::ACACIA_DOOR_BLOCK ||
+                                                                                            $block === Block::BIRCH_DOOR_BLOCK ||
+                                                                                            $block === Block::DARK_OAK_DOOR_BLOCK ||
+                                                                                            $block === Block::IRON_DOOR_BLOCK ||
+                                                                                            $block === Block::JUNGLE_DOOR_BLOCK ||
+                                                                                            $block === Block::OAK_DOOR_BLOCK ||
+                                                                                            $block === Block::SPRUCE_DOOR_BLOCK ||
+                                                                                            $block === Block::WOODEN_DOOR_BLOCK ))
+                        return;
+
+                    if($player->hasPermission("worldguard.usetrapdoors." . $reg->getName()) && ($block === Block::IRON_TRAPDOOR ||
+                                                                                            $block === Block::TRAPDOOR ||
+                                                                                            $block === Block::WOODEN_TRAPDOOR ))
+                        return;
+
+                    if($player->hasPermission("worldguard.usegates." . $reg->getName()) && ($block === Block::ACACIA_FENCE_GATE  ||
+                                                                                            $block === Block::BIRCH_FENCE_GATE ||
+                                                                                            $block === Block::DARK_OAK_FENCE_GATE ||
+                                                                                            $block === Block::FENCE_GATE || 
+                                                                                            $block === Block::JUNGLE_FENCE_GATE ||
+                                                                                            $block === Block::OAK_FENCE_GATE ||
+                                                                                            $block === Block::SPRUCE_FENCE_GATE ))
+                        return;
+
+                     if (in_array($block, self::USABLES)) {
                         $player->sendMessage(TF::RED.'You cannot interact with '.$event->getBlock()->getName().'s.');
                         $event->setCancelled();
                         return;
@@ -158,36 +196,42 @@ class EventListener implements Listener {
         }
     }
 
-    /**
-     * @param EntityDamageEvent $event
-     * @ignoreCancelled true
-     */
-    public function onHurt(EntityDamageEvent $event)
+
+    public function onHurtByEntity(EntityDamageByEntityEvent $event)
     {
-        if ($event->getEntity() instanceof Player && $event instanceof EntityDamageByEntityEvent) {
-            if (($reg = $this->plugin->getRegionByPlayer($event->getEntity())) !== "") {
-                if (!$reg->getFlag("pvp") && $event->getDamager() instanceof Player) {
-                    $event->getDamager()->sendMessage(TF::RED.'You cannot hurt players of this region.');
-                    $event->setCancelled();
-                }
-            }
+        if (($player1 = $event->getEntity()) instanceof Player) {
+            if (($reg = $this->plugin->getRegionByPlayer($player1)) !== "") {
+                if ($reg->getFlag("pvp") === "false"){
+         	    	if(($player2 = $event->getDamager()) instanceof Player) {
+                    	$player2->sendMessage(TF::RED.'You cannot hurt players of this region.');
+                    	$event->setCancelled();
+                	}
+            	}
+        	}
         }
 
+        $this->plugin->getLogger()->notice(get_class($event->getEntity()));
         /* Check if the target was a mob and then act accordingly */
-
-        if(strpos(get_class($event->getEntity()), "animal") !== false && $event instanceof EntityDamageByEntityEvent)
+        /*
+        if(strpos(get_class($event->getEntity()), "Cow") !== false ||
+    		strpos(get_class($event->getEntity()), "Sheep") !== false ||
+    		strpos(get_class($event->getEntity()), "Pig") !== false ||
+    		strpos(get_class($event->getEntity()), "Chicken") !== false)
         {
+        	$this->plugin->getLogger()->notice("entity is an animal");
             if(($player = $event->getDamager()) instanceof Player)
             if(($region = $this->plugin->getRegionFromPosition($event->getEntity()->getPosition())) !== "")
             {
+            	$this->plugin->getLogger()->notice("damager is a player");
                 if ($region->getFlag("allow-damage-animals") === "false") {
                     $player->sendMessage(TF::RED.'You cannot hurt animals of this region.');
                     $event->setCancelled();
+                    return;
                 }
             }
         }
 
-        if(strpos(get_class($event->getEntity()), "monster") !== false && $event instanceof EntityDamageByEntityEvent)
+        if(strpos(get_class($event->getEntity()), "monster") !== false)
         {
             if(($player = $event->getDamager()) instanceof Player)
             if(($region = $this->plugin->getRegionFromPosition($event->getEntity()->getPosition())) !== "")
@@ -195,9 +239,10 @@ class EventListener implements Listener {
                 if ($region->getFlag("allow-damage-monsters") === "false") {
                     $player->sendMessage(TF::RED.'You cannot hurt monsters of this region.');
                     $event->setCancelled();
+                    return;
                 }
             }
-        }
+        }*/
     }
 
     /**
@@ -313,16 +358,7 @@ class EventListener implements Listener {
         		    $player->sendMessage(TF::RED.'You cannot eat in this area.');
         	    }
     }
-
-    /* if creature spawning is disabled, cancel all spawn events occuring in this region */
-    public function onCreatureSpawn(CreatureSpawnEvent $event)
-    {
-        if(($region = $this->plugin->getRegionFromPosition($event->getPosition())) !== "")
-        {
-            if($region->getFlag("allow-creature-spawning") === "false")
-                $event->setCancelled();
-        }
-    }
+    
 
     /* allow or prevent leaf decay */
     public function onLeafDecay(LeavesDecayEvent $event)
