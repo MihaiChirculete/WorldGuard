@@ -365,6 +365,11 @@ class WorldGuard extends PluginBase {
             $permission->addParent("worldguard.usetrapdoors", true);
             PermissionManager::getInstance()->addPermission($permission);
 
+            /* add permission for using furnaces in this region */
+            $permission = new Permission("worldguard.usefurnaces." . $name, "Allows player to use doors in " . $name . " region.", Permission::DEFAULT_OP);
+            $permission->addParent("worldguard.usefurnaces", true);
+            PermissionManager::getInstance()->addPermission($permission);
+
 
             return $name;
         }

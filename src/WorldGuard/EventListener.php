@@ -112,6 +112,11 @@ class EventListener implements Listener {
                     if($player->hasPermission("worldguard.enchantingtable." . $reg->getName()) && $block === Block::ENCHANTING_TABLE)
                         return;
 
+                    /* if its a furnace check for permission and override if necesary */
+                    if($player->hasPermission("worldguard.usefurnaces." . $reg->getName()) && $block === Block::BURNING_FURNACE ||
+                                                                                                $block === Block::FURNACE )
+                        return;
+
                     /* if its a door/trapdoor/gate check for perms and override if necesary */
                     if($player->hasPermission("worldguard.usedoors." . $reg->getName()) && ($block === Block::ACACIA_DOOR_BLOCK ||
                                                                                             $block === Block::BIRCH_DOOR_BLOCK ||
