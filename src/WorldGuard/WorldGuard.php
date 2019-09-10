@@ -58,6 +58,7 @@ class WorldGuard extends PluginBase {
         "allow-leaves-decay" => "true",
         "allow-plant-growth" => "true",
         "allow-spreading" => "true",
+        "allow-block-burn" => "true",
         "priority" => 0
     ];
 
@@ -88,6 +89,7 @@ class WorldGuard extends PluginBase {
         "allow-leaves-decay" => "boolean",
         "allow-plant-growth" => "boolean",
         "allow-spreading" => "boolean",
+        "allow-block-burn" => "boolean",
         "priority" => "integer"
     ];
 

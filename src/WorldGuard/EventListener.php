@@ -22,7 +22,7 @@
 
 namespace WorldGuard;
 use pocketmine\block\Block;
-use pocketmine\event\block\{BlockPlaceEvent, BlockBreakEvent, LeavesDecayEvent, BlockGrowEvent, BlockSpreadEvent};
+use pocketmine\event\block\{BlockPlaceEvent, BlockBreakEvent, LeavesDecayEvent, BlockGrowEvent, BlockSpreadEvent, BlockBurnEvent};
 use pocketmine\event\entity\{EntityDamageEvent, EntityDamageByEntityEvent, EntityExplodeEvent, ProjectileLaunchEvent};
 use pocketmine\event\Listener; 
 use pocketmine\event\player\{PlayerJoinEvent, PlayerMoveEvent, PlayerInteractEvent, PlayerCommandPreprocessEvent, PlayerDropItemEvent, PlayerBedEnterEvent, PlayerChatEvent, PlayerItemHeldEvent};
@@ -203,12 +203,23 @@ class EventListener implements Listener {
             $z = ($z + 1);
         }
         $position = new Position($x,$block->y,$z,$block->getLevel());
-        if ($this->plugin->getRegionFromPosition($position) !== ""){
+        if (($region = $this->plugin->getRegionFromPosition($position)) !== ""){
             if(!$event->getPlayer()->hasPermission("worldguard.break." . $region->getName())){
                     $player->sendMessage(TF::RED.'You cannot break blocks in this region.');
                     $event->setCancelled();
             }
          }
+    }
+
+    /**
+     * Prevent blocks from burning if flag is set to false
+     */
+    public function onBurn(BlockBurnEvent $event)
+    {
+        if (($region = $this->plugin->getRegionFromPosition($event->getBlock())) !== "") {
+            if ($region->getFlag("allow-block-burn") === "false")
+                $event->setCancelled();
+        }
     }
 
     /**
