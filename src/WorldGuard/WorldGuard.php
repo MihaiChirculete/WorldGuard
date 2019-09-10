@@ -403,13 +403,13 @@ class WorldGuard extends PluginBase {
                                     return false;
                                 }
                                 if ($this->regionExists($args[1])) {
-                                    $issuer->sendMessage(TF::RED.'This region already exists. Remap it using /region remap '.$args[1].', or remove it using /region remove '.$args[1]);
+                                    $issuer->sendMessage(TF::RED.'This region already exists. Redefine it using /region redefine '.$args[1].', or remove it using /region remove '.$args[1]);
                                     return false;
                                 } else {
                                     unset($this->creating[$id = $issuer->getRawUniqueId()], $this->process[$id]);
                                     $this->creating[$id] = [];
                                     $this->process[$id]= $args[1];
-                                    $issuer->sendMessage(TF::LIGHT_PURPLE.'Select two positions to complete creating your region ('.$args[1].').');
+                                    $issuer->sendMessage(TF::LIGHT_PURPLE.'Right-Click two positions to complete creating your region ('.$args[1].').');
                                 }
                             } else {
                                 $issuer->sendMessage(TF::RED.'/region create <name>');
@@ -441,11 +441,29 @@ class WorldGuard extends PluginBase {
                         case "list":
                             $msg = TF::LIGHT_PURPLE."Regions: \n".TF::LIGHT_PURPLE;
                             if (empty($this->regions)) {
-                                $msg .= "You haven't created any region yet. Use /region create <name> to create your first region.";
+                                $msg .= "You haven't created any regions yet. Use /region create <name> to create your first region.";
                             } else {
                                 $msg .= implode(TF::WHITE.', '.TF::LIGHT_PURPLE, array_keys($this->regions));
                             }
                             $issuer->sendMessage($msg);
+                            break;          
+                        case "redefine":
+                            if (!isset($args[1])) {
+                                $issuer->sendMessage(TF::RED.'/region redefine <region>');
+                                return false;
+                            }
+                            else{
+                                if (!$this->regionExists($args[1])) {
+                                    $issuer->sendMessage(TF::RED.$args[1].' region does not exist. Use /region list to get a list of all regions.');
+                                    return false;
+                                }
+                                else {
+                                       unset($this->creating[$id = $issuer->getRawUniqueId()], $this->process[$id]);
+                                       $this->creating[$id] = [];
+                                       $this->process[$id]= $args[1];
+                                       $issuer->sendMessage(TF::LIGHT_PURPLE.'Right-Click two positions to redefine your region ('.$args[1].').');
+                                }
+                            }
                             break;
                         case "getplayer":
                             if (isset($args[1])) {
