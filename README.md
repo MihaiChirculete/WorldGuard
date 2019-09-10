@@ -15,7 +15,7 @@ This plugin is a port of the popular bukkit plugin called ["WorldGuard"](https:/
 
 # Utility
 - Defined regions can be used to protect specific areas of your world from griefing, pvp, damaging mobs, building, and some other events.  
-For the full list of flags check the tutorial below.
+For the full list of flags check the tutorial.
 
 # Tutorial
 Read the [tutorial](https://github.com/Chalapa13/WorldGuard/wiki/Tutorial).  
