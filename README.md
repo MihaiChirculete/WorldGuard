@@ -9,7 +9,7 @@ This plugin is a port of the popular bukkit plugin called ["WorldGuard"](https:/
 
 # Features
 - Easily define regions in your world.
-- Add custom flags on defined regions that allow/restrict certain actions and events.
+- Set custom flags on defined regions that allow/restrict certain actions and events.
 - Delete/Modify already defined regions.
 - Give special permissions to your players to bypass certain flags. (Usefull for mods, admins, vips, etc.)
 
