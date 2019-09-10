@@ -33,6 +33,7 @@ use pocketmine\utils\TextFormat as TF;
 use pocketmine\entity\Animal;
 use pocketmine\plugin\MethodEventExecutor;
 use pocketmine\event\plugin\PluginEvent;
+use pocketmine\level\Position;
 
 class EventListener implements Listener {
 
