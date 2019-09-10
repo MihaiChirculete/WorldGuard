@@ -142,6 +142,9 @@ class EventListener implements Listener {
                                                                                             $block === Block::SPRUCE_FENCE_GATE ))
                         return;
 
+                    if($player->hasPermission("worldguard.useanvil." . $reg->getName()) && ($block === Block::ANVIL))
+                        return;
+
                      if (in_array($block, self::USABLES)) {
                         $player->sendMessage(TF::RED.'You cannot interact with '.$event->getBlock()->getName().'s.');
                         $event->setCancelled();

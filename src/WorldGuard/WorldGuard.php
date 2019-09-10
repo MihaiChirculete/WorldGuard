@@ -356,20 +356,24 @@ class WorldGuard extends PluginBase {
             PermissionManager::getInstance()->addPermission($permission);
 
             /* add permission for using trapdoors in this region */
-            $permission = new Permission("worldguard.usetrapdoors." . $name, "Allows player to use doors in " . $name . " region.", Permission::DEFAULT_OP);
+            $permission = new Permission("worldguard.usetrapdoors." . $name, "Allows player to use trapdoors in " . $name . " region.", Permission::DEFAULT_OP);
             $permission->addParent("worldguard.usetrapdoors", true);
             PermissionManager::getInstance()->addPermission($permission);
 
             /* add permission for using gates in this region */
-            $permission = new Permission("worldguard.usetrapdoors." . $name, "Allows player to use doors in " . $name . " region.", Permission::DEFAULT_OP);
-            $permission->addParent("worldguard.usetrapdoors", true);
+            $permission = new Permission("worldguard.usegates." . $name, "Allows player to use gates in " . $name . " region.", Permission::DEFAULT_OP);
+            $permission->addParent("worldguard.usegates", true);
             PermissionManager::getInstance()->addPermission($permission);
 
             /* add permission for using furnaces in this region */
-            $permission = new Permission("worldguard.usefurnaces." . $name, "Allows player to use doors in " . $name . " region.", Permission::DEFAULT_OP);
+            $permission = new Permission("worldguard.usefurnaces." . $name, "Allows player to use furnaces in " . $name . " region.", Permission::DEFAULT_OP);
             $permission->addParent("worldguard.usefurnaces", true);
             PermissionManager::getInstance()->addPermission($permission);
 
+            /* add permission for using anvils in this region */
+            $permission = new Permission("worldguard.useanvil." . $name, "Allows player to use anvils in " . $name . " region.", Permission::DEFAULT_OP);
+            $permission->addParent("worldguard.useanvil", true);
+            PermissionManager::getInstance()->addPermission($permission);
 
             return $name;
         }
