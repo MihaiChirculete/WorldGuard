@@ -28,6 +28,8 @@ use pocketmine\utils\TextFormat as TF;
 use pocketmine\Player;
 use pocketmine\level\Position;
 use pocketmine\permission\{Permission, Permissible, PermissionManager};
+use pocketmine\network\mcpe\protocol\SetTimePacket;
+use pocketmine\Server;
 
 class WorldGuard extends PluginBase {
 
@@ -59,7 +61,8 @@ class WorldGuard extends PluginBase {
         "allow-plant-growth" => "true",
         "allow-spreading" => "true",
         "allow-block-burn" => "true",
-        "priority" => 0
+        "priority" => 0,
+        "freeze-time" => -1
     ];
 
     const FLAG_TYPE = [
@@ -90,7 +93,8 @@ class WorldGuard extends PluginBase {
         "allow-plant-growth" => "boolean",
         "allow-spreading" => "boolean",
         "allow-block-burn" => "boolean",
-        "priority" => "integer"
+        "priority" => "integer",
+        "freeze-time" => "integer"
     ];
 
     const FLY_VANILLA = 0;
@@ -278,6 +282,19 @@ class WorldGuard extends PluginBase {
                     $player->addEffect($effect);
                 }
             }
+        }
+
+        if(($time = $new->getFlag("freeze-time")) !== -1 )
+        {
+            $pk = new SetTimePacket();
+            $pk->time = $time;
+            $player->dataPacket($pk);
+        }
+        else
+        {
+            $pk = new SetTimePacket();
+            $pk->time = $this->getServer()->getTick();
+            $player->dataPacket($pk);
         }
 
         return true;
