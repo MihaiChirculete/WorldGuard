@@ -289,20 +289,20 @@ class WorldGuard extends PluginBase {
             if(($time = $new->getFlag("freeze-time")) !== -1 )
             {
                 $pk = new SetTimePacket();
-                $pk->time = $time;
+                $pk->time = intval($time);
                 $player->dataPacket($pk);
             }
             else
             {
                 $pk = new SetTimePacket();
-                $pk->time = $this->getServer()->getTick();
+                $pk->time = intval($this->getServer()->getTick());
                 $player->dataPacket($pk);
             }
         }
         else
         {
             $pk = new SetTimePacket();
-            $pk->time = $this->getServer()->getTick();
+            $pk->time = intval($this->getServer()->getTick());
             $player->dataPacket($pk);
         }
 
