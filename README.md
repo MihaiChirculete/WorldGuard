@@ -25,7 +25,8 @@ Full permissions list can be found [here](https://github.com/Chalapa13/WorldGuar
 Be sure to check the above link when updating the plugin to see changes and view available flags. (can also be found in-game by doing /rg flags get region_name)
 
 # Download
-You can download the compiled plugin from [here](https://zee.gl/XCVfgC).
+You can download the latest stable compiled plugin from [here](https://zee.gl/SxwFnDg6).
+If you want more frequent updates you can get the compiled plugin from[here](https://zee.gl/XCVfgC), however keep in mind that these versions have a higher risk of bugs.
 
 # Customizable Permissions
 Some flags come with their own permission in order to customize regions even more and only allow certain groups of players do certain actions in a region.
