@@ -1,9 +1,10 @@
 # WorldGuard [![Poggit-CI](https://poggit.pmmp.io/ci.badge/Chalapa13/WorldGuard/WorldGuard)](https://poggit.pmmp.io/ci/Chalapa13/WorldGuard/WorldGuard)
 
 [![](https://poggit.pmmp.io/shield.state/WorldGuard)](https://poggit.pmmp.io/p/WorldGuard)
-<a href="https://poggit.pmmp.io/p/WorldGuard"><img src="https://poggit.pmmp.io/shield.state/WorldGuard"></a>
 [![](https://poggit.pmmp.io/shield.api/WorldGuard)](https://poggit.pmmp.io/p/WorldGuard)
-<a href="https://poggit.pmmp.io/p/WorldGuard"><img src="https://poggit.pmmp.io/shield.api/WorldGuard"></a>
+[![](https://poggit.pmmp.io/shield.dl.total/WorldGuard)](https://poggit.pmmp.io/p/WorldGuard)
+[![](https://poggit.pmmp.io/shield.dl/WorldGuard)](https://poggit.pmmp.io/p/WorldGuard)
+
 
 This plugin is a port of the popular bukkit plugin called ["WorldGuard"](https://dev.bukkit.org/projects/worldguard). It was originally developed by [Muqsit](https://github.com/Muqsit), but more flags and extended capabilities were added by me.
 
