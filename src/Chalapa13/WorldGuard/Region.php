@@ -20,7 +20,7 @@
 * GitHub: https://github.com/Chalapa13
 */
 
-namespace WorldGuard;
+namespace Chalapa13\WorldGuard;
 
 use pocketmine\Server;
 use pocketmine\math\Vector3;

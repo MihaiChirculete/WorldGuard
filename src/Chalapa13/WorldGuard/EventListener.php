@@ -20,7 +20,7 @@
 * GitHub: https://github.com/Chalapa13
 */
 
-namespace WorldGuard;
+namespace Chalapa13\WorldGuard;
 use pocketmine\block\Block;
 use pocketmine\event\block\{BlockPlaceEvent, BlockBreakEvent, LeavesDecayEvent, BlockGrowEvent, BlockSpreadEvent, BlockBurnEvent};
 use pocketmine\event\entity\{EntityDamageEvent, EntityDamageByEntityEvent, EntityExplodeEvent, ProjectileLaunchEvent};
