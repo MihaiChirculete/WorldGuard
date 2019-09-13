@@ -108,6 +108,18 @@ class WorldGuard extends PluginBase {
     private $players = [];
     public $muted = [];
 
+    /** TO-DO:
+     * Finish adding default messages to this array
+     * save them to messages.yml
+     * load them and use the modified messages instead of the hardcoded ones
+     */
+    private $messages = [
+        "denied-enter" => "You cannot enter this area.",
+        "denied-leave" => "You cannot leave this area.",
+        "no-permission-for-command" => "You do not have permission to use this command.",
+        "denied-eat" => "You cannot eat in this area."
+    ];
+
     public function onEnable()
     {
         if (!is_dir($path = $this->getDataFolder())) {
