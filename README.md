@@ -18,7 +18,8 @@ This plugin is a port of the popular bukkit plugin called ["WorldGuard"](https:/
 For the full list of flags check the tutorial.
 
 # Tutorial
-Read the [tutorial](https://github.com/Chalapa13/WorldGuard/wiki/Tutorial).  
+Read the [tutorial](https://github.com/Chalapa13/WorldGuard/wiki/Tutorial).
+Full permissions list can be found [here](https://github.com/Chalapa13/WorldGuard/wiki/Permissions).  
 
 Be sure to check the above link when updating the plugin to see changes and view available flags. (can also be found in-game by doing /rg flags get region_name)
 
