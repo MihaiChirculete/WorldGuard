@@ -284,11 +284,20 @@ class WorldGuard extends PluginBase {
             }
         }
 
-        if(($time = $new->getFlag("freeze-time")) !== -1 )
+        if($new !== "")
         {
-            $pk = new SetTimePacket();
-            $pk->time = $time;
-            $player->dataPacket($pk);
+            if(($time = $new->getFlag("freeze-time")) !== -1 )
+            {
+                $pk = new SetTimePacket();
+                $pk->time = $time;
+                $player->dataPacket($pk);
+            }
+            else
+            {
+                $pk = new SetTimePacket();
+                $pk->time = $this->getServer()->getTick();
+                $player->dataPacket($pk);
+            }
         }
         else
         {
