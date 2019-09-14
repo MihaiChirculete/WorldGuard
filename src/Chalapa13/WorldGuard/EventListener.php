@@ -181,7 +181,7 @@ class EventListener implements Listener {
     {
         if (($region = $this->plugin->getRegionFromPosition($event->getBlock())) !== "") {
             if(!$event->getPlayer()->hasPermission("worldguard.place." . $region->getName())){
-                $event->getPlayer()->sendMessage(TF::RED.'You cannot place blocks in this region.');
+                $event->getPlayer()->sendMessage(TF::RED. $this->plugin->messages["denied-block-place"]);
                 $event->setCancelled();
             }
         }
@@ -206,7 +206,7 @@ class EventListener implements Listener {
         $position = new Position($x,$block->y,$z,$block->getLevel());
         if (($region = $this->plugin->getRegionFromPosition($position)) !== ""){
             if(!$event->getPlayer()->hasPermission("worldguard.break." . $region->getName())){
-                    $player->sendMessage(TF::RED.'You cannot break blocks in this region.');
+                    $player->sendMessage(TF::RED. $this->plugin->messages["denied-block-break"]);
                     $event->setCancelled();
             }
          }
@@ -242,7 +242,7 @@ class EventListener implements Listener {
             if (($reg = $this->plugin->getRegionByPlayer($player1)) !== "") {
                 if ($reg->getFlag("pvp") === "false"){
          	    	if(($player2 = $event->getDamager()) instanceof Player) {
-                    	$player2->sendMessage(TF::RED.'You cannot hurt players of this region.');
+                    	$player2->sendMessage(TF::RED. $this->plugin->messages["denied-pvp"]);
                     	$event->setCancelled();
                 	}
             	}
@@ -307,7 +307,7 @@ class EventListener implements Listener {
     {
         if (($reg = $this->plugin->getRegionByPlayer($player = $event->getPlayer())) !== "") {
             if ($reg->getFlag("item-drop") === "false" && !$player->hasPermission("worldguard.drop." . $reg->getName())) {
-                $player->sendMessage(TF::RED.'You cannot drop items in this region.');
+                $player->sendMessage(TF::RED. $this->plugin->messages["denied-item-drop"]);
                 $event->setCancelled();
                 return;
             }
@@ -351,7 +351,7 @@ class EventListener implements Listener {
     {
         if (($reg = $this->plugin->getRegionByPlayer($player = $event->getPlayer())) !== "") {
             if ($reg->getFlag("send-chat") === "false") {
-                $player->sendMessage(TF::RED.'You cannot chat in this region.');
+                $player->sendMessage(TF::RED. $this->plugin->messages["denied-chat"]);
                 $event->setCancelled();
                 return;
             }            
@@ -376,7 +376,7 @@ class EventListener implements Listener {
             if ($region->getFlag("enderpearl") === "false") {
                 if ((($player = $entity->shootingEntity) !== null)) {
                     $event->setCancelled();
-                    $player->sendMessage(TF::RED.'You cannot use ender pearls in this area.');
+                    $player->sendMessage(TF::RED. $this->plugin->messages["denied-ender-pearls"]);
                 }
             }
         }
@@ -394,7 +394,7 @@ class EventListener implements Listener {
             if($item instanceof Food)
         	    if($region->getFlag("eat") === "false" && !$player->hasPermission("worldguard.eat." . $region->getName())) {
         		    $event->setCancelled();
-        		    $player->sendMessage(TF::RED.'You cannot eat in this area.');
+        		    $player->sendMessage(TF::RED. $this->plugin->messages["denied-eat"]);
         	    }
     }
     

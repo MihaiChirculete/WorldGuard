@@ -113,12 +113,7 @@ class WorldGuard extends PluginBase {
      * save them to messages.yml
      * load them and use the modified messages instead of the hardcoded ones
      */
-    private $messages = [
-        "denied-enter" => "You cannot enter this area.",
-        "denied-leave" => "You cannot leave this area.",
-        "no-permission-for-command" => "You do not have permission to use this command.",
-        "denied-eat" => "You cannot eat in this area."
-    ];
+    public $messages = [];
 
     public function onEnable()
     {
@@ -126,10 +121,38 @@ class WorldGuard extends PluginBase {
             mkdir($path);
         }
 
+        /**
+         * load regions if file exists and if not create a file
+         */
         if (is_file($path.'regions.yml')) {
             $regions = yaml_parse_file($path.'regions.yml');
         } else {
             yaml_emit_file($path.'regions.yml', []);
+        }
+
+        /**
+         * load messages if file exists and if not write the default ones
+         */
+        if(is_file($path.'messages.yml'))
+        {
+            $this->messages = yaml_parse_file($path.'messages.yml');
+        }
+        else{
+
+            $this->messages = array([
+                "denied-enter" => "You cannot enter this area.",
+                "denied-leave" => "You cannot leave this area.",
+                "no-permission-for-command" => "You do not have permission to use this command.",
+                "denied-eat" => "You cannot eat in this area.",
+                "denied-ender-pearls" => "You cannot use ender pearls in this area.",
+                "denied-chat" => "You cannot chat in this region.",
+                "denied-item-drop" => "You cannot drop items in this region.",
+                "denied-pvp" => "You cannot hurt players of this region.",
+                "denied-block-break" => "You cannot break blocks in this region.",
+                "denied-block-place" => "You cannot place blocks in this region."
+            ]);
+
+            yaml_emit_file($path.'messages.yml', $this->messages);
         }
         
         if (isset($regions)) {
@@ -231,7 +254,7 @@ class WorldGuard extends PluginBase {
             {
             	if(!$player->hasPermission("worldguard.leave." . $oldregion))
             	{
-	                $player->sendMessage(TF::RED.'You cannot leave this area.');
+	                $player->sendMessage(TF::RED. $this->messages["denied-leave"]);
 	                return false;
 	            }
             }
@@ -260,7 +283,7 @@ class WorldGuard extends PluginBase {
             {
             	if(!$player->hasPermission("worldguard.enter." . $newregion))
             	{
-                	$player->sendMessage(TF::RED.'You cannot enter this area.');
+                	$player->sendMessage(TF::RED. $this->messages["denied-enter"]);
                 	return false;
                 }
             }
@@ -425,14 +448,14 @@ class WorldGuard extends PluginBase {
         switch (strtolower($cmd->getName())) {
             case "region":
                 if (!$issuer->hasPermission("worldguard.create") || !$issuer->hasPermission("worldguard.modify") || !$issuer->hasPermission("worldguard.delete")) {
-                    $issuer->sendMessage("You do not have permission to use this command.");
+                    $issuer->sendMessage($this->messages["no-permission-for-command"]);
                     return false;
                 }
                 if (isset($args[0])) {
                     switch ($args[0]) {
                         case "create":
                             if (!$issuer->hasPermission("worldguard.create")) {
-                                $issuer->sendMessage("You do not have permission to use this command.");
+                                $issuer->sendMessage($this->messages["no-permission-for-command"]);
                                 return false;
                             }
                             if (isset($args[1])) {
@@ -455,7 +478,7 @@ class WorldGuard extends PluginBase {
                             break;
                         case "delete":
                             if (!$issuer->hasPermission("worldguard.delete")) {
-                                $issuer->sendMessage("You do not have permission to use this command.");
+                                $issuer->sendMessage($this->messages["no-permission-for-command"]);
                                 return false;
                             }
                             if (isset($args[1])) {
@@ -522,7 +545,7 @@ class WorldGuard extends PluginBase {
                         case "flag":
                         case "flags":
                             if (!$issuer->hasPermission("worldguard.modify")) {
-                                $issuer->sendMessage("You do not have permission to use this command.");
+                                $issuer->sendMessage($this->messages["no-permission-for-command"]);
                                 return false;
                             }
                             if (isset($args[1], $args[2])) {
