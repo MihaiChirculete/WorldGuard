@@ -79,4 +79,19 @@ class Utils {
     {
         return self::GM2STRING[$gm] ?? "survival";
     }
+
+    /**
+     * @param Player $player
+     * @param string $msg
+     * @return mixed
+     *
+     * Use this to parse aliases in a string
+     */
+    public static function aliasParse(Player $player, string $msg)
+    {
+        $parsedMsg = str_replace("{player_name}", $player->getName() ,$msg);
+        $parsedMsg = str_replace("&", "§", $parsedMsg);
+
+        return $parsedMsg;
+    }
 }

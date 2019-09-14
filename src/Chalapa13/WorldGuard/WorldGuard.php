@@ -257,7 +257,7 @@ class WorldGuard extends PluginBase {
 	            }
             }
             if (($msg = $old->getFlag("notify-leave")) !== "") {
-                $player->sendMessage($msg);
+                $player->sendMessage(Utils::aliasParse($player, $msg));
             }
             if ($old->getFlag("receive-chat") === "false") {
                 unset($this->muted[$player->getRawUniqueId()]);
@@ -290,7 +290,7 @@ class WorldGuard extends PluginBase {
                 if ($gm === 0 || $gm === 2) Utils::disableFlight($player);
             }
             if (($msg = $new->getFlag("notify-enter")) !== "") {
-                $player->sendMessage($msg);
+                $player->sendMessage(Utils::aliasParse($player, $msg));
             }
             if ($new->getFlag("receive-chat") === "false") {
                 $this->muted[$player->getRawUniqueId()] = $player;
