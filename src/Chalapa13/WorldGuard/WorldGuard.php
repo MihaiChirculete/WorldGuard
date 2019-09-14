@@ -62,7 +62,6 @@ class WorldGuard extends PluginBase {
         "allow-spreading" => "true",
         "allow-block-burn" => "true",
         "priority" => 0,
-        "freeze-time" => -1
     ];
 
     const FLAG_TYPE = [
@@ -94,7 +93,6 @@ class WorldGuard extends PluginBase {
         "allow-spreading" => "boolean",
         "allow-block-burn" => "boolean",
         "priority" => "integer",
-        "freeze-time" => "integer"
     ];
 
     const FLY_VANILLA = 0;
@@ -319,6 +317,7 @@ class WorldGuard extends PluginBase {
             }
         }
 
+        /*
         if($new !== "")
         {
             if(($time = $new->getFlag("freeze-time")) !== -1 )
@@ -340,6 +339,7 @@ class WorldGuard extends PluginBase {
             $pk->time = intval($this->getServer()->getTick());
             $player->dataPacket($pk);
         }
+        */
 
         return true;
     }
