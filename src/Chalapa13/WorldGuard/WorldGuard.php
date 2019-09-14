@@ -593,7 +593,7 @@ class WorldGuard extends PluginBase {
                 } else {
                     $issuer->sendMessage(implode("\n".TF::LIGHT_PURPLE, [
                         "WorldGuard (by Chalapa) Help Page",
-                        "Download link: https://github.com/Chalapa13/WorldGuard/tree/master/compiled",
+                        " ",
                         " ",
                         "/region create <name> - Define a new region.",
                         "/region list - List all regions.",
