@@ -24,6 +24,7 @@ namespace Chalapa13\WorldGuard;
 
 use pocketmine\Player;
 use pocketmine\network\mcpe\protocol\SetPlayerGameTypePacket;
+use pocketmine\entity\{Entity, Animal, Monster};
 
 class Utils {
 
@@ -93,5 +94,86 @@ class Utils {
         $parsedMsg = str_replace("&", "§", $parsedMsg);
 
         return $parsedMsg;
+    }
+
+
+    /**
+     * @param Entity $ent
+     * @return bool
+     *
+     * Pass an entity to this function and it checks if its an animal or not.
+     */
+    public static function isAnimal(Entity $ent)
+    {
+        if($ent instanceof Animal)
+            return true;
+
+        $classname = strtolower(get_class($ent));
+
+        if(strpos($classname, "bat") !== false ||
+            strpos($classname, "chicken") !== false ||
+            strpos($classname, "cow") !== false ||
+            strpos($classname, "donkey") !== false ||
+            strpos($classname, "horse") !== false ||
+            strpos($classname, "llama") !== false ||
+            strpos($classname, "mooshroom") !== false ||
+            strpos($classname, "mule") !== false ||
+            strpos($classname, "ocelot") !== false ||
+            strpos($classname, "parrot") !== false ||
+            strpos($classname, "pig") !== false ||
+            strpos($classname, "polarbear") !== false ||
+            strpos($classname, "rabbit") !== false ||
+            strpos($classname, "sheep") !== false ||
+            strpos($classname, "wolf") !== false ||
+            strpos($classname, "animal")
+        )
+            return true;
+
+        return false;
+    }
+
+    /**
+     * @param string $classname
+     * @return bool
+     *
+     * Pass an entity to this function and it checks if its a monster or not.
+     */
+    public static function isMonster(Entity $ent)
+    {
+        if($ent instanceof Monster)
+            return true;
+
+        $classname = strtolower(get_class($ent));
+
+        if(strpos($classname, "blaze") !== false ||
+            strpos($classname, "cavespider") !== false ||
+            strpos($classname, "elderguardian") !== false ||
+            strpos($classname, "enderdragon") !== false ||
+            strpos($classname, "enderman") !== false ||
+            strpos($classname, "endermite") !== false ||
+            strpos($classname, "evoker") !== false ||
+            strpos($classname, "ghast") !== false ||
+            strpos($classname, "guardian") !== false ||
+            strpos($classname, "husk") !== false ||
+            strpos($classname, "magmacube") !== false ||
+            strpos($classname, "pigzombie") !== false ||
+            strpos($classname, "shulker") !== false ||
+            strpos($classname, "silverfish") !== false ||
+            strpos($classname, "skeleton") !== false ||
+            strpos($classname, "slime") !== false ||
+            strpos($classname, "spider") !== false ||
+            strpos($classname, "stray") !== false ||
+            strpos($classname, "undead") !== false ||
+            strpos($classname, "vex") !== false ||
+            strpos($classname, "vindicator") !== false ||
+            strpos($classname, "witch") !== false ||
+            strpos($classname, "wither") !== false ||
+            strpos($classname, "witherskeleton") !== false ||
+            strpos($classname, "zombievillager") !== false ||
+            strpos($classname, "monster")
+        )
+            return true;
+
+        return false;
     }
 }

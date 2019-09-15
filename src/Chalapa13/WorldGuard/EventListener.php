@@ -30,7 +30,7 @@ use pocketmine\item\Item;
 use pocketmine\item\Food;
 use pocketmine\Player;
 use pocketmine\utils\TextFormat as TF;
-use pocketmine\entity\Animal;
+use pocketmine\entity\{Entity, Animal, Monster};
 use pocketmine\plugin\MethodEventExecutor;
 use pocketmine\event\plugin\PluginEvent;
 use pocketmine\level\Position;
@@ -249,25 +249,42 @@ class EventListener implements Listener {
         	}
         }
 
-        $this->plugin->getLogger()->notice(get_class($event->getEntity()));
-        /* Check if the target was a mob and then act accordingly */
-        /*
-        if(strpos(get_class($event->getEntity()), "Cow") !== false ||
-    		strpos(get_class($event->getEntity()), "Sheep") !== false ||
-    		strpos(get_class($event->getEntity()), "Pig") !== false ||
-    		strpos(get_class($event->getEntity()), "Chicken") !== false)
+        // $this->plugin->getLogger()->notice(get_class($event->getEntity()));
+
+        /**
+         * Check if the target was an animal and then act accordingly
+         */
+        if(Utils::isAnimal($event->getEntity()))
         {
-        	$this->plugin->getLogger()->notice("entity is an animal");
+        	// $this->plugin->getLogger()->notice("entity is an animal");
             if(($player = $event->getDamager()) instanceof Player)
             if(($region = $this->plugin->getRegionFromPosition($event->getEntity()->getPosition())) !== "")
             {
-            	$this->plugin->getLogger()->notice("damager is a player");
+            	// $this->plugin->getLogger()->notice("damager is a player");
                 if ($region->getFlag("allow-damage-animals") === "false") {
-                    $player->sendMessage(TF::RED.'You cannot hurt animals of this region.');
+                    $player->sendMessage(TF::RED. $this->plugin->messages["denied-hurt-animal"]);
                     $event->setCancelled();
                     return;
                 }
             }
+        }
+
+        /**
+         * Check if the target was a monster and then act accordingly
+         */
+        if(Utils::isMonster($event->getEntity()))
+        {
+            // $this->plugin->getLogger()->notice("entity is a monster");
+            if(($player = $event->getDamager()) instanceof Player)
+                if(($region = $this->plugin->getRegionFromPosition($event->getEntity()->getPosition())) !== "")
+                {
+                    // $this->plugin->getLogger()->notice("damager is a player");
+                    if ($region->getFlag("allow-damage-animals") === "false") {
+                        $player->sendMessage(TF::RED. $this->plugin->messages["denied-hurt-monster"]);
+                        $event->setCancelled();
+                        return;
+                    }
+                }
         }
 
         if(strpos(get_class($event->getEntity()), "monster") !== false)
@@ -281,7 +298,7 @@ class EventListener implements Listener {
                     return;
                 }
             }
-        }*/
+        }
     }
 
     /**

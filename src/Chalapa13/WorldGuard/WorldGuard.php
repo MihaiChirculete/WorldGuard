@@ -53,10 +53,8 @@ class WorldGuard extends PluginBase {
         "enderpearl" => "true",
         "fly-mode" => 0,
         "eat" => "true",
-        /*
         "allow-damage-animals" => "true",
         "allow-damage-monsters" => "true",
-        */
         "allow-leaves-decay" => "true",
         "allow-plant-growth" => "true",
         "allow-spreading" => "true",
@@ -84,10 +82,8 @@ class WorldGuard extends PluginBase {
         "enderpearl" => "boolean",
         "fly-mode" => "integer",
         "eat" => "boolean",
-        /*
         "allow-damage-animals" => "boolean",
         "allow-damage-monsters" => "boolean",
-        */
         "allow-leaves-decay" => "boolean",
         "allow-plant-growth" => "boolean",
         "allow-spreading" => "boolean",
@@ -147,11 +143,25 @@ class WorldGuard extends PluginBase {
                 "denied-item-drop" => "You cannot drop items in this region.",
                 "denied-pvp" => "You cannot hurt players of this region.",
                 "denied-block-break" => "You cannot break blocks in this region.",
-                "denied-block-place" => "You cannot place blocks in this region."
+                "denied-block-place" => "You cannot place blocks in this region.",
+                "denied-hurt-animal" => "You cannot hurt animals of this region.",
+                "denied-hurt-monster" => "You cannot hurt monsters of this region."
             ]);
 
             yaml_emit_file($path.'messages.yml', $this->messages);
         }
+
+        /** if the plugin was previously installed and the user is updating
+         * some newly introduced messages will be missing and will crash the plugin if not found
+         * so we perform a check for each newly introduced message and if it was not found in the file we add it
+         */
+        if(!isset($this->messages["denied-hurt-animal"]))
+            $this->messages["denied-hurt-animal"] = "You cannot hurt animals of this region.";
+
+        if(!isset($this->messages["denied-hurt-monster"]))
+            $this->messages["denied-hurt-monster"] = "You cannot hurt monsters of this region.";
+
+        yaml_emit_file($path.'messages.yml', $this->messages);
         
         if (isset($regions)) {
             foreach ($regions as $name => $data) {
