@@ -132,6 +132,7 @@ class WorldGuard extends PluginBase {
             $this->messages = yaml_parse_file($path.'messages.yml');
         }
         else{
+
             $this->messages = array([
                 "denied-enter" => "You cannot enter this area.",
                 "denied-leave" => "You cannot leave this area.",
@@ -149,6 +150,18 @@ class WorldGuard extends PluginBase {
 
             yaml_emit_file($path.'messages.yml', $this->messages);
         }
+
+        /** if the plugin was previously installed and the user is updating
+         * some newly introduced messages will be missing and will crash the plugin if not found
+         * so we perform a check for each newly introduced message and if it was not found in the file we add it
+         */
+        if(!isset($this->messages["denied-hurt-animal"]))
+            $this->messages["denied-hurt-animal"] = "You cannot hurt animals of this region.";
+
+        if(!isset($this->messages["denied-hurt-monster"]))
+            $this->messages["denied-hurt-monster"] = "You cannot hurt monsters of this region.";
+
+        yaml_emit_file($path.'messages.yml', $this->messages);
         
         if (isset($regions)) {
             foreach ($regions as $name => $data) {
