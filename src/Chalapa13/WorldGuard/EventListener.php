@@ -179,12 +179,23 @@ class EventListener implements Listener {
      */
     public function onPlace(BlockPlaceEvent $event)
     {
-        if (($region = $this->plugin->getRegionFromPosition($event->getBlock())) !== "") {
-            if(!$event->getPlayer()->hasPermission("worldguard.place." . $region->getName())){
-                $event->getPlayer()->sendMessage(TF::RED. $this->plugin->messages["denied-block-place"]);
-                $event->setCancelled();
-            }
+        $player = $event->getPlayer();
+        $block = $event->getBlock();
+        $x = $block->x;
+        $z = $block->z;
+        if ($x < 0){
+            $x = ($x + 1);
         }
+        if ($z < 0){
+            $z = ($z + 1);
+        }
+        $position = new Position($x,$block->y,$z,$block->getLevel());
+        if (($region = $this->plugin->getRegionFromPosition($position)) !== ""){
+            if(!$event->getPlayer()->hasPermission("worldguard.place." . $region->getName())){
+                    $player->sendMessage(TF::RED. $this->plugin->messages["denied-block-place"]);
+                    $event->setCancelled();
+            }
+         }
     }
 
     /**
