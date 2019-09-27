@@ -119,7 +119,7 @@ class WorldGuard extends PluginBase {
          * load regions if file exists and if not create a file
          */
         if (is_file($path.'regions.yml')) {
-            $regions = yaml_parse_file($path.'regions.yml');
+            $this->regions = yaml_parse_file($path.'regions.yml');
         } else {
             yaml_emit_file($path.'regions.yml', []);
         }
@@ -439,6 +439,17 @@ class WorldGuard extends PluginBase {
             $permission = new Permission("worldguard.useanvil." . $name, "Allows player to use anvils in " . $name . " region.", Permission::DEFAULT_OP);
             $permission->addParent("worldguard.useanvil", true);
             PermissionManager::getInstance()->addPermission($permission);
+
+            /* add permission for using cauldrons in this region */
+            $permission = new Permission("worldguard.usecauldron." . $name, "Allows player to use cauldron in " . $name . " region.", Permission::DEFAULT_OP);
+            $permission->addParent("worldguard.usecauldron", true);
+            PermissionManager::getInstance()->addPermission($permission);
+
+            /* add permission for using brewing stand in this region */
+            $permission = new Permission("worldguard.usebrewingstand." . $name, "Allows player to use brewing stands in " . $name . " region.", Permission::DEFAULT_OP);
+            $permission->addParent("worldguard.usebrewingstand", true);
+            PermissionManager::getInstance()->addPermission($permission);
+
             return $name;
         }
         return false;

@@ -1,7 +1,7 @@
 name: WorldGuard
 main: Chalapa13\WorldGuard\WorldGuard
 api: [3.0.0]
-version: 1.0.2
+version: 1.0.3
 author: Chalapa
 website: https://github.com/Chalapa13
 commands:
@@ -44,4 +44,6 @@ permissions:
   worldguard.usefurnaces:
     default: op
   worldguard.useanvil:
+    default: op
+  worldguard.usecauldron:
     default: op

@@ -146,6 +146,12 @@ class EventListener implements Listener {
                     if($player->hasPermission("worldguard.useanvil." . $reg->getName()) && ($block === Block::ANVIL))
                         return;
 
+                    if($player->hasPermission("worldguard.usecauldron." . $reg->getName()) && ($block === Block::CAULDRON_BLOCK))
+                        return;
+
+                    if($player->hasPermission("worldguard.usebrewingstand." . $reg->getName()) && ($block === Block::BREWING_STAND_BLOCK ))
+                        return;
+
                      if (in_array($block, self::USABLES)) {
                         $player->sendMessage(TF::RED.'You cannot interact with '.$event->getBlock()->getName().'s.');
                         $event->setCancelled();
