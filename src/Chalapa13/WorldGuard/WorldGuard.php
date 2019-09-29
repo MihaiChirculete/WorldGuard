@@ -161,11 +161,7 @@ class WorldGuard extends PluginBase {
 
     public function onDisable()
     {
-        $data = [];
-        foreach ($this->regions as $name => $region) {
-            $data[$name] = $region->toArray();
-        }
-        yaml_emit_file($this->getDataFolder().'regions.yml', $data);
+        $this->saveRegions();
     }
 
     public function getRegion(string $region)
@@ -215,7 +211,6 @@ class WorldGuard extends PluginBase {
     {
         $highestPriorityName = "";
         $highestPriority = -1;
-
         foreach ($this->regions as $name => $region) {
             if ($region->getLevelName() === $pos->getLevel()->getName()) {
                 $reg1 = $region->getPos1();
@@ -350,6 +345,15 @@ class WorldGuard extends PluginBase {
         }
         return true;
     }
+    
+    public function saveRegions(){
+        $data = [];
+        foreach ($this->regions as $name => $region) {
+            $data[$name] = $region->toArray();
+        }
+        yaml_emit_file($this->getDataFolder().'regions.yml', $data);
+        return true;
+    }
 
     public function processCreation(Player $player)
     {
@@ -360,11 +364,6 @@ class WorldGuard extends PluginBase {
             unset($map[0][3], $map[1][3]);
             $this->regions[$name] = new Region($name, $map[0], $map[1], $level, self::FLAGS);
             unset($this->process[$id], $this->creating[$id]);
-            $data = [];
-            foreach ($this->regions as $name => $region) {
-                $data[$name] = $region->toArray();
-            }
-            yaml_emit_file($this->getDataFolder().'regions.yml', $data);
 
             /* add permission for accesing this region */
 			$permission = new Permission("worldguard.enter." . $name, "Allows player to enter the " . $name . " region.", Permission::DEFAULT_OP);
@@ -449,7 +448,7 @@ class WorldGuard extends PluginBase {
             $permission = new Permission("worldguard.usebrewingstand." . $name, "Allows player to use brewing stands in " . $name . " region.", Permission::DEFAULT_OP);
             $permission->addParent("worldguard.usebrewingstand", true);
             PermissionManager::getInstance()->addPermission($permission);
-
+            $this->saveRegions();
             return $name;
         }
         return false;
@@ -504,11 +503,7 @@ class WorldGuard extends PluginBase {
                                         $this->updateRegion($player);
                                     }
                                     $issuer->sendMessage(TF::YELLOW.'You have deleted the region: '.$args[1]);
-                                    $data = [];
-                                    foreach ($this->regions as $name => $region) {
-                                        $data[$name] = $region->toArray();
-                                    }
-                                    yaml_emit_file($this->getDataFolder().'regions.yml', $data);
+                                    $this->saveRegions();
                                 } else {
                                     $issuer->sendMessage(TF::RED.$args[1].' region does not exist. Use /region list to get a list of all regions.');
                                 }
@@ -596,11 +591,7 @@ class WorldGuard extends PluginBase {
                                             $issuer->sendMessage($opt);
                                         } else {
                                             $issuer->sendMessage(TF::YELLOW.'Flag has been updated successfully.');
-                                            $data = [];
-                                            foreach ($this->regions as $name => $region) {
-                                                $data[$name] = $region->toArray();
-                                            }
-                                            yaml_emit_file($this->getDataFolder().'regions.yml', $data);
+                                            saveRegions();
                                         }
                                         break;
                                     case "reset":
