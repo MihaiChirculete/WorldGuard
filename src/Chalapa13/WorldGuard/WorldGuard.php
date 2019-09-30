@@ -124,7 +124,7 @@ class WorldGuard extends PluginBase {
             yaml_emit_file($path.'regions.yml', []);
         }
 
-        /**
+                /**
          * load messages if file exists and if not write the default ones
          */
         if(is_file($path.'messages.yml'))
@@ -132,7 +132,7 @@ class WorldGuard extends PluginBase {
             $this->messages = yaml_parse_file($path.'messages.yml');
         }
         else{
-            $this->messages = array([
+            $this->messages = array (
                 "denied-enter" => "You cannot enter this area.",
                 "denied-leave" => "You cannot leave this area.",
                 "no-permission-for-command" => "You do not have permission to use this command.",
@@ -145,7 +145,7 @@ class WorldGuard extends PluginBase {
                 "denied-block-place" => "You cannot place blocks in this region.",
                 "denied-hurt-animal" => "You cannot hurt animals of this region.",
                 "denied-hurt-monster" => "You cannot hurt monsters of this region."
-            ]);
+            );
 
             yaml_emit_file($path.'messages.yml', $this->messages);
         }
