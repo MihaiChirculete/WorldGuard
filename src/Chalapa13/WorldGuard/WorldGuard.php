@@ -119,7 +119,7 @@ class WorldGuard extends PluginBase {
          * load regions if file exists and if not create a file
          */
         if (is_file($path.'regions.yml')) {
-            $this->regions = yaml_parse_file($path.'regions.yml');
+            $regions = yaml_parse_file($path.'regions.yml');
         } else {
             yaml_emit_file($path.'regions.yml', []);
         }
@@ -349,10 +349,7 @@ class WorldGuard extends PluginBase {
     public function saveRegions(){
         $data = [];
         foreach ($this->regions as $name => $region) {
-            if(is_array($region))
-                $data[$name] = $region;
-            else
-                $data[$name] = $region->toArray();
+            $data[$name] = $region->toArray();
         }
         yaml_emit_file($this->getDataFolder().'regions.yml', $data);
         return true;
