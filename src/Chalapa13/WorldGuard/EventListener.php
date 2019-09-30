@@ -408,7 +408,7 @@ class EventListener implements Listener {
         if ($event->getEntity()::NETWORK_ID !== 87) return;
         if (($region = $this->plugin->getRegionFromPosition($entity = $event->getEntity())) !== "") {
             if ($region->getFlag("enderpearl") === "false") {
-                if ((($player = $entity->shootingEntity) !== null)) {
+                if ((($player = $entity->getOwningEntity()) !== null)) {
                     $event->setCancelled();
                     $player->sendMessage(TF::RED. $this->plugin->messages["denied-ender-pearls"]);
                 }
