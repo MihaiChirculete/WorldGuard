@@ -30,6 +30,7 @@ use pocketmine\level\Position;
 use pocketmine\permission\{Permission, Permissible, PermissionManager};
 use pocketmine\network\mcpe\protocol\SetTimePacket;
 use pocketmine\Server;
+use revivalpmmp\pureentities\event\CreatureSpawnEvent;
 
 class WorldGuard extends PluginBase {
 
@@ -59,7 +60,8 @@ class WorldGuard extends PluginBase {
         "allow-plant-growth" => "true",
         "allow-spreading" => "true",
         "allow-block-burn" => "true",
-        "priority" => 0,
+        "allow-mob-spawning" => "true",
+        "priority" => 0
     ];
 
     const FLAG_TYPE = [
@@ -88,7 +90,8 @@ class WorldGuard extends PluginBase {
         "allow-plant-growth" => "boolean",
         "allow-spreading" => "boolean",
         "allow-block-burn" => "boolean",
-        "priority" => "integer",
+        "allow-mob-spawning" => "boolean",
+        "priority" => "integer"
     ];
 
     const FLY_VANILLA = 0;
@@ -108,6 +111,8 @@ class WorldGuard extends PluginBase {
      * load them and use the modified messages instead of the hardcoded ones
      */
     public $messages = [];
+
+    public $pureEntitiesPlugin = null;
 
     public function onEnable()
     {
@@ -157,6 +162,9 @@ class WorldGuard extends PluginBase {
         }
 
         $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
+
+        if(($pureEntitiesPlugin = $this->getServer()->getPluginManager()->getPlugin("PureEntitiesX")) !== null)
+            new MobSpawnListener($this);
     }
 
     public function onDisable()

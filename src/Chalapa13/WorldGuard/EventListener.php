@@ -58,6 +58,9 @@ class EventListener implements Listener {
     {
         $this->plugin = $plugin;
 
+        if($plugin->pureEntitiesPlugin !== null)
+            $plugin->getServer()->getPluginManager()->registerEvent(CreatureSpawnEvent::class, $this, 3, new MethodEventExecutor("onCreatureSpawn"), $plugin, false);
+
         /*
         if($plugin->getServer()->getPluginManager()->getPlugin("PureEntitiesX") !== null)
             $plugin->getServer()->getPluginManager()->registerEvent(CreatureSpawnEvent::class, $this, 3, new MethodEventExecutor("onCreatureSpawn"), $plugin, false);*/
