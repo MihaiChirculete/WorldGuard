@@ -47,3 +47,5 @@ permissions:
     default: op
   worldguard.usecauldron:
     default: op
+  worldguard.usebrewingstand:
+    default: op
