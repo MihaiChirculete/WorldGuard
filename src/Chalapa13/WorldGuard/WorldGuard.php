@@ -349,8 +349,7 @@ class WorldGuard extends PluginBase {
     public function saveRegions(){
         $data = [];
         foreach ($this->regions as $name => $region) {
-            var_dump($region);
-            $data[$name] = $region->toArray();
+            $data[$name] = $region->first()->toArray();
         }
         yaml_emit_file($this->getDataFolder().'regions.yml', $data);
         return true;
