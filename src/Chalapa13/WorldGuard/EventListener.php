@@ -408,6 +408,7 @@ class EventListener implements Listener {
         if ($event->getEntity()::NETWORK_ID !== 87) return;
         if (($region = $this->plugin->getRegionFromPosition($entity = $event->getEntity())) !== "") {
             if ($region->getFlag("enderpearl") === "false") {
+                // if pearl was thrown by a player then cancel the event
                 if ((($player = $entity->getOwningEntity()) !== null)) {
                     $event->setCancelled();
                     $player->sendMessage(TF::RED. $this->plugin->messages["denied-ender-pearls"]);
