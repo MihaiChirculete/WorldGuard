@@ -599,7 +599,7 @@ class WorldGuard extends PluginBase {
                                             $issuer->sendMessage($opt);
                                         } else {
                                             $issuer->sendMessage(TF::YELLOW.'Flag has been updated successfully.');
-                                            saveRegions();
+                                            $this->saveRegions();
                                         }
                                         break;
                                     case "reset":
