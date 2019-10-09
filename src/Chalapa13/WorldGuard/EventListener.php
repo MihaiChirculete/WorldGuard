@@ -328,11 +328,12 @@ class EventListener implements Listener {
     public function onCommand(PlayerCommandPreprocessEvent $event)
     {
         // always disable f claim
-        if($this->plugin->getRegionByPlayer($event->getPlayer()) !== "" &&  strpos(strtolower($event->getMessage()), '/f claim') === 0)
-        {
-            $event->getPlayer()->sendMessage(TF::RED.'You cannot claim plots in this area.');
-            $event->setCancelled();
-        }
+        if($this->plugin->getRegionByPlayer($event->getPlayer()) !== "")
+            if(strpos(strtolower($event->getMessage()), '/f claim') === 0)
+            {
+                $event->getPlayer()->sendMessage(TF::RED.'You cannot claim plots in this area.');
+                $event->setCancelled();
+            }
 
 
         $cmd = explode(" ", $event->getMessage())[0];
