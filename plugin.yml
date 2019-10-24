@@ -49,3 +49,5 @@ permissions:
     default: op
   worldguard.usebrewingstand:
     default: op
+  worldguard.usebeacons:
+    default: op

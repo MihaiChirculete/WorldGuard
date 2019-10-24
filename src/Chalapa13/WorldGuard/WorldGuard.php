@@ -457,6 +457,12 @@ class WorldGuard extends PluginBase {
             $permission->addParent("worldguard.usebrewingstand", true);
             PermissionManager::getInstance()->addPermission($permission);
             $this->saveRegions();
+
+            /* add permission for using beacons in this region */
+            $permission = new Permission("worldguard.usebeacon." . $name, "Allows player to use beacons in " . $name . " region.", Permission::DEFAULT_OP);
+            $permission->addParent("worldguard.usebeacon", true);
+            PermissionManager::getInstance()->addPermission($permission);
+            $this->saveRegions();
             return $name;
         }
         return false;
