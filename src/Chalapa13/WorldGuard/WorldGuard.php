@@ -162,9 +162,6 @@ class WorldGuard extends PluginBase {
         }
 
         $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
-
-        if(($pureEntitiesPlugin = $this->getServer()->getPluginManager()->getPlugin("PureEntitiesX")) !== null)
-            new MobSpawnListener($this);
     }
 
     public function onDisable()
