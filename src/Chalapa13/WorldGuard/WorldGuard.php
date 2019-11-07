@@ -60,7 +60,6 @@ class WorldGuard extends PluginBase {
         "allow-plant-growth" => "true",
         "allow-spreading" => "true",
         "allow-block-burn" => "true",
-        "allow-mob-spawning" => "true",
         "priority" => 0
     ];
 
@@ -90,7 +89,6 @@ class WorldGuard extends PluginBase {
         "allow-plant-growth" => "boolean",
         "allow-spreading" => "boolean",
         "allow-block-burn" => "boolean",
-        "allow-mob-spawning" => "boolean",
         "priority" => "integer"
     ];
 
@@ -475,6 +473,27 @@ class WorldGuard extends PluginBase {
                 }
                 if (isset($args[0])) {
                     switch ($args[0]) {
+                        case "setbiome":
+                            if (!$issuer->hasPermission("worldguard.modify")) {
+                                $issuer->sendMessage($this->messages["no-permission-for-command"]);
+                                return false;
+                            }
+                            if (isset($args[1]) && isset($args[2])) {
+                                if (!ctype_alnum($args[1])) {
+                                    $issuer->sendMessage(TF::RED.'Region name must be alpha numeric.');
+                                    return false;
+                                }
+                                if ($this->regionExists($args[1])) {
+                                    Utils::setBiome($this->getRegion($args[1]), $args[2]);
+                                    $issuer->sendMessage(TF::YELLOW.'You have changed the region\'s biome.');
+                                    $this->saveRegions();
+                                } else {
+                                    $issuer->sendMessage(TF::RED.$args[1].' region does not exist. Use /region list to get a list of all regions.');
+                                }
+                            } else {
+                                $issuer->sendMessage(TF::RED.'/region setbiome <name> <biomeID>');
+                            }
+                            break;
                         case "create":
                             if (!$issuer->hasPermission("worldguard.create")) {
                                 $issuer->sendMessage($this->messages["no-permission-for-command"]);

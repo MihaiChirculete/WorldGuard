@@ -176,4 +176,9 @@ class Utils {
 
         return false;
     }
+
+    public static function setBiome(Region $reg)
+    {
+        var_dump($reg->getPos1());
+    }
 }
