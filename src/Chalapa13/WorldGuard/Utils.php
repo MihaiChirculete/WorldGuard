@@ -207,7 +207,7 @@ class Utils {
             $z2 = $tmp;
         }
 
-        for ($i=$x1; i<=$x2; $i++)
+        for ($i=$x1; $i<=$x2; $i++)
             for($j=$z1; $j<=$z2; $j++)
                 $plugin->getServer()->getLevel()->setBiomeId($i, $j, $biomeId);
     }
