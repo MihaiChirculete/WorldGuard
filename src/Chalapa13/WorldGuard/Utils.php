@@ -180,7 +180,7 @@ class Utils {
         return false;
     }
 
-    private static function biomeParse($biomeName)
+    private static function biomeParse($biomeName) : int
     {
         $biomeName = strtolower($biomeName);
         switch ($biomeName)
