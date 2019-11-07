@@ -23,8 +23,11 @@
 namespace Chalapa13\WorldGuard;
 
 use pocketmine\Player;
+use pocketmine\Server;
 use pocketmine\network\mcpe\protocol\SetPlayerGameTypePacket;
 use pocketmine\entity\{Entity, Animal, Monster};
+use pocketmine\level\biome\Biome;
+use pocketmine\level\Level;
 
 class Utils {
 
@@ -177,8 +180,35 @@ class Utils {
         return false;
     }
 
-    public static function setBiome(Region $reg)
+    public static function setBiome($plugin, Region $reg, $biomeId)
     {
+        $pos1 = $reg->getPos1();
+        $pos2 = $reg->getPos2();
+
+        $x1 = $pos1[0];
+        $z1 = $pos1[2];
+
+        $x2 = $pos2[0];
+        $z2 = $pos2[2];
+
         var_dump($reg->getPos1());
+
+        if($x1>$x2)
+        {
+            $tmp = $x1;
+            $x1 = $x2;
+            $x2 = $tmp;
+        }
+
+        if($z1>$z2)
+        {
+            $tmp = $z1;
+            $z1 = $z2;
+            $z2 = $tmp;
+        }
+
+        for ($i=$x1; i<=$x2; $i++)
+            for($j=$z1; $j<=$z2; $j++)
+                $plugin->getServer()->getLevel()->setBiomeId($i, $j, $biomeId);
     }
 }

@@ -484,7 +484,7 @@ class WorldGuard extends PluginBase {
                                     return false;
                                 }
                                 if ($this->regionExists($args[1])) {
-                                    Utils::setBiome($this->getRegion($args[1]), $args[2]);
+                                    Utils::setBiome($this, $this->getRegion($args[1]), $args[2]);
                                     $issuer->sendMessage(TF::YELLOW.'You have changed the region\'s biome.');
                                     $this->saveRegions();
                                 } else {
