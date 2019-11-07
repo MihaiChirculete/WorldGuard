@@ -180,7 +180,62 @@ class Utils {
         return false;
     }
 
-    public static function setBiome($plugin, Region $reg, $biomeId)
+    private static function biomeParse($biomeName)
+    {
+        $biomeName = strtolower($biomeName);
+        switch ($biomeName)
+        {
+            case "birch_forest":
+                return Biome::BIRCH_FOREST;
+                break;
+
+            case "desert":
+                return Biome::DESERT;
+                break;
+
+            case "forest":
+                return Biome::FOREST;
+                break;
+
+            case "hell":
+                return Biome::BIRCH_FOREST;
+                break;
+
+            case "ice_plains":
+                return Biome::ICE_PLAINS;
+                break;
+
+            case "mountains":
+                return Biome::MOUNTAINS;
+                break;
+
+            case "ocean":
+                return Biome::OCEAN;
+                break;
+
+            case "plains":
+                return Biome::PLAINS;
+                break;
+
+            case "river":
+                return Biome::RIVER;
+                break;
+
+            case "small_mountains":
+                return Biome::SMALL_MOUNTAINS;
+                break;
+
+            case "swamp":
+                return Biome::SWAMP;
+                break;
+
+            case "taiga":
+                return Biome::TAIGA;
+                break;
+        }
+    }
+
+    public static function setBiome($plugin, Region $reg, $biomeName)
     {
         $pos1 = $reg->getPos1();
         $pos2 = $reg->getPos2();
@@ -190,8 +245,6 @@ class Utils {
 
         $x2 = $pos2[0];
         $z2 = $pos2[2];
-
-        var_dump($reg->getPos1());
 
         if($x1>$x2)
         {
@@ -209,6 +262,6 @@ class Utils {
 
         for ($i=$x1; $i<=$x2; $i++)
             for($j=$z1; $j<=$z2; $j++)
-                $plugin->getServer()->getLevelByName($reg->getLevelName())->setBiomeId($i, $j, $biomeId);
+                $plugin->getServer()->getLevelByName($reg->getLevelName())->setBiomeId($i, $j, self::biomeParse($biomeName));
     }
 }

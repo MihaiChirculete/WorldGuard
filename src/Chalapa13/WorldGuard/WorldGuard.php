@@ -491,7 +491,7 @@ class WorldGuard extends PluginBase {
                                     $issuer->sendMessage(TF::RED.$args[1].' region does not exist. Use /region list to get a list of all regions.');
                                 }
                             } else {
-                                $issuer->sendMessage(TF::RED.'/region setbiome <name> <biomeID>');
+                                $issuer->sendMessage(TF::RED.'/region setbiome <name> <biome_name>');
                             }
                             break;
                         case "create":
