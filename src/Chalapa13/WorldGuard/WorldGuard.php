@@ -36,6 +36,7 @@ class WorldGuard extends PluginBase {
 
     const FLAGS = [
         "pvp" => "true",
+        "invincible" => "false",
         "effects" => [],
         "blocked-cmds" => [],
         "allowed-cmds" => [],
@@ -65,6 +66,7 @@ class WorldGuard extends PluginBase {
 
     const FLAG_TYPE = [
         "pvp" => "boolean",
+        "invincible" => "boolean",
         "effects" => "array",
         "blocked-cmds" => "array",
         "allowed-cmds" => "array",
