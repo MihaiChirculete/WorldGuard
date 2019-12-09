@@ -258,7 +258,6 @@ class EventListener implements Listener {
         }
     }
 
-
     public function onHurtByEntity(EntityDamageByEntityEvent $event)
     {
         if (($player1 = $event->getEntity()) instanceof Player) {
@@ -321,6 +320,16 @@ class EventListener implements Listener {
                     return;
                 }
             }
+        }
+    }
+    
+    public function onHurt(EntityDamageEvent $event) {
+        $reg = $this->plugin->getRegionByPlayer($event->getEntity());
+        if ($reg->getFlag("invincible") === "true"){
+            $entity = $event->getEntity();
+            if($entity instanceof Player) {
+                $event->setCancelled();
+                }
         }
     }
 
