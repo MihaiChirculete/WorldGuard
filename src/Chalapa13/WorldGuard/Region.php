@@ -134,11 +134,7 @@ class Region {
 
         switch (WorldGuard::FLAG_TYPE[$flag]) {
             case "integer":
-                if ($flag === "game-mode") {
-                    $gm = Utils::GAMEMODES[$value] ?? 0;
-                    $this->flags["game-mode"] = $gm;
-                    return TF::YELLOW.$this->name."'s gamemode has been set to ".Utils::gm2string($gm).'.';
-                } elseif ($flag === "fly-mode") {
+                if ($flag === "fly-mode") {
                     if ($value < 0 || $value > 3) {
                         return implode("\n", [
                             TF::RED.'Flight flag should be either 0, 1, 2 or 3.',
@@ -162,11 +158,16 @@ class Region {
                     return TF::RED.'Value of '.$flag.' must be a string.';
                 }
                 $this->flags[$flag][$value] = "";
+                if ($flag === "game-mode") {
+                    $gm = Utils::GAMEMODES[$value] ?? 0;
+                    $this->flags["game-mode"] = $gm;
+                    return TF::YELLOW.$this->name."'s gamemode has been set to ".Utils::gm2string($gm).'.';
+                }
                 return;
         }
 
         if ($flag === "notify-enter" || $flag === "notify-leave") {
-            $this->flags[$flag] = implode(" ", str_replace("&","§",$avalue));
+            $this->flags[$flag] = implode(" ", str_replace("&","ยง",$avalue));
         } else {
             $this->flags[$flag] = str_replace("&","§",$value);
         }
@@ -233,7 +234,7 @@ class Region {
         return $this->effects;
     }
 
-    public function getGamemode() : int
+    public function getGamemode() : string
     {
         return $this->flags["game-mode"];
     }
