@@ -24,6 +24,7 @@ namespace Chalapa13\WorldGuard;
 
 use pocketmine\plugin\PluginBase;
 use pocketmine\command\{Command, CommandSender};
+use pocketmine\event\player\PlayerCommandPreprocessEvent;
 use pocketmine\utils\TextFormat as TF;
 use pocketmine\Player;
 use pocketmine\level\Position;
@@ -48,7 +49,7 @@ class WorldGuard extends PluginBase {
         "potions" => "true",
         "allowed-enter" => "true",
         "allowed-leave" => "true",
-        "game-mode" => 0,
+        "game-mode" => "false",
         "sleep" => "true",
         "send-chat" => "true",
         "receive-chat" => "true",
@@ -78,7 +79,7 @@ class WorldGuard extends PluginBase {
         "potions" => "boolean",
         "allowed-enter" => "boolean",
         "allowed-leave" => "boolean",
-        "game-mode" => "integer",
+        "game-mode" => "string",
         "sleep" => "boolean",
         "send-chat" => "boolean",
         "receive-chat" => "boolean",
@@ -164,9 +165,11 @@ class WorldGuard extends PluginBase {
         $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
     }
 
-    public function onDisable()
-    {
+    public function onDisable(){
         $this->saveRegions();
+        foreach($this->getServer()->getOnlinePlayers() as $p) {
+            $p->kick($reason = "Server is reloading - Please rejoin in a few seconds!");
+        }
     }
 
     public function getRegion(string $region)
@@ -267,10 +270,6 @@ class WorldGuard extends PluginBase {
             if ($old->getFlight() === self::FLY_SUPERVISED) {
                 Utils::disableFlight($player);
 	    	}
-            if ($old->getGamemode() !== ($gm = $this->getServer()->getDefaultGamemode())) {
-                $player->setGamemode($gm);
-                if ($gm === 0 || $gm === 2) Utils::disableFlight($player);
-            }
         }
 
         if ($new !== "") {
@@ -283,8 +282,12 @@ class WorldGuard extends PluginBase {
                 }
             }
             if (($gm = $new->getGamemode()) !== $player->getGamemode()) {
-                $player->setGamemode($gm);
-                if ($gm === 0 || $gm === 2) Utils::disableFlight($player);
+                if ($gm !== "false"){
+                    if ($gm == "0" | $gm == "1" | $gm == "2"){
+                        $player->setGamemode($gm);
+                        if ($gm === 0 || $gm === 2) Utils::disableFlight($player);
+                    }
+                }
             }
             if (($msg = $new->getFlag("notify-enter")) !== "") {
                 $player->sendMessage(Utils::aliasParse($player, $msg));
@@ -464,7 +467,7 @@ class WorldGuard extends PluginBase {
         }
         return false;
     }
-
+   
     public function onCommand(CommandSender $issuer, Command $cmd, string $label, array $args): bool
     {
         switch (strtolower($cmd->getName())) {
