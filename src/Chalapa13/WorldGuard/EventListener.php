@@ -333,6 +333,19 @@ class EventListener implements Listener {
         }
         return;
     }
+        
+    public function onFallDamage(EntityDamageEvent $event){
+        if(($region = $this->plugin->getRegionFromPosition($event->getEntity()->getPosition())) !== ""){
+            $entity = $event->getEntity();
+            $cause = $event->getCause();
+            if ($this->plugin->getRegionFromPosition($event->getEntity()->getPosition())->getFlag("fall-dmg") === "false"){
+                if($cause == EntityDamageEvent::CAUSE_FALL){
+                    $event->setCancelled(true);
+                }
+            }
+        }
+        return;
+	}
 
     /**
      * @param PlayerCommandPreprocessEvent $event
