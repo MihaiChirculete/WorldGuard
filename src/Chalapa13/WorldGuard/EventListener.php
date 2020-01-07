@@ -324,14 +324,28 @@ class EventListener implements Listener {
     }
     
     public function onHurt(EntityDamageEvent $event) {
-        $reg = $this->plugin->getRegionByPlayer($event->getEntity());
-        if ($reg->getFlag("invincible") === "true"){
-            $entity = $event->getEntity();
-            if($entity instanceof Player) {
-                $event->setCancelled();
+        if(($region = $this->plugin->getRegionFromPosition($event->getEntity()->getPosition())) !== ""){
+            if ($this->plugin->getRegionFromPosition($event->getEntity()->getPosition())->getFlag("invincible") === "true"){
+                if($event->getEntity() instanceof Player) {
+                    $event->setCancelled();
                 }
+            }
         }
+        return;
     }
+        
+    public function onFallDamage(EntityDamageEvent $event){
+        if(($region = $this->plugin->getRegionFromPosition($event->getEntity()->getPosition())) !== ""){
+            $entity = $event->getEntity();
+            $cause = $event->getCause();
+            if ($this->plugin->getRegionFromPosition($event->getEntity()->getPosition())->getFlag("fall-dmg") === "false"){
+                if($cause == EntityDamageEvent::CAUSE_FALL){
+                    $event->setCancelled(true);
+                }
+            }
+        }
+        return;
+	}
 
     /**
      * @param PlayerCommandPreprocessEvent $event
