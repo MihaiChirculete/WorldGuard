@@ -152,7 +152,8 @@ class WorldGuard extends PluginBase {
                 "denied-block-break" => "You cannot break blocks in this region.",
                 "denied-block-place" => "You cannot place blocks in this region.",
                 "denied-hurt-animal" => "You cannot hurt animals of this region.",
-                "denied-hurt-monster" => "You cannot hurt monsters of this region."
+                "denied-hurt-monster" => "You cannot hurt monsters of this region.",
+                "server-restart" => "Server is restarting! Please rejoin in a few moments."
             );
 
             yaml_emit_file($path.'messages.yml', $this->messages);
@@ -170,7 +171,7 @@ class WorldGuard extends PluginBase {
     public function onDisable(){
         $this->saveRegions();
         foreach($this->getServer()->getOnlinePlayers() as $p) {
-            $p->kick($reason = "Server is reloading - Please rejoin in a few seconds!");
+            $p->kick($reason = $this->messages["server-restart"]);
         }
     }
 
@@ -284,10 +285,12 @@ class WorldGuard extends PluginBase {
                 }
             }
             if (($gm = $new->getGamemode()) !== $player->getGamemode()) {
-                if ($gm !== "false"){
-                    if ($gm == "0" | $gm == "1" | $gm == "2"){
-                        $player->setGamemode($gm);
-                        if ($gm === 0 || $gm === 2) Utils::disableFlight($player);
+                if(!$player->hasPermission("worldguard.bypass.gamemode" . $newregion)){
+                    if ($gm !== "false"){
+                        if ($gm == "0" | $gm == "1" | $gm == "2" | $gm == "3"){
+                            $player->setGamemode($gm);
+                            if ($gm === 0 || $gm === 2) Utils::disableFlight($player);
+                        }
                     }
                 }
             }
