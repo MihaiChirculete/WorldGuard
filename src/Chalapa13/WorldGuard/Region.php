@@ -167,7 +167,7 @@ class Region {
         }
 
         if ($flag === "notify-enter" || $flag === "notify-leave") {
-            $this->flags[$flag] = implode(" ", str_replace("&","ยง",$avalue));
+            $this->flags[$flag] = implode(" ", str_replace("&","§",$avalue));
         } else {
             $this->flags[$flag] = str_replace("&","§",$value);
         }
