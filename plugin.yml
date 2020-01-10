@@ -51,3 +51,5 @@ permissions:
     default: op
   worldguard.usebeacons:
     default: op
+  worldguard.bypass.gamemode:
+    default: op
