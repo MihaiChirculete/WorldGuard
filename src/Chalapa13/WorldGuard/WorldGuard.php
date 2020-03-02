@@ -37,6 +37,7 @@ class WorldGuard extends PluginBase {
 
     const FLAGS = [
         "pvp" => "true",
+        "exp-drops" => "true",
         "invincible" => "false",
         "fall-dmg" => "true",
         "effects" => [],
@@ -68,6 +69,7 @@ class WorldGuard extends PluginBase {
 
     const FLAG_TYPE = [
         "pvp" => "boolean",
+        "exp-drops" => "boolean",
         "invincible" => "boolean",
         "fall-dmg" => "boolean",
         "effects" => "array",
