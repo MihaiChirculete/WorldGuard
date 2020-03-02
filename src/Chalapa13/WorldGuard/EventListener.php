@@ -23,7 +23,7 @@
 namespace Chalapa13\WorldGuard;
 use pocketmine\block\Block;
 use pocketmine\event\block\{BlockPlaceEvent, BlockBreakEvent, LeavesDecayEvent, BlockGrowEvent, BlockSpreadEvent, BlockBurnEvent};
-use pocketmine\event\entity\{EntityDamageEvent, EntityDamageByEntityEvent, EntityExplodeEvent, ProjectileLaunchEvent};
+use pocketmine\event\entity\{EntityDamageEvent, EntityDamageByEntityEvent, EntityDeathEvent, EntityExplodeEvent, ProjectileLaunchEvent};
 use pocketmine\event\Listener; 
 use pocketmine\event\player\{PlayerJoinEvent, PlayerMoveEvent, PlayerInteractEvent, PlayerCommandPreprocessEvent, PlayerDropItemEvent, PlayerBedEnterEvent, PlayerChatEvent, PlayerItemHeldEvent};
 use pocketmine\item\Item;
@@ -185,6 +185,14 @@ class EventListener implements Listener {
         }
     }
 
+  //  public function onDeath(EntityDeathEvent $event){
+  //      $reg = $this->plugin->getRegionFromPosition($event->getEntity()->getPosition());
+  //      if ($reg->getFlag("exp-drops") === "false"){
+  //          $event->getEntity()->close();
+  //      }
+  //  }
+
+
     /**
      * @param BlockPlaceEvent $event
      * @ignoreCancelled true
@@ -231,6 +239,9 @@ class EventListener implements Listener {
             if(!$event->getPlayer()->hasPermission("worldguard.break." . $region->getName())){
                     $player->sendMessage(TF::RED. $this->plugin->messages["denied-block-break"]);
                     $event->setCancelled();
+            }
+            if ($region->getFlag("exp-drops") === "false"){
+                $event->setXpDropAmount(0);
             }
          }
     }
