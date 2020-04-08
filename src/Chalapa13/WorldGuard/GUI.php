@@ -41,7 +41,7 @@ class GUI
     public static function displayRgManagement(Player $issuer)
     {
         $issuer->sendForm(new MenuForm(
-            "§9§Region Management", "Choose an option",
+            "§9§lRegion Management", "Choose an option",
             [new Button("Manage existing region"),
             new Button("Create a new region"),
             new Button("Redefine a region"),
