@@ -1,0 +1,14 @@
+---
+  denied-enter: You cannot enter this area.
+  denied-leave: You cannot leave this area.
+  no-permission-for-command: You do not have permission to use this command.
+  denied-eat: You cannot eat in this area.
+  denied-ender-pearls: You cannot use ender pearls in this area.
+  denied-chat: You cannot chat in this region.
+  denied-item-drop: You cannot drop items in this region.
+  denied-pvp: You cannot hurt players of this region.
+  denied-block-break: You cannot break blocks in this region.
+  denied-block-place: You cannot place blocks in this region.
+  denied-hurt-animal: You cannot hurt animals of this region.
+  denied-hurt-monster: You cannot hurt monsters of this region.
+...

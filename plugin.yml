@@ -5,6 +5,9 @@ version: 1.0.5.1
 author: Chalapa
 website: https://github.com/Chalapa13
 commands:
+  worldguard:
+    aliases: ["wg"]
+    default: op
   region:
     aliases: ["rg"]
     default: op

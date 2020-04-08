@@ -107,6 +107,15 @@ class WorldGuard extends PluginBase {
     public $creating = [];
     private $process = [];
     private $regions = [];
+
+    /**
+     * @return array
+     */
+    public function getRegions(): array
+    {
+        return $this->regions;
+    }
+
     private $players = [];
     public $muted = [];
 
@@ -478,6 +487,9 @@ class WorldGuard extends PluginBase {
     public function onCommand(CommandSender $issuer, Command $cmd, string $label, array $args): bool
     {
         switch (strtolower($cmd->getName())) {
+            case "worldguard":
+                GUI::displayMenu($issuer);
+                break;
             case "region":
                 if (!$issuer->hasPermission("worldguard.create") || !$issuer->hasPermission("worldguard.modify") || !$issuer->hasPermission("worldguard.delete")) {
                     $issuer->sendMessage($this->messages["no-permission-for-command"]);
@@ -650,6 +662,7 @@ class WorldGuard extends PluginBase {
                         "WorldGuard (by Chalapa) Help Page",
                         " ",
                         " ",
+                        "/worldguard - Open up the User Interface",
                         "/region create <name> - Define a new region.",
                         "/region list - List all regions.",
                         "/region flags get <region> - Get <region>'s flags.",
