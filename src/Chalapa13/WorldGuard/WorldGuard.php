@@ -488,6 +488,11 @@ class WorldGuard extends PluginBase {
     {
         switch (strtolower($cmd->getName())) {
             case "worldguard":
+                if(!$issuer->hasPermission("worldguard.ui"))
+                {
+                    $issuer->sendMessage($this->messages["no-permission-for-command"]);
+                    return false;
+                }
                 GUI::displayMenu($issuer);
                 break;
             case "region":

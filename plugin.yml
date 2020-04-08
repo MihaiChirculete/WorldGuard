@@ -12,6 +12,8 @@ commands:
     aliases: ["rg"]
     default: op
 permissions:
+  worldguard.ui:
+    default: op
   worldguard.create:
     default: op
   worldguard.modify:
