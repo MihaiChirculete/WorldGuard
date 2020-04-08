@@ -36,6 +36,8 @@ use revivalpmmp\pureentities\event\CreatureSpawnEvent;
 class WorldGuard extends PluginBase {
 
     const FLAGS = [
+        "block-place" => "false",
+        "block-break" => "false",
         "pvp" => "true",
         "exp-drops" => "true",
         "invincible" => "false",
@@ -68,6 +70,8 @@ class WorldGuard extends PluginBase {
     ];
 
     const FLAG_TYPE = [
+        "block-place" => "boolean",
+        "block-break" => "boolean",
         "pvp" => "boolean",
         "exp-drops" => "boolean",
         "invincible" => "boolean",
@@ -163,8 +167,7 @@ class WorldGuard extends PluginBase {
                 "denied-block-break" => "You cannot break blocks in this region.",
                 "denied-block-place" => "You cannot place blocks in this region.",
                 "denied-hurt-animal" => "You cannot hurt animals of this region.",
-                "denied-hurt-monster" => "You cannot hurt monsters of this region.",
-                "server-restart" => "Server is restarting! Please rejoin in a few moments."
+                "denied-hurt-monster" => "You cannot hurt monsters of this region."
             );
 
             yaml_emit_file($path.'messages.yml', $this->messages);
@@ -177,13 +180,14 @@ class WorldGuard extends PluginBase {
         }
 
         $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
+        
+        foreach($this->getServer()->getOnlinePlayers() as $p) {
+            $this->sessionizePlayer($p);
+        }
     }
 
     public function onDisable(){
         $this->saveRegions();
-        foreach($this->getServer()->getOnlinePlayers() as $p) {
-            $p->kick($reason = $this->messages["server-restart"]);
-        }
     }
 
     public function getRegion(string $region)
@@ -530,17 +534,48 @@ class WorldGuard extends PluginBase {
                             }
                             if (isset($args[1])) {
                                 if (!ctype_alnum($args[1])) {
-                                    $issuer->sendMessage(TF::RED.'Region name must be alpha numeric.');
+                                    $issuer->sendMessage(TF::RED.'Region names cannot contain special characters.');
                                     return false;
                                 }
                                 if ($this->regionExists($args[1])) {
                                     $issuer->sendMessage(TF::RED.'This region already exists. Redefine it using /region redefine '.$args[1].', or remove it using /region remove '.$args[1]);
                                     return false;
                                 } else {
-                                    unset($this->creating[$id = $issuer->getRawUniqueId()], $this->process[$id]);
-                                    $this->creating[$id] = [];
-                                    $this->process[$id]= $args[1];
-                                    $issuer->sendMessage(TF::LIGHT_PURPLE.'Right-Click two positions to complete creating your region ('.$args[1].').');
+                                    if (isset($args[2])){
+                                        if($args[2] == "extended"){
+                                            unset($this->creating[$id = $issuer->getRawUniqueId()], $this->process[$id]);
+                                            $this->creating[$id] = [];
+                                            $this->process[$id]= $args[1];
+                                            $this->extended[$id] = [];
+                                            $issuer->sendMessage(TF::YELLOW.'Right-Click two positions to complete creating the extended region ('.$args[1].').');
+                                        }
+                                        else{
+                                            $issuer->sendMessage(TF::RED."Flag '".$args[2]."' not recognized.");
+                                            return false;
+                                        }
+                                    }
+                                    else{
+                                        if ($args[1] == "global"){
+                                            if ($this->regionExists($args[1].".".$issuer->getLevel()->getName())) {
+                                                $issuer->sendMessage(TF::RED."A global region for this world already exists!");
+                                                return false;
+                                            }
+                                            else{
+                                                unset($this->creating[$id = $issuer->getRawUniqueId()], $this->process[$id]);
+                                                $this->process[$id]= ("global.".$issuer->getLevel()->getName());
+                                                $this->creating[$id][] = [0, 0, 0, $issuer->getLevel()->getName()];
+                                                $this->creating[$id][] = [0, 0, 0, $issuer->getLevel()->getName()];
+                                                $this->processCreation($issuer);
+                                                $issuer->sendMessage(TF::GREEN."Global region for world ".$issuer->getLevel()->getName()." created.");
+                                            }
+                                        }
+                                        else{
+                                            unset($this->creating[$id = $issuer->getRawUniqueId()], $this->process[$id]);
+                                            $this->creating[$id] = [];
+                                            $this->process[$id]= $args[1];
+                                            $issuer->sendMessage(TF::YELLOW.'Right-Click two positions to complete creating the region ('.$args[1].').');
+                                        }
+                                    }
                                 }
                             } else {
                                 $issuer->sendMessage(TF::RED.'/region create <name>');
@@ -578,7 +613,18 @@ class WorldGuard extends PluginBase {
                                 $msg .= implode(TF::WHITE.', '.TF::LIGHT_PURPLE, array_keys($this->regions));
                             }
                             $issuer->sendMessage($msg);
-                            break;          
+                            break;
+                        case "info":
+                            $reg = $this->getRegionOf($issuer);
+                            if ($reg !== "") {
+                                $issuer->chat("/rg flags get ".$reg);
+                                return true;
+                            }
+                            else {
+                                $issuer->sendMessage(TF::RED."You are not currently standing in any regions.");
+                                return false;
+                            }
+                            break;
                         case "redefine":
                             if (!isset($args[1])) {
                                 $issuer->sendMessage(TF::RED.'/region redefine <region>');
@@ -643,6 +689,8 @@ class WorldGuard extends PluginBase {
                                             $issuer->sendMessage(TF::RED.'You must specify the <value> of the flag.');
                                             return false;
                                         }
+                                        $args[4] = str_replace("allow", "true", $args[4]);
+                                        $args[4] = str_replace("deny", "false", $args[4]);
                                         $val = $args;
                                         unset($val[0], $val[1], $val[2], $val[3]);
                                         $opt = $this->getRegion($args[2])->setFlag($args[3], array_values($val));
@@ -655,6 +703,7 @@ class WorldGuard extends PluginBase {
                                         break;
                                     case "reset":
                                         $this->getRegion($args[2])->resetFlag($args[3]);
+                                        $issuer->sendMessage(TF::YELLOW."Flag ".$args[3]." has been reset to it's default value.");
                                         break;
                                 }
                             } else {
@@ -664,15 +713,17 @@ class WorldGuard extends PluginBase {
                     }
                 } else {
                     $issuer->sendMessage(implode("\n".TF::LIGHT_PURPLE, [
-                        "WorldGuard (by Chalapa) Help Page",
+                        "§9§lWorldGuard §r§7(by Chalapa) §9Help Page",
                         " ",
+                        "§e/worldguard §7- §eOpen up the User Interface",
+                        "§a/region create <region name> §7- §aCreate a new region.",
+                        "§3/region list §7- §3List all regions.",
+                        "§6/region info <region name> §7- §6Get information about your current region.",
+                        "§c/region delete <region name> §7- §cPermanently delete a region.",
+                        "§d/region flags <set/get/reset> <region name> §7- §dSet, Get, or Reset <region name>'s flags.",
                         " ",
-                        "/worldguard - Open up the User Interface",
-                        "/region create <name> - Define a new region.",
-                        "/region list - List all regions.",
-                        "/region flags get <region> - Get <region>'s flags.",
-                        "/region flags reset <region> <flag> - Reset <region>'s <flag> to default.",
-                        "/region flags set <region> <flag> <value> - Modify <value> of the <region>'s flag.",
+                        "§9For additional help and documentation, visit WorldGuard's GitHub page:",
+                        "§9https://github.com/Chalapa13/WorldGuard/",
                     ]));
                 }
                 break;
