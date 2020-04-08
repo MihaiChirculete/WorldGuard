@@ -1,14 +1,16 @@
 name: WorldGuard
 main: Chalapa13\WorldGuard\WorldGuard
 api: [3.0.0]
-version: 1.0.5.1
+version: 1.1.0.0
 author: Chalapa
 website: https://github.com/Chalapa13
 commands:
   worldguard:
+    description: Opens up the User Interface of WorldGuard.
     aliases: ["wg"]
     default: op
   region:
+    description: Create/Manage/Delete regions.
     aliases: ["rg"]
     default: op
 permissions:
