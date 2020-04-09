@@ -9,6 +9,7 @@
 This plugin is a port of the popular bukkit plugin called ["WorldGuard"](https://dev.bukkit.org/projects/worldguard). It was originally developed by [Muqsit](https://github.com/Muqsit), but more flags and extended capabilities were added by me.
 
 # Features
+- User friendly interface for users that prefer a menu rather than typing lenghty commands.   
 - Easily define regions in your world.
 - Set custom flags on defined regions that allow/restrict certain actions and events.
 - Delete/Modify already defined regions.
