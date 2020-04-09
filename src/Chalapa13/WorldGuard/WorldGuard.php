@@ -587,10 +587,6 @@ class WorldGuard extends PluginBase {
                                 return false;
                             }
                             if (isset($args[1])) {
-                                if (!ctype_alnum($args[1])) {
-                                    $issuer->sendMessage(TF::RED.'Region name must be alpha numeric.');
-                                    return false;
-                                }
                                 if ($this->regionExists($args[1])) {
                                     unset($this->regions[$args[1]]);
                                     foreach ($this->getServer()->getOnlinePlayers() as $player) {
