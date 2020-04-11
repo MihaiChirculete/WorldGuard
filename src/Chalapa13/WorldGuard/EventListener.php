@@ -24,7 +24,7 @@ namespace Chalapa13\WorldGuard;
 use pocketmine\block\Block;
 use pocketmine\event\block\{BlockPlaceEvent, BlockBreakEvent, LeavesDecayEvent, BlockGrowEvent, BlockSpreadEvent, BlockBurnEvent};
 use pocketmine\event\entity\{EntityDamageEvent, EntityDamageByEntityEvent, EntityDeathEvent, EntityExplodeEvent, ProjectileLaunchEvent};
-use pocketmine\event\Listener; 
+use pocketmine\event\Listener;
 use pocketmine\event\player\{PlayerJoinEvent, PlayerMoveEvent, PlayerInteractEvent, PlayerCommandPreprocessEvent, PlayerDropItemEvent, PlayerBedEnterEvent, PlayerChatEvent, PlayerItemHeldEvent};
 use pocketmine\item\Item;
 use pocketmine\item\Food;
@@ -34,6 +34,9 @@ use pocketmine\entity\{Entity, Animal, Monster};
 use pocketmine\plugin\MethodEventExecutor;
 use pocketmine\event\plugin\PluginEvent;
 use pocketmine\level\Position;
+use pocketmine\network\mcpe\protocol\{ServerSettingsRequestPacket, ServerSettingsResponsePacket};
+use ReflectionObject;
+use function json_encode;
 
 class EventListener implements Listener {
 

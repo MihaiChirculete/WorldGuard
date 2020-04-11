@@ -9,7 +9,7 @@ use pocketmine\command\CommandSender;
 use pocketmine\command\ConsoleCommandSender;
 use pocketmine\event\Listener;
 use pocketmine\event\player\{PlayerJoinEvent, PlayerMoveEvent, PlayerInteractEvent, PlayerCommandPreprocessEvent, PlayerDropItemEvent, PlayerBedEnterEvent, PlayerChatEvent, PlayerItemHeldEvent};
-use Chalapa13\WorldGuard\forms\{CustomForm, CustomFormResponse, MenuForm, ModalForm, ServerSettingsForm};
+use Chalapa13\WorldGuard\forms\{CustomForm, CustomFormResponse, MenuForm, ModalForm};
 use Chalapa13\WorldGuard\elements\{Button, Dropdown, Image, Input, Label, Slider, StepSlider, Toggle};
 use Chalapa13\WorldGuard\Region;
 
@@ -72,13 +72,17 @@ class GUI
         $issuer->sendForm(new CustomForm("§9§lRegion Creation",
             [
                 new Label("Let's help you create a region."),
-                new Label("First you will have to enter a name for your region."),
-                new Input("Enter a name for your region", "MyRegion"),
+                new Input("First you will have to enter a name for your region.", "MyRegion"),
+                new Label("If you want your region to expand infinitely upwards and downards check the following option."),
+                new Toggle("Expand vertically", false),
                 new Label("Now hit the §a'Submit'§r and select 2 corners of your region as you will be instructed next.")
             ],
             function(Player $player, CustomFormResponse $response) : void{
-                list($rgName) = $response->getValues();
-                $player->getServer()->dispatchCommand($player, "rg create $rgName");
+                list($rgName, $extended) = $response->getValues();
+                if($extended === true)
+                    $player->getServer()->dispatchCommand($player, "rg create $rgName extended");
+                else
+                    $player->getServer()->dispatchCommand($player, "rg create $rgName");
             }
         ));
     }
