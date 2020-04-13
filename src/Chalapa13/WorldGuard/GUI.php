@@ -176,7 +176,6 @@ class GUI
                     $damageAnimalsFlag, $damageMonstersFlag, $leafDecayFlag, $plantGrowthFlag, $spreadingFlag, $blockBurnFlag,
                     $priorityFlag) = $response->getValues();
 
-                var_dump($pvpFlag);
                 $player->getServer()->dispatchCommand($player, "rg flags set " . self::$currentlyEditedRg . " pvp " . var_export($pvpFlag, true));
                 $player->getServer()->dispatchCommand($player, "rg flags set " . self::$currentlyEditedRg . " exp-drops " . var_export($xpFlag, true));
                 $player->getServer()->dispatchCommand($player, "rg flags set " . self::$currentlyEditedRg . " invincible " . var_export($invincibleFlag, true));
