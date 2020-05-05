@@ -27,7 +27,7 @@ use pocketmine\math\Vector3;
 use pocketmine\level\Level;
 use pocketmine\Player;
 use pocketmine\utils\TextFormat as TF;
-use pocketmine\entity\Effect;
+use pocketmine\entity\{Effect, EffectInstance};
 
 class Region {
 
@@ -55,7 +55,7 @@ class Region {
         $this->flags = $flags;
 
         foreach ($this->flags["effects"] as $id => $amplifier) {
-            $this->effects[$id] = Effect::getEffect($id)->setAmplifier($amplifier)->setDuration(999999999);
+            $this->effects[$id] = new EffectInstance(Effect::getEffect($id), 999999999, $amplifier);
         }
 
         $this->vector1 = new Vector3(...$pos1);
@@ -119,14 +119,15 @@ class Region {
             if (isset($avalue[1])) {
                 if (is_numeric($avalue[1])) {
                     $this->flags["effects"][$value] = $avalue[1];
-                    $this->effects[$value] = Effect::getEffect($value)->setAmplifier(--$avalue[1])->setDuration(999999999);
-                    return TF::YELLOW.'Added "'.($this->effects[$value])->getName().' '.Utils::getRomanNumber(++$avalue[1]).'" effect to "'.$this->name.'" region.';
+                    $effectType = Effect::getEffect($value);
+                    $this->effects[$value] = new EffectInstance($effectType, 999999999, --$avalue[1]);
+                    return TF::YELLOW.'Added "'.($this->effects[$value])->getType()->getName().' '.Utils::getRomanNumber(++$avalue[1]).'" effect to "'.$this->name.'" region.';
                 } else {
                     return TF::RED."Amplifier must be numerical.\n".TF::GRAY.'Example: /region flags set '.$this->name.' '.$value.' 1';
                 }
             } else {
                 $this->flags["effects"][$value] = 0;
-                $this->effects[$value] = Effect::getEffect($value)->setAmplifier(0)->setDuration(999999999);
+                $this->effects[$value] = new EffectInstance(Effect::getEffect($value), 999999999, 0);
                 return TF::YELLOW.'Added "'.($this->effects[$value])->getName().' I" effect to "'.$this->name.'" region.';
             }
             return;
