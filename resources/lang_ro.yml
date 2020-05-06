@@ -1,0 +1,53 @@
+---
+author_name: Chalapa
+gui_wg_menu_title: Meniu World Guard
+gui_label_choose_option: Selecteaza o optiune
+gui_btn_rg_management: Gestionare Regiune
+gui_btn_help: Ajutor
+gui_btn_manage_existing: Gestioneaza o regiune existenta
+gui_btn_create_region: Creaza o regiune
+gui_btn_redefine_region: Redefineste o regiune
+gui_btn_delete_region: Sterge o regiune
+gui_creation_menu_title: Creare regiune
+gui_creation_menu_label1: Haide sa definim o regiune!
+gui_creation_menu_rg_name_box: In primul rand avem nevoie de un nume pentru regiune.
+gui_creation_menu_label2: Daca doresti ca regiunea ta sa se extinda infinit in sus si in jos bifeaza urmatoarea casuta.
+gui_creation_menu_toggle_expand: Extinde vertical
+gui_creation_menu_label3: "Acum apasa butonul \xA7a'Submit'\xA7r pentru a trece la urmatorul pas."
+gui_dropdown_select_redefine: Selecteaza regiunea pe care doresti sa o redefinesti
+gui_dropdown_select_delete: Selecteaza regiunea pe care doresti sa o stergi
+gui_dropdown_select_manage: Selecteaza regiunea pe care doresti sa o gestionezi
+gui_manage_menu_title: 'Se gestioneaza regiunea:'
+gui_flag_pvp: PvP
+gui_flag_xp_drops: Dropuri de experienta
+gui_flag_invincible: Invincibilitate
+gui_flag_fall_dmg: Damage la cadere
+gui_flag_usage: Utilizarea blockurilor (usi, butoane, etc...)
+gui_flag_item_drop: Dropuri de iteme
+gui_flag_explosions: Explozii
+gui_flag_notify_enter: Notificare intrare
+gui_flag_notify_leave: Notificare iesire
+gui_flag_potions: Permite potiuni
+gui_flag_allowed_enter: Permite intrarea
+gui_flag_allowed_leave: Permite iesirea
+gui_flag_gm: Gamemode
+gui_gm_survival: Survival
+gui_gm_creative: Creative
+gui_flag_sleep: Permite dormitul
+gui_flag_send_chat: Permite trimiterea mesajelor
+gui_flag_rcv_chat: Permite primirea mesajelor
+gui_flag_enderpearl: Permite folosirea de enderpearl
+gui_flag_fly_mode: Mod zbor
+gui_enabled: Activat
+gui_disabled: Dezactivat
+gui_flag_eat: Permite mancat
+gui_flag_dmg_animals: Permite lovirea animalelor
+gui_flag_dmg_monsters: Permite lovirea monstrilor
+gui_flag_leaf_decay: Permite uscarea frunzelor
+gui_flag_plant_growth: Permite cresterea plantelor
+gui_flag_spread: Permite imprastierea
+gui_flag_block_burn: Permite arderea blocurilor
+gui_flag_priority: Prioritatea regiunii
+gui_help_menu_label1: 'Daca ai nevoie de ajutor vezi tutorialul pregatit pentru tine:'
+gui_help_menu_label2: http://worldguard.ddns.net/tutorial
+...
