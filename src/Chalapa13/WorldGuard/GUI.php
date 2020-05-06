@@ -20,9 +20,11 @@ class GUI
 
     public static function displayMenu(CommandSender $issuer)
     {
+        $lang = Utils::getPluginFromIssuer($issuer)->lang;
+
         $issuer->sendForm(new MenuForm(
-            "§9§lWorld Guard Menu", "Choose an option", [new Button("§6§lRegion Management", new Image("textures/items/book_writable", "path")),
-            new Button("§5§lHelp")],
+            "§9§l". $lang["gui_wg_menu_title"], $lang["gui_label_choose_option"], [new Button("§6§l". $lang["gui_btn_rg_management"], new Image("textures/items/book_writable", "path")),
+            new Button("§5§l". $lang["gui_btn_help"])],
             function(Player $player, Button $selected) : void{
 
                 switch ($selected->getValue())
@@ -40,12 +42,14 @@ class GUI
 
     public static function displayRgManagement(Player $issuer)
     {
+        $lang = Utils::getPluginFromIssuer($issuer)->lang;
+
         $issuer->sendForm(new MenuForm(
-            "§9§lRegion Management", "Choose an option",
-            [new Button("Manage existing region"),
-            new Button("Create a new region"),
-            new Button("Redefine a region"),
-            new Button("Delete a region")],
+            "§9§l" . $lang["gui_btn_rg_management"], $lang["gui_label_choose_option"],
+            [new Button($lang["gui_btn_manage_existing"]),
+            new Button($lang["gui_btn_create_region"]),
+            new Button($lang["gui_btn_redefine_region"]),
+            new Button($lang["gui_btn_delete_region"])],
             function(Player $player, Button $selected) : void{
 
                 switch ($selected->getValue())
@@ -69,13 +73,15 @@ class GUI
 
     public static function displayRgCreation(Player $issuer)
     {
-        $issuer->sendForm(new CustomForm("§9§lRegion Creation",
+        $lang = Utils::getPluginFromIssuer($issuer)->lang;
+
+        $issuer->sendForm(new CustomForm("§9§l" . $lang["gui_creation_menu_title"],
             [
-                new Label("Let's help you create a region."),
-                new Input("First you will have to enter a name for your region.", "MyRegion"),
-                new Label("If you want your region to expand infinitely upwards and downards check the following option."),
-                new Toggle("Expand vertically", false),
-                new Label("Now hit the §a'Submit'§r and select 2 corners of your region as you will be instructed next.")
+                new Label($lang["gui_creation_menu_label1"]),
+                new Input($lang["gui_creation_menu_rg_name_box"], "MyRegion"),
+                new Label($lang["gui_creation_menu_label2"]),
+                new Toggle($lang["gui_creation_menu_toggle_expand"], false),
+                new Label($lang["gui_creation_menu_label3"])
             ],
             function(Player $player, CustomFormResponse $response) : void{
                 list($rgName, $extended) = $response->getValues();
@@ -89,11 +95,13 @@ class GUI
 
     public static function displayRgRedefine(Player $issuer)
     {
-        $regions = array_keys($issuer->getServer()->getPluginManager()->getPlugin("WorldGuard")->getRegions());
+        $lang = Utils::getPluginFromIssuer($issuer)->lang;
 
-        $issuer->sendForm(new CustomForm("§9§lRegion Management",
+        $regions = array_keys(Utils::getPluginFromIssuer($issuer)->getRegions());
+
+        $issuer->sendForm(new CustomForm("§9§l" . $lang["gui_btn_rg_management"],
             [
-                new Dropdown("Select the region you would like to redefine", $regions),
+                new Dropdown($lang["gui_dropdown_select_redefine"], $regions),
             ],
             function(Player $player, CustomFormResponse $response) : void{
                 list($rgName) = $response->getValues();
@@ -104,11 +112,13 @@ class GUI
 
     public static function displayRgDelete(Player $issuer)
     {
+        $lang = Utils::getPluginFromIssuer($issuer)->lang;
+
         $regions = array_keys($issuer->getServer()->getPluginManager()->getPlugin("WorldGuard")->getRegions());
 
-        $issuer->sendForm(new CustomForm("§9§lRegion Management",
+        $issuer->sendForm(new CustomForm("§9§l" . $lang["gui_btn_rg_management"],
             [
-                new Dropdown("Select the region you would like to delete", $regions),
+                new Dropdown($lang["gui_dropdown_select_delete"], $regions),
             ],
             function(Player $player, CustomFormResponse $response) : void{
                 list($rgName) = $response->getValues();
@@ -119,11 +129,12 @@ class GUI
 
     public static function displayExistingRegions(Player $issuer)
     {
+        $lang = Utils::getPluginFromIssuer($issuer)->lang;
         $regions = array_keys($issuer->getServer()->getPluginManager()->getPlugin("WorldGuard")->getRegions());
 
-        $issuer->sendForm(new CustomForm("§9§lRegion Management",
+        $issuer->sendForm(new CustomForm("§9§l" . $lang["gui_btn_rg_management"],
             [
-                new Dropdown("Select the region you would like to manage", $regions),
+                new Dropdown($lang["gui_dropdown_select_manage"], $regions),
             ],
             function(Player $player, CustomFormResponse $response) : void{
                 list($rgName) = $response->getValues();
@@ -137,37 +148,39 @@ class GUI
         $rg = $issuer->getServer()->getPluginManager()->getPlugin("WorldGuard")->getRegion($rgName);
         self::$currentlyEditedRg = $rgName;
 
-        $issuer->sendForm(new CustomForm("Managing region: §9" . $rgName,
+        $lang = Utils::getPluginFromIssuer($issuer)->lang;
+
+        $issuer->sendForm(new CustomForm($lang["gui_manage_menu_title"] . " §9" . $rgName,
             [
-                new Toggle("PvP", filter_var($rg->getFlag("pvp"), FILTER_VALIDATE_BOOLEAN)),
-                new Toggle("Experience drops", filter_var($rg->getFlag("exp-drops"), FILTER_VALIDATE_BOOLEAN)),
-                new Toggle("Invincible", filter_var($rg->getFlag("invincible"), FILTER_VALIDATE_BOOLEAN)),
-                new Toggle("Fall damage",filter_var($rg->getFlag("fall-dmg"), FILTER_VALIDATE_BOOLEAN)),
+                new Toggle($lang["gui_flag_pvp"], filter_var($rg->getFlag("pvp"), FILTER_VALIDATE_BOOLEAN)),
+                new Toggle($lang["gui_flag_xp_drops"], filter_var($rg->getFlag("exp-drops"), FILTER_VALIDATE_BOOLEAN)),
+                new Toggle($lang["gui_flag_invincible"], filter_var($rg->getFlag("invincible"), FILTER_VALIDATE_BOOLEAN)),
+                new Toggle($lang["gui_flag_fall_dmg"],filter_var($rg->getFlag("fall-dmg"), FILTER_VALIDATE_BOOLEAN)),
                 // add flag for effects
                 // add flag for blocked commands
                 // add flag for allowed commands
-                new Toggle("Use", filter_var($rg->getFlag("use"), FILTER_VALIDATE_BOOLEAN)),
-                new Toggle("Item drop", filter_var($rg->getFlag("item-drop"), FILTER_VALIDATE_BOOLEAN)),
-                new Toggle("Explosions", filter_var($rg->getFlag("explosion"), FILTER_VALIDATE_BOOLEAN)),
-                new Input("Notify enter", $rg->getFlag("notify-enter")),
-                new Input("Notify leave", $rg->getFlag("notify-leave")),
-                new Toggle("Potions", filter_var($rg->getFlag("potions"), FILTER_VALIDATE_BOOLEAN)),
-                new Toggle("Allowed enter", filter_var($rg->getFlag("allowed-enter"), FILTER_VALIDATE_BOOLEAN)),
-                new Toggle("Allowed leave", filter_var($rg->getFlag("allowed-leave"), FILTER_VALIDATE_BOOLEAN)),
-                new Dropdown("Gamemode", ["Survival", "Creative"]),
-                new Toggle("Allow sleeping", filter_var($rg->getFlag("sleep"), FILTER_VALIDATE_BOOLEAN)),
-                new Toggle("Allow sending chat messages", filter_var($rg->getFlag("send-chat"), FILTER_VALIDATE_BOOLEAN)),
-                new Toggle("Allow receiving chat messages", filter_var($rg->getFlag("receive-chat"), FILTER_VALIDATE_BOOLEAN)),
-                new Toggle("Allow use of ender pearls", filter_var($rg->getFlag("enderpearl"), FILTER_VALIDATE_BOOLEAN)),
-                new Dropdown("Fly mode", ["Vanilla", "Enabled", "Disabled", "Supervised"]),
-                new Toggle("Allow eating", filter_var($rg->getFlag("eat"), FILTER_VALIDATE_BOOLEAN)),
-                new Toggle("Allow damaging of animals", filter_var($rg->getFlag("allow-damage-animals"), FILTER_VALIDATE_BOOLEAN)),
-                new Toggle("Allow damaging of monsters", filter_var($rg->getFlag("allow-damage-monsters"), FILTER_VALIDATE_BOOLEAN)),
-                new Toggle("Allow leaf decay", filter_var($rg->getFlag("allow-leaves-decay"), FILTER_VALIDATE_BOOLEAN)),
-                new Toggle("Allow plant growth", filter_var($rg->getFlag("allow-plant-growth"), FILTER_VALIDATE_BOOLEAN)),
-                new Toggle("Allow spreading", filter_var($rg->getFlag("allow-spreading"), FILTER_VALIDATE_BOOLEAN)),
-                new Toggle("Allow block burn", filter_var($rg->getFlag("allow-block-burn"), FILTER_VALIDATE_BOOLEAN)),
-                new Input("Region priority", filter_var($rg->getFlag("priority"), FILTER_VALIDATE_INT))
+                new Toggle($lang["gui_flag_usage"], filter_var($rg->getFlag("use"), FILTER_VALIDATE_BOOLEAN)),
+                new Toggle($lang["gui_flag_item_drop"], filter_var($rg->getFlag("item-drop"), FILTER_VALIDATE_BOOLEAN)),
+                new Toggle($lang["gui_flag_explosions"], filter_var($rg->getFlag("explosion"), FILTER_VALIDATE_BOOLEAN)),
+                new Input($lang["gui_flag_notify_enter"], $rg->getFlag("notify-enter")),
+                new Input($lang["gui_flag_notify_leave"], $rg->getFlag("notify-leave")),
+                new Toggle($lang["gui_flag_potions"], filter_var($rg->getFlag("potions"), FILTER_VALIDATE_BOOLEAN)),
+                new Toggle($lang["gui_flag_allowed_enter"], filter_var($rg->getFlag("allowed-enter"), FILTER_VALIDATE_BOOLEAN)),
+                new Toggle($lang["gui_flag_allowed_leave"], filter_var($rg->getFlag("allowed-leave"), FILTER_VALIDATE_BOOLEAN)),
+                new Dropdown($lang["gui_flag_gm"], [$lang["gui_gm_survival"], $lang["gui_gm_creative"]]),
+                new Toggle($lang["gui_flag_sleep"], filter_var($rg->getFlag("sleep"), FILTER_VALIDATE_BOOLEAN)),
+                new Toggle($lang["gui_flag_send_chat"], filter_var($rg->getFlag("send-chat"), FILTER_VALIDATE_BOOLEAN)),
+                new Toggle($lang["gui_flag_rcv_chat"], filter_var($rg->getFlag("receive-chat"), FILTER_VALIDATE_BOOLEAN)),
+                new Toggle($lang["gui_flag_enderpearl"], filter_var($rg->getFlag("enderpearl"), FILTER_VALIDATE_BOOLEAN)),
+                new Dropdown($lang["gui_flag_fly_mode"], ["Vanilla", $lang["gui_enabled"], $lang["gui_disabled"], "Supervised"]),
+                new Toggle($lang["gui_flag_eat"], filter_var($rg->getFlag("eat"), FILTER_VALIDATE_BOOLEAN)),
+                new Toggle($lang["gui_flag_dmg_animals"], filter_var($rg->getFlag("allow-damage-animals"), FILTER_VALIDATE_BOOLEAN)),
+                new Toggle($lang["gui_flag_dmg_monsters"], filter_var($rg->getFlag("allow-damage-monsters"), FILTER_VALIDATE_BOOLEAN)),
+                new Toggle($lang["gui_flag_leaf_decay"], filter_var($rg->getFlag("allow-leaves-decay"), FILTER_VALIDATE_BOOLEAN)),
+                new Toggle($lang["gui_flag_plant_growth"], filter_var($rg->getFlag("allow-plant-growth"), FILTER_VALIDATE_BOOLEAN)),
+                new Toggle($lang["gui_flag_spread"], filter_var($rg->getFlag("allow-spreading"), FILTER_VALIDATE_BOOLEAN)),
+                new Toggle($lang["gui_flag_block_burn"], filter_var($rg->getFlag("allow-block-burn"), FILTER_VALIDATE_BOOLEAN)),
+                new Input($lang["gui_flag_priority"], filter_var($rg->getFlag("priority"), FILTER_VALIDATE_INT))
             ],
             function(Player $player, CustomFormResponse $response) : void{
                 list($pvpFlag, $xpFlag, $invincibleFlag, $fallDmgFlag, $useFlag, $itemDropFlag, $explosionsFlag,
@@ -175,6 +188,8 @@ class GUI
                     $gamemodeFlag, $sleepFlag, $sendChatFlag, $receiveChatFlag, $enderPearlFlag, $flyModeFlag, $eatingFlag,
                     $damageAnimalsFlag, $damageMonstersFlag, $leafDecayFlag, $plantGrowthFlag, $spreadingFlag, $blockBurnFlag,
                     $priorityFlag) = $response->getValues();
+
+                $lang = Utils::getPluginFromIssuer($player)->lang;
 
                 $player->getServer()->dispatchCommand($player, "rg flags set " . self::$currentlyEditedRg . " pvp " . var_export($pvpFlag, true));
                 $player->getServer()->dispatchCommand($player, "rg flags set " . self::$currentlyEditedRg . " exp-drops " . var_export($xpFlag, true));
@@ -188,22 +203,34 @@ class GUI
                 $player->getServer()->dispatchCommand($player, "rg flags set " . self::$currentlyEditedRg . " potions " . var_export($potionsFlag, true));
                 $player->getServer()->dispatchCommand($player, "rg flags set " . self::$currentlyEditedRg . " allowed-enter " . var_export($allowEnterFlag, true));
                 $player->getServer()->dispatchCommand($player, "rg flags set " . self::$currentlyEditedRg . " allowed-leave " . var_export($allowLeaveFlag, true));
-                $player->getServer()->dispatchCommand($player, "rg flags set " . self::$currentlyEditedRg . " game-mode " . strtolower($gamemodeFlag));
                 $player->getServer()->dispatchCommand($player, "rg flags set " . self::$currentlyEditedRg . " sleep " . var_export($sleepFlag, true));
                 $player->getServer()->dispatchCommand($player, "rg flags set " . self::$currentlyEditedRg . " send-chat " . var_export($sendChatFlag, true));
                 $player->getServer()->dispatchCommand($player, "rg flags set " . self::$currentlyEditedRg . " receive-chat " . var_export($receiveChatFlag, true));
                 $player->getServer()->dispatchCommand($player, "rg flags set " . self::$currentlyEditedRg . " enderpearl " . var_export($enderPearlFlag, true));
+
+                switch ($gamemodeFlag)
+                {
+                    case $lang["gui_gm_survival"]:
+                        $player->getServer()->dispatchCommand($player, "rg flags set " . self::$currentlyEditedRg . " game-mode survival");
+                        break;
+
+                    case $lang["gui_gm_creative"]:
+                        $player->getServer()->dispatchCommand($player, "rg flags set " . self::$currentlyEditedRg . " game-mode creative");
+                        break;
+                }
+
+
                 switch ($flyModeFlag)
                 {
                     case "Vanilla":
                         $player->getServer()->dispatchCommand($player, "rg flags set " . self::$currentlyEditedRg . " fly-mode 0");
                         break;
 
-                    case "Enabled":
+                    case $lang["gui_enabled"]:
                         $player->getServer()->dispatchCommand($player, "rg flags set " . self::$currentlyEditedRg . " fly-mode 1");
                         break;
 
-                    case "Disabled":
+                    case $lang["gui_disabled"]:
                         $player->getServer()->dispatchCommand($player, "rg flags set " . self::$currentlyEditedRg . " fly-mode 2");
                         break;
 
@@ -228,10 +255,12 @@ class GUI
 
     public static function displayHelpMenu(Player $issuer)
     {
-        $issuer->sendForm(new CustomForm("§9§lHelp",
+        $lang = Utils::getPluginFromIssuer($issuer)->lang;
+
+        $issuer->sendForm(new CustomForm("§9§l" . $lang["gui_btn_help"],
             [
-                new Label("If you need help setting up world guard check out the tutorial we made for you:"),
-                new Label("§9§lhttps://github.com/Chalapa13/WorldGuard/wiki/Tutorial")
+                new Label($lang["gui_help_menu_label1"]),
+                new Label($lang["gui_help_menu_label2"])
             ],
             function(Player $player, CustomFormResponse $response) : void{}
         ));

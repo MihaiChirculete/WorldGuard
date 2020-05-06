@@ -253,4 +253,11 @@ class Utils {
             for($j=$z1; $j<=$z2; $j++)
                 $plugin->getServer()->getLevelByName($reg->getLevelName())->setBiomeId($i, $j, self::biomeParse($biomeName));
     }
+
+    // given an issuer object, returns the plugin object
+    // useful for static functions when you need the plugin refference
+    public static function getPluginFromIssuer(Player $issuer)
+    {
+        return $issuer->getServer()->getPluginManager()->getPlugin("WorldGuard");
+    }
 }
