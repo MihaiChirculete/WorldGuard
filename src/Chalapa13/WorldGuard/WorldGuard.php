@@ -134,6 +134,8 @@ class WorldGuard extends PluginBase {
 
     public $pureEntitiesPlugin = null;
 
+    private $pluginVersion = "1.1.0.1";
+
     public function onEnable()
     {
         if (!is_dir($path = $this->getDataFolder())) {
@@ -156,7 +158,9 @@ class WorldGuard extends PluginBase {
             $this->config = yaml_parse_file($path.'config.yml');
         } else {
             $this->config = array(
-                "language" => "en"
+                "version" => $this->pluginVersion,
+                "language" => "en",
+                "debugging" => false
             );
 
             yaml_emit_file($path.'config.yml', $this->config);
@@ -173,6 +177,7 @@ class WorldGuard extends PluginBase {
             yaml_emit_file($path.'config.yml', $this->config);
 
             $this->lang = array(
+                "version" => $this->pluginVersion,
                 "author_name" => "Chalapa",
                 "gui_wg_menu_title" => "World Guard Menu",
                 "gui_label_choose_option" => "Choose an option",
@@ -238,6 +243,7 @@ class WorldGuard extends PluginBase {
         }
         else{
             $this->messages = array (
+                "version" => $this->pluginVersion,
                 "denied-enter" => "You cannot enter this area.",
                 "denied-leave" => "You cannot leave this area.",
                 "no-permission-for-command" => "You do not have permission to use this command.",
@@ -356,6 +362,17 @@ class WorldGuard extends PluginBase {
         $new = $this->getRegion($newregion);
         $old = $this->getRegion($oldregion);
 
+        if($this->config["debugging"] === true)
+            if(gettype($new) === "string")
+                $this->getLogger()->info("New Region is empty");
+            else
+                $this->getLogger()->info("New Region: " . $new->getName());
+        if($this->config["debugging"] === true)
+            if(gettype($old) === "string")
+                $this->getLogger()->info("Old Region is empty");
+            else
+                $this->getLogger()->info("Old Region: " . $old->getName());
+
         if ($old !== "") {
             if ($old->getFlag("allowed-leave") === "false") 
             {
@@ -433,13 +450,56 @@ class WorldGuard extends PluginBase {
                         break;
                 }
             }
-           /* $effects =  $new->getEffects();
-            if (!empty($effects)) {
-                $player->removeAllEffects();
-                foreach ($effects as $effect) {
+
+            if($new != null && !empty($new)) {
+                if($this->config["debugging"] === true)
+                    $this->getLogger()->info("Getting new effects");
+
+                $newRegionEffects = $new->getEffects();
+            }
+            else {
+                if($this->config["debugging"] === true)
+                    $this->getLogger()->info("New region is null so no effects will be added");
+
+                $newRegionEffects = null;
+            }
+
+            if($old != null && !empty($old)) {
+                if($this->config["debugging"] === true)
+                    $this->getLogger()->info("Getting old effects for removal process.");
+
+                $oldRegionEffects = $old->getEffects();
+            }
+            else {
+                if($this->config["debugging"] === true)
+                    $this->getLogger()->info("Old region is null so no effects will be removed");
+
+                $oldRegionEffects = null;
+            }
+
+            // iterate all old effects and remove them
+            if(!empty($oldRegionEffects) && $oldRegionEffects != null)
+            {
+                if($this->config["debugging"] === true)
+                    $this->getLogger()->info("Removing old effects");
+                foreach ($oldRegionEffects as $effect) {
+                    $player->removeEffect($effect);
+                }
+            }
+
+            // iterate all new effects and add them
+            if (!empty($newRegionEffects) && $newRegionEffects != null)
+            {
+                if($this->config["debugging"] === true)
+                    $this->getLogger()->info("Adding new effects");
+                foreach ($newRegionEffects as $effect) {
                     $player->addEffect($effect);
                 }
-            }*/
+            }
+            else
+            {
+                $player->removeAllEffects();
+            }
         }
 
         /*
