@@ -38,43 +38,30 @@ class ResourceManager
     public function getMessages() { return $this->messages; }
     public function getRegions() : array { return $this->regions; }
 
-    /** Helper functions to check if a resource file is outdated */
-    public function isConfigResourceOutdated() : bool
+    public function getConfigVersion()
     {
-        /** Old versions do not have this field so if its not set its obviously an outdated one */
-        if(!isset($this->config['version']))
-            return true;
+        if(isset($this->config['version']))
+            return $this->config['version'];
 
-        if($this->config['version'] !== $this->pluginVersion)
-            return true;
-
-        return false;
+        return null;
     }
 
-    public function isMessagesResourceOutdated() : bool
+    public function getLanguagePackVersion()
     {
-        /** Old versions do not have this field so if its not set its obviously an outdated one */
-        if(!isset($this->messages['version']))
-            return true;
+        if(isset($this->lang['version']))
+            return $this->lang['version'];
 
-        if($this->messages['version'] !== $this->pluginVersion)
-            return true;
-
-        return false;
+        return null;
     }
 
-    public function isLanguagePackResourceOutdated() : bool
+    public function getMessagesVersion()
     {
-        /** Old versions do not have this field so if its not set its obviously an outdated one */
-        if(!isset($this->lang['version']))
-            return true;
+        if(isset($this->messages['version']))
+            return $this->messages['version'];
 
-        if($this->lang['version'] !== $this->pluginVersion)
-            return true;
-
-        return false;
+        return null;
     }
-    /****************************************************************** */
+
 
     public function loadResources()
     {

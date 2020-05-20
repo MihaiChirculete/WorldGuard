@@ -26,6 +26,50 @@ class ResourceUpdater
         return ResourceUpdater::$instance;
     }
 
+    /** Helper functions to check if a resource file is outdated */
+    public function isConfigResourceOutdated() : bool
+    {
+        $ver = $this->resouceManagerInstance->getConfigVersion();
+
+        /** Old versions do not have this field so if its not set its obviously an outdated one */
+        if($ver === null)
+            return true;
+
+        if($ver !== $this->pluginVersion)
+            return true;
+
+        return false;
+    }
+
+    public function isMessagesResourceOutdated() : bool
+    {
+        $ver = $this->resouceManagerInstance->getMessagesVersion();
+
+        /** Old versions do not have this field so if its not set its obviously an outdated one */
+        if($ver === null)
+            return true;
+
+        if($ver !== $this->pluginVersion)
+            return true;
+
+        return false;
+    }
+
+    public function isLanguagePackResourceOutdated() : bool
+    {
+        $ver = $this->resouceManagerInstance->getLanguagePackVersion();
+
+        /** Old versions do not have this field so if its not set its obviously an outdated one */
+        if($ver === null)
+            return true;
+
+        if($ver !== $this->pluginVersion)
+            return true;
+
+        return false;
+    }
+    /****************************************************************** */
+
     /** TO-DO: Code this function */
     public function updateResourcesIfRequired()
     {
