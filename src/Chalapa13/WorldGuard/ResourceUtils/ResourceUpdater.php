@@ -25,4 +25,10 @@ class ResourceUpdater
 
         return ResourceUpdater::$instance;
     }
+
+    /** TO-DO: Code this function */
+    public function updateResourcesIfRequired()
+    {
+
+    }
 }
