@@ -38,6 +38,44 @@ class ResourceManager
     public function getMessages() { return $this->messages; }
     public function getRegions() : array { return $this->regions; }
 
+    /** Helper functions to check if a resource file is outdated */
+    public function isConfigResourceOutdated() : bool
+    {
+        /** Old versions do not have this field so if its not set its obviously an outdated one */
+        if(!isset($this->config['version']))
+            return true;
+
+        if($this->config['version'] !== $this->pluginVersion)
+            return true;
+
+        return false;
+    }
+
+    public function isMessagesResourceOutdated() : bool
+    {
+        /** Old versions do not have this field so if its not set its obviously an outdated one */
+        if(!isset($this->messages['version']))
+            return true;
+
+        if($this->messages['version'] !== $this->pluginVersion)
+            return true;
+
+        return false;
+    }
+
+    public function isLanguagePackResourceOutdated() : bool
+    {
+        /** Old versions do not have this field so if its not set its obviously an outdated one */
+        if(!isset($this->lang['version']))
+            return true;
+
+        if($this->lang['version'] !== $this->pluginVersion)
+            return true;
+
+        return false;
+    }
+    /****************************************************************** */
+
     public function loadResources()
     {
         if (!is_dir($path = $this->pluginInstance->getDataFolder())) {
