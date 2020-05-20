@@ -249,12 +249,12 @@ class WorldGuard extends PluginBase {
         $new = $this->getRegion($newregion);
         $old = $this->getRegion($oldregion);
 
-        if($this->resourceManager->getConfig["debugging"] === true)
+        if($this->resourceManager->getConfig()["debugging"] === true)
             if(gettype($new) === "string")
                 $this->getLogger()->info("New Region is empty");
             else
                 $this->getLogger()->info("New Region: " . $new->getName());
-        if($this->resourceManager->getConfig["debugging"] === true)
+        if($this->resourceManager->getConfig()["debugging"] === true)
             if(gettype($old) === "string")
                 $this->getLogger()->info("Old Region is empty");
             else
@@ -339,26 +339,26 @@ class WorldGuard extends PluginBase {
             }
 
             if($new != null && !empty($new)) {
-                if($this->resourceManager->getConfig["debugging"] === true)
+                if($this->resourceManager->getConfig()["debugging"] === true)
                     $this->getLogger()->info("Getting new effects");
 
                 $newRegionEffects = $new->getEffects();
             }
             else {
-                if($this->resourceManager->getConfig["debugging"] === true)
+                if($this->resourceManager->getConfig()["debugging"] === true)
                     $this->getLogger()->info("New region is null so no effects will be added");
 
                 $newRegionEffects = null;
             }
 
             if($old != null && !empty($old)) {
-                if($this->resourceManager->getConfig["debugging"] === true)
+                if($this->resourceManager->getConfig()["debugging"] === true)
                     $this->getLogger()->info("Getting old effects for removal process.");
 
                 $oldRegionEffects = $old->getEffects();
             }
             else {
-                if($this->resourceManager->getConfig["debugging"] === true)
+                if($this->resourceManager->getConfig()["debugging"] === true)
                     $this->getLogger()->info("Old region is null so no effects will be removed");
 
                 $oldRegionEffects = null;
@@ -367,7 +367,7 @@ class WorldGuard extends PluginBase {
             // iterate all old effects and remove them
             if(!empty($oldRegionEffects) && $oldRegionEffects != null)
             {
-                if($this->resourceManager->getConfig["debugging"] === true)
+                if($this->resourceManager->getConfig()["debugging"] === true)
                     $this->getLogger()->info("Removing old effects");
                 foreach ($oldRegionEffects as $effect) {
                     $player->removeEffect($effect);
@@ -377,7 +377,7 @@ class WorldGuard extends PluginBase {
             // iterate all new effects and add them
             if (!empty($newRegionEffects) && $newRegionEffects != null)
             {
-                if($this->resourceManager->getConfig["debugging"] === true)
+                if($this->resourceManager->getConfig()["debugging"] === true)
                     $this->getLogger()->info("Adding new effects");
                 foreach ($newRegionEffects as $effect) {
                     $player->addEffect($effect);
