@@ -40,7 +40,7 @@ class ResourceManager
 
     public function loadResources()
     {
-        if (!is_dir($path = $this->getDataFolder())) {
+        if (!is_dir($path = $this->pluginInstance->getDataFolder())) {
             mkdir($path);
         }
 
