@@ -189,7 +189,7 @@ class GUI
                     $damageAnimalsFlag, $damageMonstersFlag, $leafDecayFlag, $plantGrowthFlag, $spreadingFlag, $blockBurnFlag,
                     $priorityFlag) = $response->getValues();
 
-                $lang = Utils::getPluginFromIssuer($player)->lang;
+                $lang = Utils::getPluginFromIssuer($player)->resourceManager->lang;
 
                 $player->getServer()->dispatchCommand($player, "rg flags set " . self::$currentlyEditedRg . " pvp " . var_export($pvpFlag, true));
                 $player->getServer()->dispatchCommand($player, "rg flags set " . self::$currentlyEditedRg . " exp-drops " . var_export($xpFlag, true));
