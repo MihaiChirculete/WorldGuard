@@ -20,7 +20,7 @@ class GUI
 
     public static function displayMenu(CommandSender $issuer)
     {
-        $lang = Utils::getPluginFromIssuer($issuer)->lang;
+        $lang = Utils::getPluginFromIssuer($issuer)->resourceManager->getLanguagePack();
 
         $issuer->sendForm(new MenuForm(
             "§9§l". $lang["gui_wg_menu_title"], $lang["gui_label_choose_option"], [new Button("§6§l". $lang["gui_btn_rg_management"], new Image("textures/items/book_writable", "path")),
@@ -42,7 +42,7 @@ class GUI
 
     public static function displayRgManagement(Player $issuer)
     {
-        $lang = Utils::getPluginFromIssuer($issuer)->lang;
+        $lang = Utils::getPluginFromIssuer($issuer)->resourceManager->getLanguagePack();
 
         $issuer->sendForm(new MenuForm(
             "§9§l" . $lang["gui_btn_rg_management"], $lang["gui_label_choose_option"],
@@ -73,7 +73,7 @@ class GUI
 
     public static function displayRgCreation(Player $issuer)
     {
-        $lang = Utils::getPluginFromIssuer($issuer)->lang;
+        $lang = Utils::getPluginFromIssuer($issuer)->resourceManager->getLanguagePack();
 
         $issuer->sendForm(new CustomForm("§9§l" . $lang["gui_creation_menu_title"],
             [
@@ -95,7 +95,7 @@ class GUI
 
     public static function displayRgRedefine(Player $issuer)
     {
-        $lang = Utils::getPluginFromIssuer($issuer)->lang;
+        $lang = Utils::getPluginFromIssuer($issuer)->resourceManager->getLanguagePack();
 
         $regions = array_keys(Utils::getPluginFromIssuer($issuer)->getRegions());
 
@@ -112,7 +112,7 @@ class GUI
 
     public static function displayRgDelete(Player $issuer)
     {
-        $lang = Utils::getPluginFromIssuer($issuer)->lang;
+        $lang = Utils::getPluginFromIssuer($issuer)->resourceManager->getLanguagePack();
 
         $regions = array_keys($issuer->getServer()->getPluginManager()->getPlugin("WorldGuard")->getRegions());
 
@@ -129,7 +129,7 @@ class GUI
 
     public static function displayExistingRegions(Player $issuer)
     {
-        $lang = Utils::getPluginFromIssuer($issuer)->lang;
+        $lang = Utils::getPluginFromIssuer($issuer)->resourceManager->getLanguagePack();
         $regions = array_keys($issuer->getServer()->getPluginManager()->getPlugin("WorldGuard")->getRegions());
 
         $issuer->sendForm(new CustomForm("§9§l" . $lang["gui_btn_rg_management"],
@@ -148,7 +148,7 @@ class GUI
         $rg = $issuer->getServer()->getPluginManager()->getPlugin("WorldGuard")->getRegion($rgName);
         self::$currentlyEditedRg = $rgName;
 
-        $lang = Utils::getPluginFromIssuer($issuer)->lang;
+        $lang = Utils::getPluginFromIssuer($issuer)->resourceManager->getLanguagePack();
 
         $issuer->sendForm(new CustomForm($lang["gui_manage_menu_title"] . " §9" . $rgName,
             [
@@ -255,7 +255,7 @@ class GUI
 
     public static function displayHelpMenu(Player $issuer)
     {
-        $lang = Utils::getPluginFromIssuer($issuer)->lang;
+        $lang = Utils::getPluginFromIssuer($issuer)->resourceManager->getLanguagePack();
 
         $issuer->sendForm(new CustomForm("§9§l" . $lang["gui_btn_help"],
             [

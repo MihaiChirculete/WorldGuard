@@ -32,6 +32,7 @@ use pocketmine\permission\{Permission, Permissible, PermissionManager};
 use pocketmine\network\mcpe\protocol\SetTimePacket;
 use pocketmine\Server;
 use revivalpmmp\pureentities\event\CreatureSpawnEvent;
+use Chalapa13\WorldGuard\ResourceManager;
 
 class WorldGuard extends PluginBase {
 
@@ -127,139 +128,25 @@ class WorldGuard extends PluginBase {
     private $players = [];
     public $muted = [];
 
-    public $messages = [];
-
-    public $lang = [];
-    public $config = [];
-
     public $pureEntitiesPlugin = null;
 
     private $pluginVersion = "1.1.0.1";
 
+    private $sponsorAdMessage = "\n\n\n\n\n\n\n\n§l§9YOUR ADVERTISMENT HERE\n\n\n\n\n\n\n\n";
+
+
+    public $resourceManager = null;
+
     public function onEnable()
     {
-        if (!is_dir($path = $this->getDataFolder())) {
-            mkdir($path);
-        }
 
-        /**
-         * load regions if file exists and if not create a file
-         */
-        if (is_file($path.'regions.yml')) {
-            $regions = yaml_parse_file($path.'regions.yml');
-        } else {
-            yaml_emit_file($path.'regions.yml', []);
-        }
+        /** Display a message from our sponsor here */
+        $this->getLogger()->info($this->sponsorAdMessage);
 
-        /**
-         * load config if file exists and if not create a file
-         */
-        if (is_file($path.'config.yml')) {
-            $this->config = yaml_parse_file($path.'config.yml');
-        } else {
-            $this->config = array(
-                "version" => $this->pluginVersion,
-                "language" => "en",
-                "debugging" => false
-            );
+        $this->resourceManager = ResourceManager::getInstance($this, $this->getServer());
+        $this->resourceManager->loadResources();
 
-            yaml_emit_file($path.'config.yml', $this->config);
-        }
-
-        /**
-         * load language file
-         */
-        if (is_file($path . "lang_" . $this->config["language"] . ".yml")) {
-            $this->lang = yaml_parse_file($path . "lang_" . $this->config["language"] . ".yml");
-        } else {
-            // if the file does not exist, generate a default english one and use that file
-            $this->config["language"] = "en";
-            yaml_emit_file($path.'config.yml', $this->config);
-
-            $this->lang = array(
-                "version" => $this->pluginVersion,
-                "author_name" => "Chalapa",
-                "gui_wg_menu_title" => "World Guard Menu",
-                "gui_label_choose_option" => "Choose an option",
-                "gui_btn_rg_management" => "Region Management",
-                "gui_btn_help" => "Help",
-                "gui_btn_manage_existing" => "Manage existing region",
-                "gui_btn_create_region" => "Create a new region",
-                "gui_btn_redefine_region" => "Redefine a region",
-                "gui_btn_delete_region" => "Delete a region",
-                "gui_creation_menu_title" => "Region Creation",
-                "gui_creation_menu_label1" => "Let's help you create a region.",
-                "gui_creation_menu_rg_name_box" => "First you will have to enter a name for your region.",
-                "gui_creation_menu_label2" => "If you want your region to expand infinitely upwards and downards check the following option.",
-                "gui_creation_menu_toggle_expand" => "Expand vertically",
-                "gui_creation_menu_label3" => "Now hit the §a'Submit'§r and select 2 corners of your region as you will be instructed next.",
-                "gui_dropdown_select_redefine" => "Select the region you would like to redefine",
-                "gui_dropdown_select_delete" => "Select the region you would like to delete",
-                "gui_dropdown_select_manage" => "Select the region you would like to manage",
-                "gui_manage_menu_title" => "Managing region:",
-                "gui_flag_pvp" => "PvP",
-                "gui_flag_xp_drops" => "Experience drops",
-                "gui_flag_invincible" => "Invincible",
-                "gui_flag_fall_dmg" => "Fall damage",
-                "gui_flag_usage" => "Use",
-                "gui_flag_item_drop" => "Item drop",
-                "gui_flag_explosions" => "Explosions",
-                "gui_flag_notify_enter" => "Notify enter",
-                "gui_flag_notify_leave" => "Notify leave",
-                "gui_flag_potions" => "Allow potions",
-                "gui_flag_allowed_enter" => "Allowed enter",
-                "gui_flag_allowed_leave" => "Allowed leave",
-                "gui_flag_gm" => "Gamemode",
-                "gui_gm_survival" => "Survival",
-                "gui_gm_creative" => "Creative",
-                "gui_flag_sleep" => "Allow sleeping",
-                "gui_flag_send_chat" => "Allow sending chat messages",
-                "gui_flag_rcv_chat" => "Allow receiving chat messages",
-                "gui_flag_enderpearl" => "Allow use of ender pearls",
-                "gui_flag_fly_mode" => "Fly mode",
-                "gui_enabled" => "Enabled",
-                "gui_disabled" => "Disabled",
-                "gui_flag_eat" => "Allow eating",
-                "gui_flag_dmg_animals" => "Allow damaging of animals",
-                "gui_flag_dmg_monsters" => "Allow damaging of monsters",
-                "gui_flag_leaf_decay" => "Allow leaf decay",
-                "gui_flag_plant_growth" => "Allow plant growth",
-                "gui_flag_spread" => "Allow spreading",
-                "gui_flag_block_burn" => "Allow block burn",
-                "gui_flag_priority" => "Region priority",
-                "gui_help_menu_label1" => "If you need help setting up world guard check out the tutorial we made for you:",
-                "gui_help_menu_label2" => "http://worldguard.ddns.net/tutorial"
-            );
-
-            yaml_emit_file($path.'lang_en.yml', $this->lang);
-        }
-
-                /**
-         * load messages if file exists and if not write the default ones
-         */
-        if(is_file($path.'messages.yml'))
-        {
-            $this->messages = yaml_parse_file($path.'messages.yml');
-        }
-        else{
-            $this->messages = array (
-                "version" => $this->pluginVersion,
-                "denied-enter" => "You cannot enter this area.",
-                "denied-leave" => "You cannot leave this area.",
-                "no-permission-for-command" => "You do not have permission to use this command.",
-                "denied-eat" => "You cannot eat in this area.",
-                "denied-ender-pearls" => "You cannot use ender pearls in this area.",
-                "denied-chat" => "You cannot chat in this region.",
-                "denied-item-drop" => "You cannot drop items in this region.",
-                "denied-pvp" => "You cannot hurt players of this region.",
-                "denied-block-break" => "You cannot break blocks in this region.",
-                "denied-block-place" => "You cannot place blocks in this region.",
-                "denied-hurt-animal" => "You cannot hurt animals of this region.",
-                "denied-hurt-monster" => "You cannot hurt monsters of this region."
-            );
-
-            yaml_emit_file($path.'messages.yml', $this->messages);
-        }
+        $regions = $this->resourceManager->getRegions();
         
         if (isset($regions)) {
             foreach ($regions as $name => $data) {
@@ -362,12 +249,12 @@ class WorldGuard extends PluginBase {
         $new = $this->getRegion($newregion);
         $old = $this->getRegion($oldregion);
 
-        if($this->config["debugging"] === true)
+        if($this->resourceManager->getConfig["debugging"] === true)
             if(gettype($new) === "string")
                 $this->getLogger()->info("New Region is empty");
             else
                 $this->getLogger()->info("New Region: " . $new->getName());
-        if($this->config["debugging"] === true)
+        if($this->resourceManager->getConfig["debugging"] === true)
             if(gettype($old) === "string")
                 $this->getLogger()->info("Old Region is empty");
             else
@@ -378,7 +265,7 @@ class WorldGuard extends PluginBase {
             {
             	if(!$player->hasPermission("worldguard.leave." . $oldregion))
             	{
-	                $player->sendMessage(TF::RED. $this->messages["denied-leave"]);
+	                $player->sendMessage(TF::RED. $this->resourceManager->getMessages()["denied-leave"]);
 	                return false;
 	            }
             }
@@ -403,7 +290,7 @@ class WorldGuard extends PluginBase {
             {
             	if(!$player->hasPermission("worldguard.enter." . $newregion))
             	{
-                	$player->sendMessage(TF::RED. $this->messages["denied-enter"]);
+                	$player->sendMessage(TF::RED. $this->resourceManager->getMessages["denied-enter"]);
                 	return false;
                 }
             }
@@ -452,26 +339,26 @@ class WorldGuard extends PluginBase {
             }
 
             if($new != null && !empty($new)) {
-                if($this->config["debugging"] === true)
+                if($this->resourceManager->getConfig["debugging"] === true)
                     $this->getLogger()->info("Getting new effects");
 
                 $newRegionEffects = $new->getEffects();
             }
             else {
-                if($this->config["debugging"] === true)
+                if($this->resourceManager->getConfig["debugging"] === true)
                     $this->getLogger()->info("New region is null so no effects will be added");
 
                 $newRegionEffects = null;
             }
 
             if($old != null && !empty($old)) {
-                if($this->config["debugging"] === true)
+                if($this->resourceManager->getConfig["debugging"] === true)
                     $this->getLogger()->info("Getting old effects for removal process.");
 
                 $oldRegionEffects = $old->getEffects();
             }
             else {
-                if($this->config["debugging"] === true)
+                if($this->resourceManager->getConfig["debugging"] === true)
                     $this->getLogger()->info("Old region is null so no effects will be removed");
 
                 $oldRegionEffects = null;
@@ -480,7 +367,7 @@ class WorldGuard extends PluginBase {
             // iterate all old effects and remove them
             if(!empty($oldRegionEffects) && $oldRegionEffects != null)
             {
-                if($this->config["debugging"] === true)
+                if($this->resourceManager->getConfig["debugging"] === true)
                     $this->getLogger()->info("Removing old effects");
                 foreach ($oldRegionEffects as $effect) {
                     $player->removeEffect($effect);
@@ -490,7 +377,7 @@ class WorldGuard extends PluginBase {
             // iterate all new effects and add them
             if (!empty($newRegionEffects) && $newRegionEffects != null)
             {
-                if($this->config["debugging"] === true)
+                if($this->resourceManager->getConfig["debugging"] === true)
                     $this->getLogger()->info("Adding new effects");
                 foreach ($newRegionEffects as $effect) {
                     $player->addEffect($effect);
@@ -641,21 +528,21 @@ class WorldGuard extends PluginBase {
             case "worldguard":
                 if(!$issuer->hasPermission("worldguard.ui"))
                 {
-                    $issuer->sendMessage($this->messages["no-permission-for-command"]);
+                    $issuer->sendMessage($this->resourceManager->getMessages["no-permission-for-command"]);
                     return false;
                 }
                 GUI::displayMenu($issuer);
                 break;
             case "region":
                 if (!$issuer->hasPermission("worldguard.create") || !$issuer->hasPermission("worldguard.modify") || !$issuer->hasPermission("worldguard.delete")) {
-                    $issuer->sendMessage($this->messages["no-permission-for-command"]);
+                    $issuer->sendMessage($this->resourceManager->getMessages["no-permission-for-command"]);
                     return false;
                 }
                 if (isset($args[0])) {
                     switch ($args[0]) {
                         case "setbiome":
                             if (!$issuer->hasPermission("worldguard.modify")) {
-                                $issuer->sendMessage($this->messages["no-permission-for-command"]);
+                                $issuer->sendMessage($this->resourceManager->getMessages["no-permission-for-command"]);
                                 return false;
                             }
                             if (isset($args[1]) && isset($args[2])) {
@@ -676,7 +563,7 @@ class WorldGuard extends PluginBase {
                             break;
                         case "create":
                             if (!$issuer->hasPermission("worldguard.create")) {
-                                $issuer->sendMessage($this->messages["no-permission-for-command"]);
+                                $issuer->sendMessage($this->resourceManager->getMessages["no-permission-for-command"]);
                                 return false;
                             }
                             if (isset($args[1])) {
@@ -730,7 +617,7 @@ class WorldGuard extends PluginBase {
                             break;
                         case "delete":
                             if (!$issuer->hasPermission("worldguard.delete")) {
-                                $issuer->sendMessage($this->messages["no-permission-for-command"]);
+                                $issuer->sendMessage($this->resourceManager->getMessages["no-permission-for-command"]);
                                 return false;
                             }
                             if (isset($args[1])) {
@@ -805,7 +692,7 @@ class WorldGuard extends PluginBase {
                         case "flag":
                         case "flags":
                             if (!$issuer->hasPermission("worldguard.modify")) {
-                                $issuer->sendMessage($this->messages["no-permission-for-command"]);
+                                $issuer->sendMessage($this->resourceManager->getMessages["no-permission-for-command"]);
                                 return false;
                             }
                             if (isset($args[1], $args[2])) {
