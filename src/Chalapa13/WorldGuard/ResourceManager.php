@@ -63,6 +63,8 @@ class ResourceManager
     }
 
     public function saveRegions($regions){
+        $this->regions = $regions;
+
         $data = [];
         foreach ($regions as $name => $region) {
             $data[$name] = $region->toArray();
