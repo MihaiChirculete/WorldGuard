@@ -129,8 +129,6 @@ class WorldGuard extends PluginBase {
 
     public $pureEntitiesPlugin = null;
 
-    private $pluginVersion = "1.1.0.1";
-
     private $sponsorAdMessage = "\n\n\n\n\n\n\n\n§l§9YOUR ADVERTISMENT HERE\n\n\n\n\n\n\n\n";
 
 
@@ -145,6 +143,9 @@ class WorldGuard extends PluginBase {
 
         $this->resourceManager = ResourceManager::getInstance($this, $this->getServer());
         $this->resourceManager->loadResources();
+
+        $this->resourceUpdater = ResourceUpdater::getInstance($this->resourceManager);
+        $this->resourceUpdater->updateResourcesIfRequired();
 
         $regions = $this->resourceManager->getRegions();
         
