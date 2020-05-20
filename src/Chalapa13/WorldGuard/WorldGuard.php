@@ -162,7 +162,7 @@ class WorldGuard extends PluginBase {
     }
 
     public function onDisable(){
-        $this->saveRegions();
+        $this->resourceManager->saveRegions($this->regions);
     }
 
     public function getRegion(string $region)
@@ -425,15 +425,6 @@ class WorldGuard extends PluginBase {
         }
         return true;
     }
-    
-    public function saveRegions(){
-        $data = [];
-        foreach ($this->regions as $name => $region) {
-            $data[$name] = $region->toArray();
-        }
-        yaml_emit_file($this->getDataFolder().'regions.yml', $data);
-        return true;
-    }
 
     public function processCreation(Player $player)
     {
@@ -511,12 +502,12 @@ class WorldGuard extends PluginBase {
             $permission = new Permission("worldguard.usebrewingstand." . $name, "Allows player to use brewing stands in " . $name . " region.", Permission::DEFAULT_OP);
             $permission->addParent("worldguard.usebrewingstand", true);
             PermissionManager::getInstance()->addPermission($permission);
-            $this->saveRegions();
+            $this->resourceManager->saveRegions($this->regions);
 
             $permission = new Permission("worldguard.usebeacon." . $name, "Allows player to use beacons in " . $name . " region.", Permission::DEFAULT_OP);
             $permission->addParent("worldguard.usebeacon", true);
             PermissionManager::getInstance()->addPermission($permission);
-            $this->saveRegions();
+            $this->resourceManager->saveRegions($this->regions);
             return $name;
         }
         return false;
@@ -553,7 +544,7 @@ class WorldGuard extends PluginBase {
                                 if ($this->regionExists($args[1])) {
                                     Utils::setBiome($this, $this->getRegion($args[1]), $args[2]);
                                     $issuer->sendMessage(TF::YELLOW.'You have changed the region\'s biome.');
-                                    $this->saveRegions();
+                                    $this->resourceManager->saveRegions($this->regions);
                                 } else {
                                     $issuer->sendMessage(TF::RED.$args[1].' region does not exist. Use /region list to get a list of all regions.');
                                 }
@@ -627,7 +618,7 @@ class WorldGuard extends PluginBase {
                                         $this->updateRegion($player);
                                     }
                                     $issuer->sendMessage(TF::YELLOW.'You have deleted the region: '.$args[1]);
-                                    $this->saveRegions();
+                                    $this->resourceManager->saveRegions($this->regions);
                                 } else {
                                     $issuer->sendMessage(TF::RED.$args[1].' region does not exist. Use /region list to get a list of all regions.');
                                 }
@@ -728,7 +719,7 @@ class WorldGuard extends PluginBase {
                                             $issuer->sendMessage($opt);
                                         } else {
                                             $issuer->sendMessage(TF::YELLOW.'Flag has been updated successfully.');
-                                            $this->saveRegions();
+                                            $this->resourceManager->saveRegions($this->regions);
                                         }
                                         break;
                                     case "reset":

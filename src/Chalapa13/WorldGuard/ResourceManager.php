@@ -62,6 +62,15 @@ class ResourceManager
         }
     }
 
+    public function saveRegions($regions){
+        $data = [];
+        foreach ($regions as $name => $region) {
+            $data[$name] = $region->toArray();
+        }
+        yaml_emit_file($this->pluginInstance->getDataFolder().'regions.yml', $data);
+        return true;
+    }
+
     public function loadConfig($path)
     {
         /**
