@@ -14,7 +14,7 @@ class AdManager
     private function __construct()
     {
         $this->adConsoleText = $this->grabConsoleAd();
-        $this->adGUI = $this->getGuiAdText();
+        $this->adGUI = $this->grabGuiAd();
     }
 
     public static function getInstance()
