@@ -31,9 +31,9 @@ use pocketmine\level\Position;
 use pocketmine\permission\{Permission, Permissible, PermissionManager};
 use pocketmine\network\mcpe\protocol\SetTimePacket;
 use pocketmine\Server;
-use revivalpmmp\pureentities\event\CreatureSpawnEvent;
 use Chalapa13\WorldGuard\ResourceUtils\ResourceManager;
 use Chalapa13\WorldGuard\ResourceUtils\ResourceUpdater;
+use Chalapa13\WorldGuard\ResourceUtils\AdManager;
 
 class WorldGuard extends PluginBase {
 
@@ -129,13 +129,9 @@ class WorldGuard extends PluginBase {
     private $players = [];
     public $muted = [];
 
-    public $pureEntitiesPlugin = null;
-
-    private $sponsorAdMessage = "\n\n\n\n\n\n\n\n§l§9YOUR ADVERTISMENT HERE\n\n\n\n\n\n\n\n";
-
-
     public $resourceManager = null;
     public $resourceUpdater = null;
+    public $adManager = null;
 
     public function onEnable()
     {
@@ -148,6 +144,8 @@ class WorldGuard extends PluginBase {
 
         $this->resourceUpdater = ResourceUpdater::getInstance($this->resourceManager);
         $this->resourceUpdater->updateResourcesIfRequired();
+
+        $this->adManager = AdManager::getInstance();
 
         $regions = $this->resourceManager->getRegions();
         
