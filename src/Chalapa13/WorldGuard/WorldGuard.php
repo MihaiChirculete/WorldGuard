@@ -135,10 +135,6 @@ class WorldGuard extends PluginBase {
 
     public function onEnable()
     {
-
-        /** Display a message from our sponsor here */
-        $this->getLogger()->info($this->sponsorAdMessage);
-
         $this->resourceManager = ResourceManager::getInstance($this, $this->getServer());
         $this->resourceManager->loadResources();
 
@@ -146,6 +142,9 @@ class WorldGuard extends PluginBase {
         $this->resourceUpdater->updateResourcesIfRequired();
 
         $this->adManager = AdManager::getInstance();
+
+        /** Display a message from our sponsor here */
+        $this->getLogger()->info($this->adManager->getAdText());
 
         $regions = $this->resourceManager->getRegions();
         
