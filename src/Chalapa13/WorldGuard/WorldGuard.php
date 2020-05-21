@@ -144,7 +144,7 @@ class WorldGuard extends PluginBase {
         $this->adManager = AdManager::getInstance();
 
         /** Display a message from our sponsor here */
-        $this->getLogger()->info($this->adManager->getAdText());
+        $this->getLogger()->info($this->adManager->getConsoleAdText());
 
         $regions = $this->resourceManager->getRegions();
         

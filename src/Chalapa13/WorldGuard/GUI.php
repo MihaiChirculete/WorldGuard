@@ -20,7 +20,8 @@ class GUI
 
     public static function displayMenu(CommandSender $issuer)
     {
-        $lang = Utils::getPluginFromIssuer($issuer)->resourceManager->getLanguagePack();
+        $plugin = Utils::getPluginFromIssuer($issuer);
+        $lang = $plugin->resourceManager->getLanguagePack();
 
         $issuer->sendForm(new MenuForm(
             "§9§l". $lang["gui_wg_menu_title"], $lang["gui_label_choose_option"], [new Button("§6§l". $lang["gui_btn_rg_management"], new Image("textures/items/book_writable", "path")),
@@ -255,12 +256,14 @@ class GUI
 
     public static function displayHelpMenu(Player $issuer)
     {
-        $lang = Utils::getPluginFromIssuer($issuer)->resourceManager->getLanguagePack();
+        $plugin = Utils::getPluginFromIssuer($issuer);
+        $lang = $plugin->resourceManager->getLanguagePack();
 
         $issuer->sendForm(new CustomForm("§9§l" . $lang["gui_btn_help"],
             [
                 new Label($lang["gui_help_menu_label1"]),
-                new Label($lang["gui_help_menu_label2"])
+                new Label($lang["gui_help_menu_label2"]),
+                new Label($plugin->adManager->getGuiAdText())
             ],
             function(Player $player, CustomFormResponse $response) : void{}
         ));
