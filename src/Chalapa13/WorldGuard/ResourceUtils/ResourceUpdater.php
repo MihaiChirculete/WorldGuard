@@ -183,7 +183,6 @@ class ResourceUpdater
             $newMessagesKeys = array_keys($this->getDefaultMessages());
             foreach ($newMessagesKeys as $key)
             {
-                var_dump($key);
                 if(!isset($oldMessages[$key]))
                     $oldMessages[$key] = $this->getDefaultMessages()[$key];
             }
