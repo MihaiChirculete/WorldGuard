@@ -15,7 +15,7 @@ class AdManager
         $this->adText = $this->grabAd();
     }
 
-    public function getInstance()
+    public static function getInstance()
     {
         if(self::$instance === null)
             self::$instance = new AdManager();
