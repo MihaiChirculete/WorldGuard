@@ -25,7 +25,7 @@ class AdManager
 
     private function grabAd($url = 'https://raw.githubusercontent.com/Chalapa13/WorldGuard/master/resources/sponsor.txt')
     {
-        $ad = "";
+        $ad = "\n";
         $f = fopen($url, 'r');
 
         while(! feof($f)) {
