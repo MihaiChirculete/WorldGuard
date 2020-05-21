@@ -27,11 +27,11 @@ Video tutorial available [here](https://www.youtube.com/watch?v=80s21rwU7K8).
 Be sure to check the above link when updating the plugin to see changes and view available flags. (can also be found in-game by doing /rg flags get region_name)
 
 # Download
-You can download the latest stable compiled plugin from [here](https://zee.gl/SxwFnDg6).
-If you want more frequent updates you can get the compiled plugin from [here](https://zee.gl/XCVfgC), however keep in mind that these versions have a higher risk of bugs.
+You can download the latest stable compiled plugin from [here](https://poggit.pmmp.io/p/WorldGuard).
+If you want more frequent updates you can get the compiled plugin from [here](https://poggit.pmmp.io/ci/Chalapa13/WorldGuard/WorldGuard), however keep in mind that these versions have a higher risk of bugs.
 
 # Customizable Permissions
 Some flags come with their own permission in order to customize regions even more and only allow certain groups of players do certain actions in a region.
 
 # Need assistance?
-[Join the plugin's discord server!](https://zee.gl/nNwsSBk)
+[Join the plugin's discord server!](https://discordapp.com/invite/uZevqGX)
