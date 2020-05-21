@@ -1,10 +1,11 @@
 <?php
 
 
-namespace Chalapa13\WorldGuard;
+namespace Chalapa13\WorldGuard\ResourceUtils;
 
 use pocketmine\plugin\PluginBase;
 use pocketmine\Server;
+use Chalapa13\WorldGuard\WorldGuard;
 
 class ResourceManager
 {

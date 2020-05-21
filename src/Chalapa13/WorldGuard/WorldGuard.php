@@ -32,6 +32,8 @@ use pocketmine\permission\{Permission, Permissible, PermissionManager};
 use pocketmine\network\mcpe\protocol\SetTimePacket;
 use pocketmine\Server;
 use revivalpmmp\pureentities\event\CreatureSpawnEvent;
+use Chalapa13\WorldGuard\ResourceUtils\ResourceManager;
+use Chalapa13\WorldGuard\ResourceUtils\ResourceUpdater;
 
 class WorldGuard extends PluginBase {
 

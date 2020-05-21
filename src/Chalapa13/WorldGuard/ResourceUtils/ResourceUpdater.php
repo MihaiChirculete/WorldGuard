@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Chalapa13\WorldGuard;
+namespace Chalapa13\WorldGuard\ResourceUtils;
 
 
 /** This class is an utility that will be used to fix conflicts between old and new resources
@@ -11,15 +11,15 @@ class ResourceUpdater
 {
     /** Only 1 instance of this class will be allowed at all times */
     private static $instance = null;
-    private $resouceManagerInstance = null;
+    private $resourceManagerInstance = null;
 
     private $defaultConfig = null;
     private $defaultMessages = null;
     private $defaultLanguagePack = null;
 
-    private function __construct(ResourceManager $resouceManagerInstance)
+    private function __construct(ResourceManager $resourceManagerInstance)
     {
-        $this->resouceManagerInstance = $resouceManagerInstance;
+        $this->resourceManagerInstance = $resourceManagerInstance;
 
         $this->defaultConfig = array(
             "version" => $this->resourceManagerInstance->getPluginVersion(),
@@ -98,10 +98,10 @@ class ResourceUpdater
         );
     }
 
-    public static function getInstance(ResourceManager $resouceManagerInstance)
+    public static function getInstance(ResourceManager $resourceManagerInstance)
     {
         if(ResourceUpdater::$instance === null)
-            ResourceUpdater::$instance = new ResourceUpdater($resouceManagerInstance);
+            ResourceUpdater::$instance = new ResourceUpdater($resourceManagerInstance);
 
         return ResourceUpdater::$instance;
     }
@@ -109,7 +109,7 @@ class ResourceUpdater
     /** Helper functions to check if a resource file is outdated */
     public function isConfigResourceOutdated() : bool
     {
-        $ver = $this->resouceManagerInstance->getConfigVersion();
+        $ver = $this->resourceManagerInstance->getConfigVersion();
 
         /** Old versions do not have this field so if its not set its obviously an outdated one */
         if($ver === null)
@@ -123,7 +123,7 @@ class ResourceUpdater
 
     public function isMessagesResourceOutdated() : bool
     {
-        $ver = $this->resouceManagerInstance->getMessagesVersion();
+        $ver = $this->resourceManagerInstance->getMessagesVersion();
 
         /** Old versions do not have this field so if its not set its obviously an outdated one */
         if($ver === null)
@@ -137,7 +137,7 @@ class ResourceUpdater
 
     public function isLanguagePackResourceOutdated() : bool
     {
-        $ver = $this->resouceManagerInstance->getLanguagePackVersion();
+        $ver = $this->resourceManagerInstance->getLanguagePackVersion();
 
         /** Old versions do not have this field so if its not set its obviously an outdated one */
         if($ver === null)
@@ -159,9 +159,9 @@ class ResourceUpdater
     {
         if($this->isConfigResourceOutdated())
         {
-            $oldConfig = $this->resouceManagerInstance->getConfig();
+            $oldConfig = $this->resourceManagerInstance->getConfig();
 
-            $newConfigKeys = array_keys($oldConfig);
+            $newConfigKeys = array_keys($this->getDefaultConfig());
 
             /** If a key from the new config is not present in the old config, then add it */
             foreach ($newConfigKeys as $key)
@@ -171,41 +171,42 @@ class ResourceUpdater
             }
 
             /** Change the file version to match the current version */
-            $oldConfig['version'] = $this->resouceManagerInstance->getPluginVersion();
+            $oldConfig['version'] = $this->resourceManagerInstance->getPluginVersion();
 
-            $this->resouceManagerInstance->saveConfig($oldConfig);
+            $this->resourceManagerInstance->saveConfig($oldConfig);
         }
 
         if($this->isMessagesResourceOutdated())
         {
-            $oldMessages = $this->resouceManagerInstance->getMessages();
+            $oldMessages = $this->resourceManagerInstance->getMessages();
 
-            $newMessagesKeys = array_keys($oldMessages);
+            $newMessagesKeys = array_keys($this->getDefaultMessages());
             foreach ($newMessagesKeys as $key)
             {
+                var_dump($key);
                 if(!isset($oldMessages[$key]))
                     $oldMessages[$key] = $this->getDefaultMessages()[$key];
             }
 
-            $oldMessages['version'] = $this->resouceManagerInstance->getPluginVersion();
+            $oldMessages['version'] = $this->resourceManagerInstance->getPluginVersion();
 
-            $this->resouceManagerInstance->saveMessages($oldMessages);
+            $this->resourceManagerInstance->saveMessages($oldMessages);
         }
 
         if($this->isLanguagePackResourceOutdated())
         {
-            $oldLangPack = $this->resouceManagerInstance->getLanguagePack();
+            $oldLangPack = $this->resourceManagerInstance->getLanguagePack();
 
-            $newLangPackKeys = array_keys($oldLangPack);
+            $newLangPackKeys = array_keys($this->getDefaultLanguagePack());
             foreach ($newLangPackKeys as $key)
             {
                 if(!isset($oldLangPack[$key]))
                     $oldLangPack[$key] = $this->getDefaultLanguagePack()[$key];
             }
 
-            $oldLangPack['version'] = $this->resouceManagerInstance->getPluginVersion();
+            $oldLangPack['version'] = $this->resourceManagerInstance->getPluginVersion();
 
-            $this->resouceManagerInstance->saveLanguagePack($oldLangPack);
+            $this->resourceManagerInstance->saveLanguagePack($oldLangPack);
         }
     }
 }
