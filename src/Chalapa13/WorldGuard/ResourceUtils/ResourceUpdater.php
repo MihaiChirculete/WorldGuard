@@ -155,9 +155,9 @@ class ResourceUpdater
     public function getDefaultLanguagePack() { return $this->defaultLanguagePack; }
 
     /** For each resource file check it's version and if it doesn't match have it updated */
-    public function updateResourcesIfRequired()
+    public function updateResourcesIfRequired($forceUpdate = false)
     {
-        if($this->isConfigResourceOutdated())
+        if($this->isConfigResourceOutdated() || $forceUpdate === true)
         {
             $oldConfig = $this->resourceManagerInstance->getConfig();
 
@@ -176,7 +176,7 @@ class ResourceUpdater
             $this->resourceManagerInstance->saveConfig($oldConfig);
         }
 
-        if($this->isMessagesResourceOutdated())
+        if($this->isMessagesResourceOutdated() || $forceUpdate === true)
         {
             $oldMessages = $this->resourceManagerInstance->getMessages();
 
@@ -192,7 +192,7 @@ class ResourceUpdater
             $this->resourceManagerInstance->saveMessages($oldMessages);
         }
 
-        if($this->isLanguagePackResourceOutdated())
+        if($this->isLanguagePackResourceOutdated() || $forceUpdate === true)
         {
             $oldLangPack = $this->resourceManagerInstance->getLanguagePack();
 

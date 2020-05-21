@@ -139,7 +139,7 @@ class WorldGuard extends PluginBase {
         $this->resourceManager->loadResources();
 
         $this->resourceUpdater = ResourceUpdater::getInstance($this->resourceManager);
-        $this->resourceUpdater->updateResourcesIfRequired();
+        $this->resourceUpdater->updateResourcesIfRequired(true);
 
         $this->adManager = AdManager::getInstance();
 
