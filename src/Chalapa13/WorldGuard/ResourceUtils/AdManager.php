@@ -30,7 +30,7 @@ class AdManager
 
         while(! feof($f)) {
             $line = fgets($f);
-            $ad = $ad . $line . "\n";
+            $ad = $ad . $line;
         }
 
         fclose($f);
