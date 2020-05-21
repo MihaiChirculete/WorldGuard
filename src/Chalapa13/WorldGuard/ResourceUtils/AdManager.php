@@ -26,14 +26,16 @@ class AdManager
     private function grabAd($url = 'https://raw.githubusercontent.com/Chalapa13/WorldGuard/master/resources/sponsor.txt')
     {
         $ad = "\n";
-        $f = fopen($url, 'r');
 
-        while(! feof($f)) {
-            $line = fgets($f);
-            $ad = $ad . $line;
-        }
+        $arrContextOptions=array(
+            "ssl"=>array(
+                "verify_peer"=>false,
+                "verify_peer_name"=>false,
+            ),
+        );
 
-        fclose($f);
+        $ad = $ad . file_get_contents($url, false, stream_context_create($arrContextOptions));
+
 
         return $ad;
     }
