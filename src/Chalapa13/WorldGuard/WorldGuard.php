@@ -290,7 +290,7 @@ class WorldGuard extends PluginBase {
             {
             	if(!$player->hasPermission("worldguard.enter." . $newregion))
             	{
-                	$player->sendMessage(TF::RED. $this->resourceManager->getMessages["denied-enter"]);
+                	$player->sendMessage(TF::RED. $this->resourceManager->getMessages()["denied-enter"]);
                 	return false;
                 }
             }
@@ -519,21 +519,21 @@ class WorldGuard extends PluginBase {
             case "worldguard":
                 if(!$issuer->hasPermission("worldguard.ui"))
                 {
-                    $issuer->sendMessage($this->resourceManager->getMessages["no-permission-for-command"]);
+                    $issuer->sendMessage($this->resourceManager->getMessages()["no-permission-for-command"]);
                     return false;
                 }
                 GUI::displayMenu($issuer);
                 break;
             case "region":
                 if (!$issuer->hasPermission("worldguard.create") || !$issuer->hasPermission("worldguard.modify") || !$issuer->hasPermission("worldguard.delete")) {
-                    $issuer->sendMessage($this->resourceManager->getMessages["no-permission-for-command"]);
+                    $issuer->sendMessage($this->resourceManager->getMessages()["no-permission-for-command"]);
                     return false;
                 }
                 if (isset($args[0])) {
                     switch ($args[0]) {
                         case "setbiome":
                             if (!$issuer->hasPermission("worldguard.modify")) {
-                                $issuer->sendMessage($this->resourceManager->getMessages["no-permission-for-command"]);
+                                $issuer->sendMessage($this->resourceManager->getMessages()["no-permission-for-command"]);
                                 return false;
                             }
                             if (isset($args[1]) && isset($args[2])) {
@@ -554,7 +554,7 @@ class WorldGuard extends PluginBase {
                             break;
                         case "create":
                             if (!$issuer->hasPermission("worldguard.create")) {
-                                $issuer->sendMessage($this->resourceManager->getMessages["no-permission-for-command"]);
+                                $issuer->sendMessage($this->resourceManager->getMessages()["no-permission-for-command"]);
                                 return false;
                             }
                             if (isset($args[1])) {
@@ -608,7 +608,7 @@ class WorldGuard extends PluginBase {
                             break;
                         case "delete":
                             if (!$issuer->hasPermission("worldguard.delete")) {
-                                $issuer->sendMessage($this->resourceManager->getMessages["no-permission-for-command"]);
+                                $issuer->sendMessage($this->resourceManager->getMessages()["no-permission-for-command"]);
                                 return false;
                             }
                             if (isset($args[1])) {
@@ -683,7 +683,7 @@ class WorldGuard extends PluginBase {
                         case "flag":
                         case "flags":
                             if (!$issuer->hasPermission("worldguard.modify")) {
-                                $issuer->sendMessage($this->resourceManager->getMessages["no-permission-for-command"]);
+                                $issuer->sendMessage($this->resourceManager->getMessages()["no-permission-for-command"]);
                                 return false;
                             }
                             if (isset($args[1], $args[2])) {
