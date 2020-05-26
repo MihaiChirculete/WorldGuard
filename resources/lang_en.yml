@@ -12,7 +12,7 @@ gui_creation_menu_title: Region Creation
 gui_creation_menu_label1: Let's help you create a region.
 gui_creation_menu_rg_name_box: First you will have to enter a name for your region.
 gui_creation_menu_label2: If you want your region to expand infinitely upwards and
-  downards check the following option.
+  downwards check the following option.
 gui_creation_menu_toggle_expand: Expand vertically
 gui_creation_menu_label3: "Now hit the \xA7a'Submit'\xA7r and select 2 corners of
   your region as you will be instructed next."
