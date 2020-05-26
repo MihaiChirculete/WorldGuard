@@ -105,6 +105,7 @@ class Region {
 
     public function getFlag(string $flag)
     {
+        //TODO: Move priority from returning the region name, to just returning the value of the flag on the highest priority region.
         return $this->flags[$flag];
     }
 
@@ -128,7 +129,7 @@ class Region {
             } else {
                 $this->flags["effects"][$value] = 0;
                 $this->effects[$value] = new EffectInstance(Effect::getEffect($value), 999999999, 0);
-                return TF::YELLOW.'Added "'.($this->effects[$value])->getName().' I" effect to "'.$this->name.'" region.';
+                return TF::YELLOW.'Added "'.($this->effects[$value])->getId().' I" effect to "'.$this->name.'" region.';
             }
             return;
         }
