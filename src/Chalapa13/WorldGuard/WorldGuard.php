@@ -27,6 +27,7 @@ use pocketmine\command\{Command, CommandSender};
 use pocketmine\event\player\PlayerCommandPreprocessEvent;
 use pocketmine\utils\TextFormat as TF;
 use pocketmine\Player;
+use pocketmine\entity\Effect;
 use pocketmine\level\Position;
 use pocketmine\permission\{Permission, Permissible, PermissionManager};
 use pocketmine\network\mcpe\protocol\SetTimePacket;
@@ -133,29 +134,23 @@ class WorldGuard extends PluginBase {
     public $resourceUpdater = null;
     public $adManager = null;
 
-    public function onEnable()
-    {
+    public function onEnable(){
         $this->resourceManager = ResourceManager::getInstance($this, $this->getServer());
         $this->resourceManager->loadResources();
-
         $this->resourceUpdater = ResourceUpdater::getInstance($this->resourceManager);
         $this->resourceUpdater->updateResourcesIfRequired(true);
-
-        $this->adManager = AdManager::getInstance();
-
-        /** Display a message from our sponsor here */
-        $this->getLogger()->info($this->adManager->getConsoleAdText());
-
-        $regions = $this->resourceManager->getRegions();
         
+        /**$this->adManager = AdManager::getInstance();
+        Display a message from our sponsor here
+        $this->getLogger()->info($this->adManager->getConsoleAdText());*/
+        
+        $regions = $this->resourceManager->getRegions();
         if (isset($regions)) {
             foreach ($regions as $name => $data) {
                 $this->regions[$name] = new Region($name, $data["pos1"], $data["pos2"], $data["level"], $data["flags"]);
             }
         }
-
         $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
-        
         foreach($this->getServer()->getOnlinePlayers() as $p) {
             $this->sessionizePlayer($p);
         }
@@ -164,7 +159,7 @@ class WorldGuard extends PluginBase {
     public function onDisable(){
         $this->resourceManager->saveRegions($this->regions);
     }
-
+    
     public function getRegion(string $region)
     {
         return $this->regions[$region] ?? "";
@@ -193,11 +188,6 @@ class WorldGuard extends PluginBase {
 
     public function sessionizePlayer(Player $player)
     {
-        /*foreach ($player->getEffects() as $effect) {
-            if ($effect->getDuration() >= 999999) {
-                $player->removeEffect($effect->getId());
-            }
-        }*/
         $this->players[$player->getRawUniqueId()] = "";
         $this->updateRegion($player);
     }
@@ -210,7 +200,7 @@ class WorldGuard extends PluginBase {
 
     public function getRegionNameFromPosition(Position $pos) : string
     {
-        $highestPriorityName = "";
+        $currentRegion = "";
         $highestPriority = -1;
         $global = new Position(0,0,0,$pos->getLevel());
         foreach ($this->regions as $name => $region) {
@@ -226,22 +216,19 @@ class WorldGuard extends PluginBase {
                             if($highestPriority<intval($region->getFlag("priority")))
                             {
                                 $highestPriority = intval($region->getFlag("priority"));
-                                $highestPriorityName = $name;
+                                $currentRegion = $name;
                             }
                         }
                     }
                 }
             }
         }
-        if($highestPriorityName == ""){
-             if ($this->regionExists("global.".$pos->getLevel()->getName())){
-                $highestPriorityName = "global.".$pos->getLevel()->getName();
+        if($currentRegion == ""){
+            if ($this->regionExists("global.".$pos->getLevel()->getName())){
+                $currentRegion = "global.".$pos->getLevel()->getName();
             }
-            return $highestPriorityName;
         }
-        else{
-            return $highestPriorityName;
-        }
+        return $currentRegion;
     }
 
     public function onRegionChange(Player $player, string $oldregion, string $newregion)
@@ -249,17 +236,22 @@ class WorldGuard extends PluginBase {
         $new = $this->getRegion($newregion);
         $old = $this->getRegion($oldregion);
 
-        if($this->resourceManager->getConfig()["debugging"] === true)
-            if(gettype($new) === "string")
+        if($this->resourceManager->getConfig()["debugging"] === true){
+            if(gettype($new) === "string"){
                 $this->getLogger()->info("New Region is empty");
-            else
+            }
+            else{
                 $this->getLogger()->info("New Region: " . $new->getName());
-        if($this->resourceManager->getConfig()["debugging"] === true)
-            if(gettype($old) === "string")
+            }
+        }
+        if($this->resourceManager->getConfig()["debugging"] === true){
+            if(gettype($old) === "string"){
                 $this->getLogger()->info("Old Region is empty");
-            else
+            }
+            else{
                 $this->getLogger()->info("Old Region: " . $old->getName());
-
+            }
+        }
         if ($old !== "") {
             if ($old->getFlag("allowed-leave") === "false") 
             {
@@ -275,19 +267,18 @@ class WorldGuard extends PluginBase {
             if ($old->getFlag("receive-chat") === "false") {
                 unset($this->muted[$player->getRawUniqueId()]);
             }
-          /*  foreach ($player->getEffects() as $effect) {
+            foreach ($player->getEffects() as $effect) {
                 if ($effect->getDuration() >= 999999) {
                     $player->removeEffect($effect->getId());
                 }
-            }*/
+            }
             if ($old->getFlight() === self::FLY_SUPERVISED) {
                 Utils::disableFlight($player);
 	    	}
         }
 
         if ($new !== "") {
-            if ($new->getFlag("allowed-enter") === "false") 
-            {
+            if ($new->getFlag("allowed-enter") === "false"){
             	if(!$player->hasPermission("worldguard.enter." . $newregion))
             	{
                 	$player->sendMessage(TF::RED. $this->resourceManager->getMessages()["denied-enter"]);
@@ -324,68 +315,55 @@ class WorldGuard extends PluginBase {
             if ($new->getFlag("receive-chat") === "false") {
                 $this->muted[$player->getRawUniqueId()] = $player;
             }
-            if (($flight = $new->getFlight()) !== self::FLY_VANILLA) {
-                switch ($flight) {
-                    case self::FLY_ENABLE:
-                    case self::FLY_SUPERVISED:
-                        if (!$player->getAllowFlight()) {
-                            $player->setAllowFlight(true);
-                        }
-                        break;
-                    case self::FLY_DISABLE:
-                        Utils::disableFlight($player);
-                        break;
+            if(!$player->hasPermission("worldguard.bypass.fly" . $newregion)){
+                if (($flight = $new->getFlight()) !== self::FLY_VANILLA) {
+                    switch ($flight) {
+                        case self::FLY_ENABLE:
+                        case self::FLY_SUPERVISED:
+                            if (!$player->getAllowFlight()) {
+                                $player->setAllowFlight(true);
+                            }
+                            break;
+                        case self::FLY_DISABLE:
+                            Utils::disableFlight($player);
+                            break;
+                    }
                 }
             }
-
+             //
+            // EFFECTS
+           //
             if($new != null && !empty($new)) {
-                if($this->resourceManager->getConfig()["debugging"] === true)
-                    $this->getLogger()->info("Getting new effects");
-
                 $newRegionEffects = $new->getEffects();
             }
             else {
-                if($this->resourceManager->getConfig()["debugging"] === true)
-                    $this->getLogger()->info("New region is null so no effects will be added");
-
                 $newRegionEffects = null;
             }
-
             if($old != null && !empty($old)) {
-                if($this->resourceManager->getConfig()["debugging"] === true)
-                    $this->getLogger()->info("Getting old effects for removal process.");
-
                 $oldRegionEffects = $old->getEffects();
             }
             else {
-                if($this->resourceManager->getConfig()["debugging"] === true)
-                    $this->getLogger()->info("Old region is null so no effects will be removed");
-
                 $oldRegionEffects = null;
             }
-
-            // iterate all old effects and remove them
-            if(!empty($oldRegionEffects) && $oldRegionEffects != null)
-            {
-                if($this->resourceManager->getConfig()["debugging"] === true)
-                    $this->getLogger()->info("Removing old effects");
-                foreach ($oldRegionEffects as $effect) {
+            // Iterate all old effects and remove them
+            if(!empty($oldRegionEffects) && $oldRegionEffects != null){
+                $playername = $player->getName();
+                if($this->resourceManager->getConfig()["debugging"] === true){
+                    $this->getLogger()->info("Removing region-given effects, and re-adding any effects the player had.");
+                }
+                foreach ($new->getFlag("effects") as $effect){
                     $player->removeEffect($effect);
                 }
             }
 
-            // iterate all new effects and add them
-            if (!empty($newRegionEffects) && $newRegionEffects != null)
-            {
-                if($this->resourceManager->getConfig()["debugging"] === true)
-                    $this->getLogger()->info("Adding new effects");
-                foreach ($newRegionEffects as $effect) {
+            // Iterate all new effects and add them
+            if (!empty($newRegionEffects) && $newRegionEffects != null){
+                if($this->resourceManager->getConfig()["debugging"] === true){
+                    $this->getLogger()->info("Saving the player's current effects that the region overwrites, and giving the new effects from the region.");
+                }
+                foreach ($newRegionEffects as $effect){
                     $player->addEffect($effect);
                 }
-            }
-            else
-            {
-                $player->removeAllEffects();
             }
         }
 
@@ -725,6 +703,7 @@ class WorldGuard extends PluginBase {
                                     case "reset":
                                         $this->getRegion($args[2])->resetFlag($args[3]);
                                         $issuer->sendMessage(TF::YELLOW."Flag ".$args[3]." has been reset to it's default value.");
+                                        $this->resourceManager->saveRegions($this->regions);
                                         break;
                                 }
                             } else {
