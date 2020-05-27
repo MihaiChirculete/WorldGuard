@@ -417,27 +417,27 @@ class WorldGuard extends PluginBase {
 			$permission->addParent("worldguard.enter", true);
 			PermissionManager::getInstance()->addPermission($permission);
 
-			$permission = new Permission("worldguard.leave." . $name, "Allows player to enter the " . $name . " region.", Permission::DEFAULT_OP);
+			$permission = new Permission("worldguard.leave." . $name, "Allows player to leave the " . $name . " region.", Permission::DEFAULT_OP);
 			$permission->addParent("worldguard.leave", true);
 			PermissionManager::getInstance()->addPermission($permission);
 
-            $permission = new Permission("worldguard.build." . $name, "Allows player to enter the " . $name . " region.", Permission::DEFAULT_OP);
+            $permission = new Permission("worldguard.build." . $name, "Allows player to build blocks in " . $name . " region.", Permission::DEFAULT_OP);
             $permission->addParent("worldguard.build", true);
             PermissionManager::getInstance()->addPermission($permission);
 
-            $permission = new Permission("worldguard.break." . $name, "Allows player to enter the " . $name . " region.", Permission::DEFAULT_OP);
+            $permission = new Permission("worldguard.break." . $name, "Allows player to break blocks in " . $name . " region.", Permission::DEFAULT_OP);
             $permission->addParent("worldguard.break", true);
             PermissionManager::getInstance()->addPermission($permission);
 
-            $permission = new Permission("worldguard.edit." . $name, "Allows player to enter the " . $name . " region.", Permission::DEFAULT_OP);
+            $permission = new Permission("worldguard.edit." . $name, "Allows player to edit blocks in " . $name . " region.", Permission::DEFAULT_OP);
             $permission->addParent("worldguard.edit", true);
             PermissionManager::getInstance()->addPermission($permission);
 
-            $permission = new Permission("worldguard.eat." . $name, "Allows player to enter the " . $name . " region.", Permission::DEFAULT_OP);
+            $permission = new Permission("worldguard.eat." . $name, "Allows player to eat in " . $name . " region.", Permission::DEFAULT_OP);
             $permission->addParent("worldguard.eat", true);
             PermissionManager::getInstance()->addPermission($permission);
 
-            $permission = new Permission("worldguard.drop." . $name, "Allows player to enter the " . $name . " region.", Permission::DEFAULT_OP);
+            $permission = new Permission("worldguard.drop." . $name, "Allows player to drop items in " . $name . " region.", Permission::DEFAULT_OP);
             $permission->addParent("worldguard.drop", true);
             PermissionManager::getInstance()->addPermission($permission);
 
