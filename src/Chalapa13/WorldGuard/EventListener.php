@@ -212,7 +212,7 @@ class EventListener implements Listener {
                 }
                 else{
                     if ($region->getFlag("deny-msg") === "true") {
-                        $player->sendMessage(TF::RED. $this->plugin->resourceManager->getMessages()["denied-place"]);
+                        $player->sendMessage(TF::RED. $this->plugin->resourceManager->getMessages()["denied-block-place"]);
                     }
                     $event->setCancelled();
                 }
