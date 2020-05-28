@@ -23,7 +23,7 @@
 namespace Chalapa13\WorldGuard;
 
 use pocketmine\plugin\PluginBase;
-use pocketmine\command\{Command, CommandSender};
+use pocketmine\command\{Command, CommandSender, ConsoleCommandSender};
 use pocketmine\event\player\PlayerCommandPreprocessEvent;
 use pocketmine\utils\TextFormat as TF;
 use pocketmine\Player;
@@ -43,6 +43,8 @@ class WorldGuard extends PluginBase {
         "block-break" => "false",
         "pvp" => "true",
         "deny-msg" => "true",
+        "console-cmd-on-enter" => "none",
+        "console-cmd-on-leave" => "none",
         "flow" => "true",
         "exp-drops" => "true",
         "invincible" => "false",
@@ -79,6 +81,8 @@ class WorldGuard extends PluginBase {
         "block-break" => "boolean",
         "pvp" => "boolean",
         "deny-msg" => "boolean",
+        "console-cmd-on-enter" => "string",
+        "console-cmd-on-leave" => "string",
         "flow" => "boolean",
         "exp-drops" => "boolean",
         "invincible" => "boolean",
@@ -253,6 +257,11 @@ class WorldGuard extends PluginBase {
             }
         }
         if ($old !== "") {
+            if ($old->getFlag("console-cmd-on-leave") !== "none"){
+                $cmd = str_replace("%player%", $player->getName(), $old->getFlag("console-cmd-on-leave"));
+                $player->getServer()->dispatchCommand(new ConsoleCommandSender(), $cmd);
+                return true;
+            }
             if ($old->getFlag("allowed-leave") === "false") 
             {
             	if(!$player->hasPermission("worldguard.leave." . $oldregion))
@@ -278,6 +287,12 @@ class WorldGuard extends PluginBase {
         }
 
         if ($new !== "") {
+            if ($new->getFlag("console-cmd-on-enter") !== "none"){
+                $cmd = str_replace("%player%", $player->getName(), $new->getFlag("console-cmd-on-enter"));
+                $player->getServer()->dispatchCommand(new ConsoleCommandSender(), $cmd);
+                return true;
+            }
+            
             if ($new->getFlag("allowed-enter") === "false"){
             	if(!$player->hasPermission("worldguard.enter." . $newregion))
             	{
@@ -713,7 +728,7 @@ class WorldGuard extends PluginBase {
                     }
                 } else {
                     $issuer->sendMessage(implode("\n".TF::LIGHT_PURPLE, [
-                        "§9§lWorldGuard §r§7(by Chalapa) §9Help Page",
+                        "§9§lWorldGuard §r§9Help Page §7(by Chalapa)",
                         " ",
                         "§e/worldguard §7- §eOpen up the User Interface",
                         "§a/region create <region name> §7- §aCreate a new region.",
