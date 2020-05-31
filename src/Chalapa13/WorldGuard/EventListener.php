@@ -504,8 +504,8 @@ class EventListener implements Listener {
     }
 	
     public function noHunger(PlayerExhaustEvent $exhaustEvent){
-        $player = $event->getPlayer();
-        if(($region = $this->plugin->getRegionByPlayer($event->getPlayer())) !== ""){
+        $player = $exhaustEvent->getPlayer();
+        if(($region = $this->plugin->getRegionByPlayer($exhaustEvent->getPlayer())) !== ""){
             if($region->getFlag("nohunger") === "true") {
                 $exhaustEvent->setCancelled(true);
             }
