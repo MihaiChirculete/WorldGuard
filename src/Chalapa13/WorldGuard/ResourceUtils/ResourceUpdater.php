@@ -78,6 +78,7 @@ class ResourceUpdater
             "gui_flag_gm" => "Gamemode",
             "gui_gm_survival" => "Survival",
             "gui_gm_creative" => "Creative",
+            "gui_gm_adventure" => "Adventure",
             "gui_flag_sleep" => "Allow sleeping",
             "gui_flag_send_chat" => "Allow sending chat messages",
             "gui_flag_rcv_chat" => "Allow receiving chat messages",
