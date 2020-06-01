@@ -55,7 +55,7 @@ class Region {
         $this->flags = $flags;
 
         foreach ($this->flags["effects"] as $id => $amplifier) {
-            $this->effects[$id] = new EffectInstance(Effect::getEffect($id), 999999999, $amplifier);
+            $this->effects[$id] = new EffectInstance(Effect::getEffect($id), 999999999, $amplifier, false);
         }
 
         $this->vector1 = new Vector3(...$pos1);
@@ -121,7 +121,7 @@ class Region {
                 if (is_numeric($avalue[1])) {
                     $this->flags["effects"][$value] = $avalue[1];
                     $effectType = Effect::getEffect($value);
-                    $this->effects[$value] = new EffectInstance($effectType, 999999999, --$avalue[1]);
+                    $this->effects[$value] = new EffectInstance($effectType, 999999999, --$avalue[1], false);
                     return TF::YELLOW.'Added "'.($this->effects[$value])->getType()->getName().' '.Utils::getRomanNumber(++$avalue[1]).'" effect to "'.$this->name.'" region.';
                 } else {
                     return TF::RED."Amplifier must be numerical.\n".TF::GRAY.'Example: /region flags set '.$this->name.' '.$value.' 1';
