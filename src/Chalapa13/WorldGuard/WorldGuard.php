@@ -67,7 +67,7 @@ class WorldGuard extends PluginBase {
         "enderpearl" => "true",
         "fly-mode" => 0,
         "eat" => "true",
-	    "hunger" => "true",
+        "hunger" => "true",
         "allow-damage-animals" => "true",
         "allow-damage-monsters" => "true",
         "allow-leaves-decay" => "true",
@@ -106,7 +106,7 @@ class WorldGuard extends PluginBase {
         "enderpearl" => "boolean",
         "fly-mode" => "integer",
         "eat" => "boolean",
-	    "hunger" => "boolean",
+        "hunger" => "boolean",
         "allow-damage-animals" => "boolean",
         "allow-damage-monsters" => "boolean",
         "allow-leaves-decay" => "boolean",
@@ -438,13 +438,14 @@ class WorldGuard extends PluginBase {
             unset($map[0][3], $map[1][3]);
             $this->regions[$name] = new Region($name, $map[0], $map[1], $level, self::FLAGS);
             unset($this->process[$id], $this->creating[$id]);
-			$permission = new Permission("worldguard.enter." . $name, "Allows player to enter the " . $name . " region.", Permission::DEFAULT_OP);
-			$permission->addParent("worldguard.enter", true);
-			PermissionManager::getInstance()->addPermission($permission);
+		
+            $permission = new Permission("worldguard.enter." . $name, "Allows player to enter the " . $name . " region.", Permission::DEFAULT_OP);
+            $permission->addParent("worldguard.enter", true);
+            PermissionManager::getInstance()->addPermission($permission);
 
-			$permission = new Permission("worldguard.leave." . $name, "Allows player to leave the " . $name . " region.", Permission::DEFAULT_OP);
-			$permission->addParent("worldguard.leave", true);
-			PermissionManager::getInstance()->addPermission($permission);
+            $permission = new Permission("worldguard.leave." . $name, "Allows player to leave the " . $name . " region.", Permission::DEFAULT_OP);
+            $permission->addParent("worldguard.leave", true);
+            PermissionManager::getInstance()->addPermission($permission);
 
             $permission = new Permission("worldguard.build." . $name, "Allows player to build blocks in " . $name . " region.", Permission::DEFAULT_OP);
             $permission->addParent("worldguard.build", true);
