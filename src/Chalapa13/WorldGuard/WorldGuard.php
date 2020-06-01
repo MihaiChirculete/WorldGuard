@@ -311,7 +311,7 @@ class WorldGuard extends PluginBase {
                 if (($gm = $new->getGamemode()) !== $player->getGamemode()) {
                     if(!$player->hasPermission("worldguard.bypass.gamemode." . $newregion)){
                         if ($gm !== "false"){
-                            if ($gm == "0" | $gm == "1" | $gm == "2" | $gm == "3"){
+                            if ($gm == "0" || $gm == "1" || $gm == "2" || $gm == "3"){
                                 $player->setGamemode($gm);
                                 if ($gm === 0 || $gm === 2) Utils::disableFlight($player);
                             }
