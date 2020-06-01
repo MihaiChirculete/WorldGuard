@@ -87,7 +87,7 @@ class ResourceUpdater
             "gui_enabled" => "Enabled",
             "gui_disabled" => "Disabled",
             "gui_flag_eat" => "Allow eating",
-            "gui_flag_nohunger" => "Enable NoHunger",
+            "gui_flag_hunger" => "Disable Hunger",
             "gui_flag_dmg_animals" => "Allow damaging of animals",
             "gui_flag_dmg_monsters" => "Allow damaging of monsters",
             "gui_flag_leaf_decay" => "Allow leaf decay",
