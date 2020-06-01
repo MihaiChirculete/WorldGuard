@@ -1,0 +1,58 @@
+---
+author_name: Suerion und Macon21
+gui_wg_menu_title: World Guard Menü
+gui_label_choose_option: Wähle eine Option.
+gui_btn_rg_management: Region Optionen
+gui_btn_help: Hilfe
+gui_btn_manage_existing: Einstellen deiner Regionen
+gui_btn_create_region: Erstelle eine neue Region
+gui_btn_redefine_region: Verändere eine Region
+gui_btn_delete_region: Lösche eine Region
+gui_creation_menu_title: Region erstellen
+gui_creation_menu_label1: Lass mich dir helfen, eine neue Region zu erstellen.
+gui_creation_menu_rg_name_box: Zuerst gib einen Namen für deine neue Region ein.
+gui_creation_menu_label2: Willst du deine Region Vertikal vom Grund 0 bis in den Himmel 255 setzen, 
+  dann musst du folgende Option aktivieren.
+gui_creation_menu_toggle_expand: Vertikal erweitern
+gui_creation_menu_label3: "Drücke \xA7a'Senden'\xA7r und wähle anschließend 2 Eckpunkte mit Rechtsklick aus, 
+  welche den Bereich deiner Region vorgeben."
+gui_dropdown_select_redefine: Wähle die Region, die du verändern willst. Hierzu musst du wieder zwei Eckpunkte auswählen.
+gui_dropdown_select_delete: Wähle die Region, die du löschen willst.
+gui_dropdown_select_manage: Wähle die Region, welche du einstellen willst.
+gui_manage_menu_title: 'Regionseinstellungen:'
+gui_flag_pvp: Erlaube PvP
+gui_flag_xp_drops: Erlaube Erfahrungspunkte
+gui_flag_invincible: Erlaube den Effekt Unsichtbarkeit
+gui_flag_fall_dmg: Erlaube Fallschaden
+gui_flag_usage: 'Erlaube das Benutzen (Kisten, Werkbank, o.Ä.)'
+gui_flag_item_drop: Erlaube Gegenstände fallenzulassen
+gui_flag_explosions: Erlaube Explosionen
+gui_flag_notify_enter: Meldung für das Betreten
+gui_flag_notify_leave: Meldung für das Verlassen
+gui_flag_potions: Erlaube Tränke
+gui_flag_allowed_enter: Erlaube das Betreten
+gui_flag_allowed_leave: Erlaube das Verlassen
+gui_flag_gm: Gamemode
+gui_gm_survival: Überleben
+gui_gm_creative: Kreativ
+gui_gm_adventure: Abenteuer
+gui_flag_sleep: Erlaube das Schlafen
+gui_flag_send_chat: Erlaube das Schreiben von Nachrichten im Chat
+gui_flag_rcv_chat: Erlaube das Erhalten von Nachrichten im Chat
+gui_flag_enderpearl: Erlaube das Verwenden von Ender Perlen
+gui_flag_fly_mode: Flugmodus
+gui_enabled: Aktiviert
+gui_disabled: Deaktiviert
+gui_flag_eat: Erlaube das Essen
+gui_flag_nohunger: Kein Hungergefühl
+gui_flag_dmg_animals: Erlaube das Verletzten von Tieren
+gui_flag_dmg_monsters: Erlaube das Attackieren von Monstern
+gui_flag_leaf_decay: Erlaube den Blattzerfall
+gui_flag_plant_growth: Erlaube das Pflanzenwachstum
+gui_flag_spread: 'Erlaube das Ausbreiten von Blöcken (Grasblöcke, Myzel, o.Ä.)' 
+gui_flag_block_burn: Erlaubt das Ausbreiten von Feuer
+gui_flag_priority: 'Priorität von einer Region:'
+gui_help_menu_label1: 'Wenn du Hilfe bei den Einstellungen von World Guard brauchst, schau dir das Tutorial an,
+  welches wir für dich gemacht haben:'
+gui_help_menu_label2: http://worldguard.ddns.net/tutorial
+...
