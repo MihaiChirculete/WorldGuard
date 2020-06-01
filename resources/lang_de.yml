@@ -44,7 +44,7 @@ gui_flag_fly_mode: Flugmodus
 gui_enabled: Aktiviert
 gui_disabled: Deaktiviert
 gui_flag_eat: Erlaube das Essen
-gui_flag_hunger: Deaktiviere das Hungergefühl
+gui_flag_hunger: Aktiviere das Hungergefühl
 gui_flag_dmg_animals: Erlaube das Verletzten von Tieren
 gui_flag_dmg_monsters: Erlaube das Attackieren von Monstern
 gui_flag_leaf_decay: Erlaube den Blattzerfall
