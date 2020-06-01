@@ -168,13 +168,14 @@ class GUI
                 new Toggle($lang["gui_flag_potions"], filter_var($rg->getFlag("potions"), FILTER_VALIDATE_BOOLEAN)),
                 new Toggle($lang["gui_flag_allowed_enter"], filter_var($rg->getFlag("allowed-enter"), FILTER_VALIDATE_BOOLEAN)),
                 new Toggle($lang["gui_flag_allowed_leave"], filter_var($rg->getFlag("allowed-leave"), FILTER_VALIDATE_BOOLEAN)),
-                new Dropdown($lang["gui_flag_gm"], [$lang["gui_gm_survival"], $lang["gui_gm_creative"]]),
+                new Dropdown($lang["gui_flag_gm"], [$lang["gui_gm_survival"], $lang["gui_gm_creative"], $lang["gui_gm_adventure"]]),
                 new Toggle($lang["gui_flag_sleep"], filter_var($rg->getFlag("sleep"), FILTER_VALIDATE_BOOLEAN)),
                 new Toggle($lang["gui_flag_send_chat"], filter_var($rg->getFlag("send-chat"), FILTER_VALIDATE_BOOLEAN)),
                 new Toggle($lang["gui_flag_rcv_chat"], filter_var($rg->getFlag("receive-chat"), FILTER_VALIDATE_BOOLEAN)),
                 new Toggle($lang["gui_flag_enderpearl"], filter_var($rg->getFlag("enderpearl"), FILTER_VALIDATE_BOOLEAN)),
                 new Dropdown($lang["gui_flag_fly_mode"], ["Vanilla", $lang["gui_enabled"], $lang["gui_disabled"], "Supervised"]),
                 new Toggle($lang["gui_flag_eat"], filter_var($rg->getFlag("eat"), FILTER_VALIDATE_BOOLEAN)),
+                new Toggle($lang["gui_flag_nohunger"], filter_var($rg->getFlag("nohunger"), FILTER_VALIDATE_BOOLEAN)),
                 new Toggle($lang["gui_flag_dmg_animals"], filter_var($rg->getFlag("allow-damage-animals"), FILTER_VALIDATE_BOOLEAN)),
                 new Toggle($lang["gui_flag_dmg_monsters"], filter_var($rg->getFlag("allow-damage-monsters"), FILTER_VALIDATE_BOOLEAN)),
                 new Toggle($lang["gui_flag_leaf_decay"], filter_var($rg->getFlag("allow-leaves-decay"), FILTER_VALIDATE_BOOLEAN)),
@@ -186,7 +187,7 @@ class GUI
             function(Player $player, CustomFormResponse $response) : void{
                 list($pvpFlag, $xpFlag, $invincibleFlag, $fallDmgFlag, $useFlag, $itemDropFlag, $explosionsFlag,
                     $notifyEnterFlag, $notifyLeaveFlag, $potionsFlag, $allowEnterFlag, $allowLeaveFlag,
-                    $gamemodeFlag, $sleepFlag, $sendChatFlag, $receiveChatFlag, $enderPearlFlag, $flyModeFlag, $eatingFlag,
+                    $gamemodeFlag, $sleepFlag, $sendChatFlag, $receiveChatFlag, $enderPearlFlag, $flyModeFlag, $eatingFlag, $noHungerFlag,
                     $damageAnimalsFlag, $damageMonstersFlag, $leafDecayFlag, $plantGrowthFlag, $spreadingFlag, $blockBurnFlag,
                     $priorityFlag) = $response->getValues();
 
@@ -218,6 +219,10 @@ class GUI
                     case $lang["gui_gm_creative"]:
                         $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set " . self::$currentlyEditedRg . " game-mode creative");
                         break;
+                        
+                     case $lang["gui_gm_adventure"]:
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set " . self::$currentlyEditedRg . " game-mode adventure");
+                        break;
                 }
 
 
@@ -241,6 +246,7 @@ class GUI
                 }
 
                 $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set " . self::$currentlyEditedRg . " eat " . var_export($eatingFlag, true));
+                $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set " . self::$currentlyEditedRg . " nohunger " . var_export($noHungerFlag, true));
                 $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set " . self::$currentlyEditedRg . " allow-damage-animals " . var_export($damageAnimalsFlag, true));
                 $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set " . self::$currentlyEditedRg . " allow-damage-monsters " . var_export($damageMonstersFlag, true));
                 $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set " . self::$currentlyEditedRg . " allow-leaves-decay " . var_export($leafDecayFlag, true));
