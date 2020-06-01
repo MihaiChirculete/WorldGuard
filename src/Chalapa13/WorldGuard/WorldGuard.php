@@ -67,7 +67,7 @@ class WorldGuard extends PluginBase {
         "enderpearl" => "true",
         "fly-mode" => 0,
         "eat" => "true",
-	"nohunger" => "false",
+	    "hunger" => "true",
         "allow-damage-animals" => "true",
         "allow-damage-monsters" => "true",
         "allow-leaves-decay" => "true",
@@ -106,7 +106,7 @@ class WorldGuard extends PluginBase {
         "enderpearl" => "boolean",
         "fly-mode" => "integer",
         "eat" => "boolean",
-	"nohunger" => "boolean",
+	    "hunger" => "boolean",
         "allow-damage-animals" => "boolean",
         "allow-damage-monsters" => "boolean",
         "allow-leaves-decay" => "boolean",
@@ -173,13 +173,17 @@ class WorldGuard extends PluginBase {
 
     public function getRegionByPlayer(Player $player)
     {
-        $reg = $this->getRegionOf($player);
-        return $reg !== "" ? $this->getRegion($reg) : "";
+        if ($player instanceof Player){
+            $reg = $this->getRegionOf($player);
+            return $reg !== "" ? $this->getRegion($reg) : "";
+        }
     }
 
     public function getRegionOf(Player $player): string
     {
-        return $this->players[$player->getRawUniqueId()] ?? "";
+        if ($player instanceof Player){
+            return $this->players[$player->getRawUniqueId()] ?? "";
+        }
     }
 
     public function regionExists(string $name) : bool
@@ -241,157 +245,168 @@ class WorldGuard extends PluginBase {
     {
         $new = $this->getRegion($newregion);
         $old = $this->getRegion($oldregion);
-
-        if($this->resourceManager->getConfig()["debugging"] === true){
-            if(gettype($new) === "string"){
-                $this->getLogger()->info("New Region is empty");
-            }
-            else{
-                $this->getLogger()->info("New Region: " . $new->getName());
-            }
-        }
-        if($this->resourceManager->getConfig()["debugging"] === true){
-            if(gettype($old) === "string"){
-                $this->getLogger()->info("Old Region is empty");
-            }
-            else{
-                $this->getLogger()->info("Old Region: " . $old->getName());
-            }
-        }
-        if ($old !== "") {
-            if ($old->getFlag("console-cmd-on-leave") !== "none"){
-                $cmd = str_replace("%player%", $player->getName(), $old->getFlag("console-cmd-on-leave"));
-                $player->getServer()->dispatchCommand(new ConsoleCommandSender(), $cmd);
-                return true;
-            }
-            if ($old->getFlag("allowed-leave") === "false") 
-            {
-            	if(!$player->hasPermission("worldguard.leave." . $oldregion))
-            	{
-	                $player->sendMessage(TF::RED. $this->resourceManager->getMessages()["denied-leave"]);
-	                return false;
-	            }
-            }
-            if (($msg = $old->getFlag("notify-leave")) !== "") {
-                $player->sendTip(Utils::aliasParse($player, $msg));
-            }
-            if ($old->getFlag("receive-chat") === "false") {
-                unset($this->muted[$player->getRawUniqueId()]);
-            }
-            foreach ($player->getEffects() as $effect) {
-                if ($effect->getDuration() >= 999999) {
-                    $player->removeEffect($effect->getId());
+        
+        if ($player instanceof Player){
+            if($this->resourceManager->getConfig()["debugging"] === true){
+                if(gettype($new) === "string"){
+                    $this->getLogger()->info("New Region is empty");
+                }
+                else{
+                    $this->getLogger()->info("New Region: " . $new->getName());
                 }
             }
-            if ($old->getFlight() === self::FLY_SUPERVISED) {
-                Utils::disableFlight($player);
-	    	}
-        }
-
-        if ($new !== "") {
-            if ($new->getFlag("console-cmd-on-enter") !== "none"){
-                $cmd = str_replace("%player%", $player->getName(), $new->getFlag("console-cmd-on-enter"));
-                $player->getServer()->dispatchCommand(new ConsoleCommandSender(), $cmd);
-                return true;
-            }
-            
-            if ($new->getFlag("allowed-enter") === "false"){
-            	if(!$player->hasPermission("worldguard.enter." . $newregion))
-            	{
-                	$player->sendMessage(TF::RED. $this->resourceManager->getMessages()["denied-enter"]);
-                	return false;
+            if($this->resourceManager->getConfig()["debugging"] === true){
+                if(gettype($old) === "string"){
+                    $this->getLogger()->info("Old Region is empty");
+                }
+                else{
+                    $this->getLogger()->info("Old Region: " . $old->getName());
                 }
             }
-            if (($gm = $new->getGamemode()) !== $player->getGamemode()) {
-                if(!$player->hasPermission("worldguard.bypass.gamemode" . $newregion)){
-                    if ($gm !== "false"){
-                        if ($gm == "0" | $gm == "1" | $gm == "2" | $gm == "3"){
-                            $player->setGamemode($gm);
-                            if ($gm === 0 || $gm === 2) Utils::disableFlight($player);
-                        }
-                        else if ($gm == "creative"){
-                            $player->setGamemode(1);
-                        }
-                        else if ($gm == "survival"){
-                            $player->setGamemode(0);
-                            Utils::disableFlight($player);
-                        }
-                        else if ($gm == "adventure"){
-                            $player->setGamemode(2);
-                            Utils::disableFlight($player);
-                        }
-                        else if ($gm == "spectator"){
-                            $player->setGamemode(3);
-                        }
+            if ($old !== "") {
+                if ($old->getFlag("console-cmd-on-leave") !== "none"){
+                    $cmd = str_replace("%player%", $player->getName(), $old->getFlag("console-cmd-on-leave"));
+                    $player->getServer()->dispatchCommand(new ConsoleCommandSender(), $cmd);
+                }
+                if ($old->getFlag("allowed-leave") === "false") 
+                {
+                    if(!$player->hasPermission("worldguard.leave." . $oldregion))
+                    {
+                        $player->sendMessage(TF::RED. $this->resourceManager->getMessages()["denied-leave"]);
+                        return false;
+                    }
+                }
+                if (($msg = $old->getFlag("notify-leave")) !== "") {
+                    $player->sendTip(Utils::aliasParse($player, $msg));
+                }
+                if ($old->getFlag("receive-chat") === "false") {
+                    unset($this->muted[$player->getRawUniqueId()]);
+                }
+                foreach ($player->getEffects() as $effect) {
+                    if ($effect->getDuration() >= 999999) {
+                        $player->removeEffect($effect->getId());
+                    }
+                }
+                
+                if ($old->getFlight() === self::FLY_SUPERVISED) {
+                    if ($player->getGamemode() != 1){
+                        Utils::disableFlight($player);
                     }
                 }
             }
-            if (($msg = $new->getFlag("notify-enter")) !== "") {
-                $player->sendTip(Utils::aliasParse($player, $msg));
-            }
-            if ($new->getFlag("receive-chat") === "false") {
-                $this->muted[$player->getRawUniqueId()] = $player;
-            }
-            if(!$player->hasPermission("worldguard.bypass.fly" . $newregion)){
-                if (($flight = $new->getFlight()) !== self::FLY_VANILLA) {
-                    switch ($flight) {
-                        case self::FLY_ENABLE:
-                        case self::FLY_SUPERVISED:
-                            if (!$player->getAllowFlight()) {
-                                $player->setAllowFlight(true);
+
+            if ($new !== "") {
+                if ($new->getFlag("console-cmd-on-enter") !== "none"){
+                    $cmd = str_replace("%player%", $player->getName(), $new->getFlag("console-cmd-on-enter"));
+                    $player->getServer()->dispatchCommand(new ConsoleCommandSender(), $cmd);
+                }
+                
+                if ($new->getFlag("allowed-enter") === "false"){
+                    if(!$player->hasPermission("worldguard.enter." . $newregion))
+                    {
+                        $player->sendMessage(TF::RED. $this->resourceManager->getMessages()["denied-enter"]);
+                        return false;
+                    }
+                }
+                if (($gm = $new->getGamemode()) !== $player->getGamemode()) {
+                    if(!$player->hasPermission("worldguard.bypass.gamemode." . $newregion)){
+                        if ($gm !== "false"){
+                            if ($gm == "0" | $gm == "1" | $gm == "2" | $gm == "3"){
+                                $player->setGamemode($gm);
+                                if ($gm === 0 || $gm === 2) Utils::disableFlight($player);
                             }
-                            break;
-                        case self::FLY_DISABLE:
-                            Utils::disableFlight($player);
-                            break;
+                            else if ($gm == "creative"){
+                                $player->setGamemode(1);
+                            }
+                            else if ($gm == "survival"){
+                                $player->setGamemode(0);
+                                Utils::disableFlight($player);
+                            }
+                            else if ($gm == "adventure"){
+                                $player->setGamemode(2);
+                                Utils::disableFlight($player);
+                            }
+                            else if ($gm == "spectator"){
+                                $player->setGamemode(3);
+                            }
+                        }
+                    }
+                }
+                if (($msg = $new->getFlag("notify-enter")) !== "") {
+                    $player->sendTip(Utils::aliasParse($player, $msg));
+                }
+                if ($new->getFlag("receive-chat") === "false") {
+                    $this->muted[$player->getRawUniqueId()] = $player;
+                }
+                if(!$player->hasPermission("worldguard.bypass.fly." . $newregion)){
+                    if (($flight = $new->getFlight()) !== self::FLY_VANILLA) {
+                        if ($player->getGamemode() != 1){
+                            switch ($flight) {
+                                case self::FLY_ENABLE:
+                                case self::FLY_SUPERVISED:
+                                    if (!$player->getAllowFlight()) {
+                                        $player->setAllowFlight(true);
+                                    }
+                                    break;
+                                case self::FLY_DISABLE:
+                                    Utils::disableFlight($player);
+                                    break;
+                            }
+                        }
+                    }
+                }
+                 //
+                // EFFECTS
+               //
+                if($new != null && !empty($new)) {
+                    $newRegionEffects = $new->getEffects();
+                }
+                else {
+                    $newRegionEffects = null;
+                }
+                if($old != null && !empty($old)) {
+                    $oldRegionEffects = $old->getEffects();
+                }
+                else {
+                    $oldRegionEffects = null;
+                }
+                // Iterate all old effects and remove them
+                if(!empty($oldRegionEffects) && $oldRegionEffects != null){
+                    $playername = $player->getName();
+                    if($this->resourceManager->getConfig()["debugging"] === true){
+                        $this->getLogger()->info("Removing region-given effects, and re-adding any effects the player had.");
+                    }
+                    foreach ($new->getFlag("effects") as $effect){
+                        $player->removeEffect($effect);
+                    }
+                }
+
+                // Iterate all new effects and add them
+                if (!empty($newRegionEffects) && $newRegionEffects != null){
+                    if($this->resourceManager->getConfig()["debugging"] === true){
+                        $this->getLogger()->info("Saving the player's current effects that the region overwrites, and giving the new effects from the region.");
+                    }
+                    foreach ($newRegionEffects as $effect){
+                        $player->addEffect($effect);
                     }
                 }
             }
-             //
-            // EFFECTS
-           //
-            if($new != null && !empty($new)) {
-                $newRegionEffects = $new->getEffects();
-            }
-            else {
-                $newRegionEffects = null;
-            }
-            if($old != null && !empty($old)) {
-                $oldRegionEffects = $old->getEffects();
-            }
-            else {
-                $oldRegionEffects = null;
-            }
-            // Iterate all old effects and remove them
-            if(!empty($oldRegionEffects) && $oldRegionEffects != null){
-                $playername = $player->getName();
-                if($this->resourceManager->getConfig()["debugging"] === true){
-                    $this->getLogger()->info("Removing region-given effects, and re-adding any effects the player had.");
-                }
-                foreach ($new->getFlag("effects") as $effect){
-                    $player->removeEffect($effect);
-                }
-            }
 
-            // Iterate all new effects and add them
-            if (!empty($newRegionEffects) && $newRegionEffects != null){
-                if($this->resourceManager->getConfig()["debugging"] === true){
-                    $this->getLogger()->info("Saving the player's current effects that the region overwrites, and giving the new effects from the region.");
-                }
-                foreach ($newRegionEffects as $effect){
-                    $player->addEffect($effect);
-                }
-            }
-        }
-
-        /*
-        if($new !== "")
-        {
-            if(($time = $new->getFlag("freeze-time")) !== -1 )
+            /*
+            if($new !== "")
             {
-                $pk = new SetTimePacket();
-                $pk->time = intval($time);
-                $player->dataPacket($pk);
+                if(($time = $new->getFlag("freeze-time")) !== -1 )
+                {
+                    $pk = new SetTimePacket();
+                    $pk->time = intval($time);
+                    $player->dataPacket($pk);
+                }
+                else
+                {
+                    $pk = new SetTimePacket();
+                    $pk->time = intval($this->getServer()->getTick());
+                    $player->dataPacket($pk);
+                }
             }
             else
             {
@@ -399,15 +414,8 @@ class WorldGuard extends PluginBase {
                 $pk->time = intval($this->getServer()->getTick());
                 $player->dataPacket($pk);
             }
+            */
         }
-        else
-        {
-            $pk = new SetTimePacket();
-            $pk->time = intval($this->getServer()->getTick());
-            $player->dataPacket($pk);
-        }
-        */
-
         return true;
     }
 
