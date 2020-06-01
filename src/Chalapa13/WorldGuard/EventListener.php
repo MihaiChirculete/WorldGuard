@@ -25,7 +25,7 @@ use pocketmine\block\Block;
 use pocketmine\event\block\{BlockPlaceEvent, BlockBreakEvent, LeavesDecayEvent, BlockGrowEvent, BlockUpdateEvent, BlockSpreadEvent, BlockBurnEvent};
 use pocketmine\event\entity\{EntityDamageEvent, EntityDamageByEntityEvent, EntityDeathEvent, EntityExplodeEvent, ProjectileLaunchEvent};
 use pocketmine\event\Listener;
-use pocketmine\event\player\{PlayerJoinEvent, PlayerMoveEvent, PlayerInteractEvent, PlayerItemConsumeEvent, PlayerCommandPreprocessEvent, PlayerDropItemEvent, PlayerBedEnterEvent, PlayerChatEvent, PlayerItemHeldEvent};
+use pocketmine\event\player\{PlayerJoinEvent, PlayerMoveEvent, PlayerInteractEvent, PlayerItemConsumeEvent, PlayerCommandPreprocessEvent, PlayerDropItemEvent, PlayerBedEnterEvent, PlayerChatEvent, PlayerItemHeldEvent, PlayerExhaustEvent};
 use pocketmine\item\Item;
 use pocketmine\item\Food;
 use pocketmine\Player;
@@ -502,6 +502,16 @@ class EventListener implements Listener {
             }
         }
     }
+	
+    public function noHunger(PlayerExhaustEvent $exhaustEvent){
+        $player = $exhaustEvent->getPlayer();
+        if(($region = $this->plugin->getRegionByPlayer($exhaustEvent->getPlayer())) !== ""){
+            if($region->getFlag("nohunger") === "true") {
+                $exhaustEvent->setCancelled(true);
+            }
+        }
+    }
+	
     public function onLeafDecay(LeavesDecayEvent $event)
     {
         if(($region = $this->plugin->getRegionFromPosition($event->getBlock()->asPosition())) !== "")
