@@ -285,7 +285,7 @@ class EventListener implements Listener {
         if (($victim) instanceof Player) {
             if (($reg = $this->plugin->getRegionByPlayer($victim)) !== "") {
                 if ($reg->getFlag("pvp") === "false"){
-         	    	if(($damager) instanceof Player && ($victim) instanceof Player) {
+         	    	if(($damager) instanceof Player) {
                         if ($reg->getFlag("deny-msg") === "true") {
                             $damager->sendMessage(TF::RED. $this->plugin->resourceManager->getMessages()["denied-pvp"]);
                         }
@@ -297,7 +297,7 @@ class EventListener implements Listener {
             if (($damager) instanceof Player) {
                 if (($reg = $this->plugin->getRegionByPlayer($damager)) !== "") {
                     if ($reg->getFlag("pvp") === "false"){
-                        if(($damager) instanceof Player && ($victim) instanceof Player) {
+                        if(($victim) instanceof Player) {
                             if ($reg->getFlag("deny-msg") === "true") {
                                 $damager->sendMessage(TF::RED. $this->plugin->resourceManager->getMessages()["denied-pvp"]);
                             }
@@ -495,11 +495,13 @@ class EventListener implements Listener {
     public function onItemConsume(PlayerItemConsumeEvent $event){
         $player = $event->getPlayer();
         $item = $event->getItem();
-        if(($region = $this->plugin->getRegionByPlayer($event->getPlayer())) !== ""){
-            if($region->getFlag("eat") === "false" && !$player->hasPermission("worldguard.eat." . $region->getName())) {
-                $event->setCancelled();
-                if ($region->getFlag("deny-msg") === "true") {
-                    $player->sendMessage(TF::RED. $this->plugin->resourceManager->getMessages()["denied-eat"]);
+        if ($player instanceof Player){
+            if(($region = $this->plugin->getRegionByPlayer($event->getPlayer())) !== ""){
+                if($region->getFlag("eat") === "false" && !$player->hasPermission("worldguard.eat." . $region->getName())) {
+                    $event->setCancelled();
+                    if ($region->getFlag("deny-msg") === "true") {
+                        $player->sendMessage(TF::RED. $this->plugin->resourceManager->getMessages()["denied-eat"]);
+                    }
                 }
             }
         }
@@ -507,9 +509,11 @@ class EventListener implements Listener {
 	
     public function noHunger(PlayerExhaustEvent $exhaustEvent){
         $player = $exhaustEvent->getPlayer();
-        if(($region = $this->plugin->getRegionByPlayer($exhaustEvent->getPlayer())) !== ""){
-            if($region->getFlag("hunger") === "false") {
-                $exhaustEvent->setCancelled(true);
+        if ($exhaustEvent->getPlayer() instanceof Player){
+            if(($region = $this->plugin->getRegionByPlayer($exhaustEvent->getPlayer())) !== ""){
+                if($region->getFlag("hunger") === "false") {
+                    $exhaustEvent->setCancelled(true);
+                }
             }
         }
     }
