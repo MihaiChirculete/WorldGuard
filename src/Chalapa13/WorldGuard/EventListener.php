@@ -150,7 +150,11 @@ class EventListener implements Listener {
                         return;
                     if($player->hasPermission("worldguard.usecraftingtable." . $reg->getName()) && ($block === Block::BEACON ))
                         return;
-                    if($player->hasPermission("worldguard.usenoteblock." . $reg->getName()) && ($block === Block::BEACON ))
+                    if($player->hasPermission("worldguard.usenoteblock." . $reg->getName()) && ($block === Block::NOTE_BLOCK ))
+                        return;
+                    if($player->hasPermission("worldguard.usepressureplate." . $reg->getName()) && ($block === Block::WOODEN_PRESSURE_PLATE  || $block === Block::LIGHT_WEIGHTED_PRESSURE_PLATE || $block === Block::HEAVY_WEIGHTED_PRESSURE_PLATE || $block === Block::STONE_PRESSURE_PLATE ))
+                        return;
+                    if($player->hasPermission("worldguard.usebutton." . $reg->getName()) && ($block === Block::STONE_BUTTON || $block === Block::WOODEN_BUTTON ))
                         return;
                      if (in_array($block, self::USABLES)) {
                         if ($reg->getFlag("deny-msg") === "true") {
