@@ -130,6 +130,8 @@ class EventListener implements Listener {
                         return;
                     if($player->hasPermission("worldguard.usechestender." . $reg->getName()) && $block === Block::ENDER_CHEST)
                         return;
+                    if($player->hasPermission("worldguard.usetrappedchest." . $reg->getName()) && $block === Block::TRAPPED_CHEST)
+                        return;
                     if($player->hasPermission("worldguard.enchantingtable." . $reg->getName()) && $block === Block::ENCHANTING_TABLE)
                         return;
                     if($player->hasPermission("worldguard.usefurnaces." . $reg->getName()) && $block === Block::BURNING_FURNACE || $block === Block::FURNACE )
