@@ -474,6 +474,10 @@ class WorldGuard extends PluginBase {
             $permission = new Permission("worldguard.usechestender." . $name, "Allows player to use ender chests in " . $name . " region.", Permission::DEFAULT_OP);
             $permission->addParent("worldguard.usechestender", true);
             PermissionManager::getInstance()->addPermission($permission);
+		
+            $permission = new Permission("worldguard.usetrappedchest." . $name, "Allows player to use trapped chests in " . $name . " region.", Permission::DEFAULT_OP);
+            $permission->addParent("worldguard.usetrappedchest", true);
+            PermissionManager::getInstance()->addPermission($permission);
 
             $permission = new Permission("worldguard.enchantingtable." . $name, "Allows player to use enchanting table in " . $name . " region.", Permission::DEFAULT_OP);
             $permission->addParent("worldguard.enchantingtable", true);
@@ -506,10 +510,17 @@ class WorldGuard extends PluginBase {
             $permission = new Permission("worldguard.usebrewingstand." . $name, "Allows player to use brewing stands in " . $name . " region.", Permission::DEFAULT_OP);
             $permission->addParent("worldguard.usebrewingstand", true);
             PermissionManager::getInstance()->addPermission($permission);
-            $this->resourceManager->saveRegions($this->regions);
 
             $permission = new Permission("worldguard.usebeacon." . $name, "Allows player to use beacons in " . $name . " region.", Permission::DEFAULT_OP);
             $permission->addParent("worldguard.usebeacon", true);
+            PermissionManager::getInstance()->addPermission($permission);
+		
+            $permission = new Permission("worldguard.usepressureplate." . $name, "Allows player to use pressureplates in " . $name . " region.", Permission::DEFAULT_OP);
+            $permission->addParent("worldguard.usepressureplate", true);
+            PermissionManager::getInstance()->addPermission($permission);
+		
+            $permission = new Permission("worldguard.usebutton." . $name, "Allows player to use buttons in " . $name . " region.", Permission::DEFAULT_OP);
+            $permission->addParent("worldguard.usebutton", true);
             PermissionManager::getInstance()->addPermission($permission);
             $this->resourceManager->saveRegions($this->regions);
             return $name;
