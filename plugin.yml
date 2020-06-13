@@ -13,6 +13,7 @@ commands:
     description: Create/Manage/Delete regions.
     aliases: ["rg"]
     default: op
+softdepend: ["RedstoneCircuit"]
 permissions:
   worldguard.ui:
     default: op
@@ -40,6 +41,8 @@ permissions:
     default: op
   worldguard.usechestender:
     default: op
+  worldguard.usetrappedchest:
+    default: op
   worldguard.enchantingtable:
     default: op
   worldguard.usedoors:
@@ -58,5 +61,10 @@ permissions:
     default: op
   worldguard.usebeacons:
     default: op
+  worldguard.usepressureplate:
+    default: op
+  worldguard.useusebutton:
+    default: op
+    
   worldguard.bypass.gamemode:
     default: op
