@@ -13,8 +13,7 @@ commands:
     description: Create/Manage/Delete regions.
     aliases: ["rg"]
     default: op
-softdepend:
-- RedstoneCircuit
+softdepend: ["RedstoneCircuit"]
 permissions:
   worldguard.ui:
     default: op
