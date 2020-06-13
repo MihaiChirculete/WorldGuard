@@ -218,7 +218,7 @@ class EventListener implements Listener {
                 if($event->getPlayer()->hasPermission("worldguard.place." . $region->getName()) || $event->getPlayer()->hasPermission("worldguard.block-place." . $region->getName())){
                     return true;
                 }
-		else if($event->getPlayer()->hasPermission("worldguard.build-bypass")){
+		else if($event->getPlayer()->hasPermission("worldguard.build-bypass." . $region->getName())){
                     return true;
 		}
                 else{
@@ -254,7 +254,7 @@ class EventListener implements Listener {
                 if($event->getPlayer()->hasPermission("worldguard.break." . $region->getName()) || $event->getPlayer()->hasPermission("worldguard.block-break." . $region->getName())){
                     return true;
                 }
-		else if($event->getPlayer()->hasPermission("worldguard.break-bypass")){
+		else if($event->getPlayer()->hasPermission("worldguard.break-bypass." . $region->getName())){
                     return true;
 		}
                 else{
