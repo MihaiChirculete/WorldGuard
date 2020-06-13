@@ -456,7 +456,7 @@ class WorldGuard extends PluginBase {
             PermissionManager::getInstance()->addPermission($permission);
 		
             $permission = new Permission("worldguard.build-bypass." . $name, "Allows player to build blocks in " . $name . " region.", Permission::DEFAULT_OP);
-            $permission->addParent("worldguard.build-bypass.", true);
+            $permission->addParent("worldguard.build-bypass", true);
             PermissionManager::getInstance()->addPermission($permission);
 
             $permission = new Permission("worldguard.break." . $name, "Allows player to break blocks in " . $name . " region.", Permission::DEFAULT_OP);
