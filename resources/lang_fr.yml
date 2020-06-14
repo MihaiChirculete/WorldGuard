@@ -1,0 +1,55 @@
+---
+author_name: Hugo
+gui_wg_menu_title: Menu World Guard
+gui_label_choose_option: Choisie une option
+gui_btn_rg_management: Modifiez les régions
+gui_btn_help: Aide
+gui_btn_manage_existing: Modifier les régions existantes
+gui_btn_create_region: Créer une région
+gui_btn_redefine_region: Redimenssioner une région
+gui_btn_delete_region: Supprimer une région
+gui_creation_menu_title: Création d'une région
+gui_creation_menu_label1: Aide pour crée une région.
+gui_creation_menu_rg_name_box: Vous devrez d'abord entrer un nom pour votre région.
+gui_creation_menu_label2: Si vous souhaitez que votre région se développe infiniment de haut en                                              bas, cochez la case suivante.
+gui_creation_menu_toggle_expand: Agrandir verticalement
+gui_creation_menu_label3: "Maintenant, appuyez sur le \xA7a'Submit '\xA7r et sélectionnez 2 coins de votre région, comme vous en serez informé ensuite. "
+gui_dropdown_select_redefine: Sélectionnez la région que vous souhaitez redéfinir
+gui_dropdown_select_delete: Sélectionnez la région que vous souhaitez supprimer
+gui_dropdown_select_manage: Sélectionnez la région que vous souhaitez modifier
+gui_manage_menu_title: 'Modification de la région:'
+gui_flag_pvp: PvP
+gui_flag_xp_drops: Chute d'XP
+gui_flag_invincible: Invincible
+gui_flag_fall_dmg: Dégâts de chute
+gui_flag_usage: Utilisation
+gui_flag_item_drop: Chute d'items
+gui_flag_explosions: Autoriser les explosions
+gui_flag_notify_enter: Notifiez entrer
+gui_flag_notify_leave: Notifiez quitter
+gui_flag_potions: Autoriser les potions
+gui_flag_allowed_enter: Entrée autorisée
+gui_flag_allowed_leave: Sortie autorisée
+gui_flag_gm: Mode de jeu
+gui_gm_survival: Survival
+gui_gm_creative: Créative
+gui_gm_adventure: Aventure
+gui_flag_sleep: Autoriser de dormir
+gui_flag_send_chat: Autoriser l'envoi de messages dans le chat
+gui_flag_rcv_chat: Autoriser de recevoir des messages du chat
+gui_flag_enderpearl: Autoriser l'utilisation des ender pearl
+gui_flag_fly_mode: Mode vol
+gui_enabled: Activé
+gui_disabled: Désactiver
+gui_flag_eat: Autoriser de manger
+gui_flag_hunger: Désactiver la faim
+gui_flag_dmg_animals: Autoriser les dégats aux animaux
+gui_flag_dmg_monsters: Autoriser les dégats aux monstres
+gui_flag_leaf_decay: Autoriser les feuilles de disparaître
+gui_flag_plant_growth: Autoriser la croissance des plantes
+gui_flag_spread: Autoriser la propagassion
+gui_flag_block_burn: Autoriser les blocks de brûler
+gui_flag_priority: Priorité régionale
+gui_help_menu_label1: "Si vous avez besoin d'aide pour configurer World Guard, consultez le tutoriel                                                           nous l'avons fait pour vous: "
+gui_help_menu_label2: http://worldguard.ddns.net/tutorial
+...
