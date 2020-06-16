@@ -1,7 +1,7 @@
 name: WorldGuard
 main: Chalapa13\WorldGuard\WorldGuard
 api: [3.0.0]
-version: 1.1.6.2
+version: 1.1.6.3
 author: Chalapa
 website: https://github.com/Chalapa13
 commands:
@@ -27,9 +27,13 @@ permissions:
     default: op
   worldguard.leave:
     default: op
-  worldguard.build:
+  worldguard.place:
+    default: op
+  worldguard.block-place:
     default: op
   worldguard.break:
+    default: op
+  worldguard.block-break:
     default: op
   worldguard.edit:
     default: op
@@ -65,6 +69,9 @@ permissions:
     default: op
   worldguard.useusebutton:
     default: op
-    
+  worldguard.build-bypass:
+    default: op
+  worldguard.break-bypass:
+    default: op
   worldguard.bypass.gamemode:
     default: op
