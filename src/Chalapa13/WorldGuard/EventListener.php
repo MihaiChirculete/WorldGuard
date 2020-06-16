@@ -218,6 +218,9 @@ class EventListener implements Listener {
                 if($event->getPlayer()->hasPermission("worldguard.place." . $region->getName()) || $event->getPlayer()->hasPermission("worldguard.block-place." . $region->getName())){
                     return true;
                 }
+		else if($event->getPlayer()->hasPermission("worldguard.build-bypass")){
+                    return true;
+		}
                 else{
                     if ($region->getFlag("deny-msg") === "true") {
                         $player->sendMessage(TF::RED. $this->plugin->resourceManager->getMessages()["denied-block-place"]);
@@ -251,6 +254,9 @@ class EventListener implements Listener {
                 if($event->getPlayer()->hasPermission("worldguard.break." . $region->getName()) || $event->getPlayer()->hasPermission("worldguard.block-break." . $region->getName())){
                     return true;
                 }
+		else if($event->getPlayer()->hasPermission("worldguard.break-bypass")){
+                    return true;
+		}
                 else{
                     if ($region->getFlag("deny-msg") === "true") {
                         $player->sendMessage(TF::RED. $this->plugin->resourceManager->getMessages()["denied-block-break"]);
