@@ -270,7 +270,6 @@ class GUI
             [
                 new Label($lang["gui_help_menu_label1"]),
                 new Label($lang["gui_help_menu_label2"]),
-                //new Label($plugin->adManager->getGuiAdText())
             ],
             function(Player $player, CustomFormResponse $response) : void{}
         ));
