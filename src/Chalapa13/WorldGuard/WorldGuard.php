@@ -34,7 +34,6 @@ use pocketmine\network\mcpe\protocol\SetTimePacket;
 use pocketmine\Server;
 use Chalapa13\WorldGuard\ResourceUtils\ResourceManager;
 use Chalapa13\WorldGuard\ResourceUtils\ResourceUpdater;
-use Chalapa13\WorldGuard\ResourceUtils\AdManager;
 
 class WorldGuard extends PluginBase {
 
@@ -138,17 +137,13 @@ class WorldGuard extends PluginBase {
 
     public $resourceManager = null;
     public $resourceUpdater = null;
-    public $adManager = null;
 
     public function onEnable(){
         $this->resourceManager = ResourceManager::getInstance($this, $this->getServer());
         $this->resourceManager->loadResources();
         $this->resourceUpdater = ResourceUpdater::getInstance($this->resourceManager);
         $this->resourceUpdater->updateResourcesIfRequired(true);
-        
-        /**$this->adManager = AdManager::getInstance();
-        Display a message from our sponsor here
-        $this->getLogger()->info($this->adManager->getConsoleAdText());*/
+       
         
         $regions = $this->resourceManager->getRegions();
         if (isset($regions)) {
