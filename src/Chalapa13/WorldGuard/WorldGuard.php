@@ -449,10 +449,6 @@ class WorldGuard extends PluginBase {
             $permission = new Permission("worldguard.block-place." . $name, "Allows player to build blocks in " . $name . " region.", Permission::DEFAULT_OP);
             $permission->addParent("worldguard.block-place", true);
             PermissionManager::getInstance()->addPermission($permission);
-		
-            $permission = new Permission("worldguard.build-bypass", "Allows player to build blocks in all Regions on the whole world.", Permission::DEFAULT_OP);
-            $permission->addParent("worldguard.build-bypass", true);
-            PermissionManager::getInstance()->addPermission($permission);
 
             $permission = new Permission("worldguard.break." . $name, "Allows player to break blocks in " . $name . " region.", Permission::DEFAULT_OP);
             $permission->addParent("worldguard.break", true);
@@ -460,10 +456,6 @@ class WorldGuard extends PluginBase {
 		
             $permission = new Permission("worldguard.block-break." . $name, "Allows player to build blocks in " . $name . " region.", Permission::DEFAULT_OP);
             $permission->addParent("worldguard.block-break", true);
-            PermissionManager::getInstance()->addPermission($permission);
-		
-            $permission = new Permission("worldguard.break-bypass", "Allows player to break blocks in all Regions on the whole world.", Permission::DEFAULT_OP);
-            $permission->addParent("worldguard.break-bypass", true);
             PermissionManager::getInstance()->addPermission($permission);
 
             $permission = new Permission("worldguard.edit." . $name, "Allows player to edit blocks in " . $name . " region.", Permission::DEFAULT_OP);
