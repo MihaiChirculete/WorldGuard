@@ -69,9 +69,5 @@ permissions:
     default: op
   worldguard.useusebutton:
     default: op
-  worldguard.build-bypass:
-    default: op
-  worldguard.break-bypass:
-    default: op
   worldguard.bypass.gamemode:
     default: op
