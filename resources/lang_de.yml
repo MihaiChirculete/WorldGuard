@@ -20,11 +20,12 @@ gui_dropdown_select_redefine: Wähle die Region, die du verändern willst. Hierz
 gui_dropdown_select_delete: Wähle die Region, die du löschen willst.
 gui_dropdown_select_manage: Wähle die Region, welche du einstellen willst.
 gui_manage_menu_title: 'Regionseinstellungen:'
+gui_flag_pluginbypass: Deaktiviere die Verwendung von Benutzen und die Flüssigkeitsverbreitung (Bypass für MyPlot)
 gui_flag_pvp: Erlaube PvP
 gui_flag_xp_drops: Erlaube Erfahrungspunkte
 gui_flag_invincible: Erlaube den Effekt Unsichtbarkeit
 gui_flag_fall_dmg: Erlaube Fallschaden
-gui_flag_usage: 'Erlaube das Benutzen (Kisten, Werkbank, o.Ä.)'
+gui_flag_usage: 'Erlaube das Benutzen (Kisten, Werkbank, o.ä.)'
 gui_flag_item_drop: Erlaube Gegenstände fallenzulassen
 gui_flag_explosions: Erlaube Explosionen
 gui_flag_notify_enter: Meldung für das Betreten
@@ -49,10 +50,10 @@ gui_flag_dmg_animals: Erlaube das Verletzten von Tieren
 gui_flag_dmg_monsters: Erlaube das Attackieren von Monstern
 gui_flag_leaf_decay: Erlaube den Blattzerfall
 gui_flag_plant_growth: Erlaube das Pflanzenwachstum
-gui_flag_spread: 'Erlaube das Ausbreiten von Blöcken (Grasblöcke, Myzel, o.Ä.)' 
+gui_flag_spread: 'Erlaube das Ausbreiten von Blöcken (Grasblöcke, Myzel, o.ä.)' 
 gui_flag_block_burn: Erlaubt das Ausbreiten von Feuer
 gui_flag_priority: 'Priorität von einer Region:'
 gui_help_menu_label1: 'Wenn du Hilfe bei den Einstellungen von World Guard brauchst, schau dir das Tutorial an,
   welches wir für dich gemacht haben:'
-gui_help_menu_label2: http://worldguard.ddns.net/tutorial
+gui_help_menu_label2: https://github.com/Chalapa13/WorldGuard/wiki/Tutorial
 ...
