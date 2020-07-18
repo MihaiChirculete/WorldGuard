@@ -2,13 +2,13 @@
 
 /**
 *
-*  _     _  _______  ______    ___      ______   _______  __   __  _______  ______    ______  
-* | | _ | ||       ||    _ |  |   |    |      | |       ||  | |  ||   _   ||    _ |  |      | 
+*  _     _  _______  ______    ___      ______   _______  __   __  _______  ______    ______
+* | | _ | ||       ||    _ |  |   |    |      | |       ||  | |  ||   _   ||    _ |  |      |
 * | || || ||   _   ||   | ||  |   |    |  _    ||    ___||  | |  ||  |_|  ||   | ||  |  _    |
 * |       ||  | |  ||   |_||_ |   |    | | |   ||   | __ |  |_|  ||       ||   |_||_ | | |   |
 * |       ||  |_|  ||    __  ||   |___ | |_|   ||   ||  ||       ||       ||    __  || |_|   |
 * |   _   ||       ||   |  | ||       ||       ||   |_| ||       ||   _   ||   |  | ||       |
-* |__| |__||_______||___|  |_||_______||______| |_______||_______||__| |__||___|  |_||______| 
+* |__| |__||_______||___|  |_||_______||______| |_______||_______||__| |__||___|  |_||______|
 *
 * By Chalapa13.
 *
@@ -50,7 +50,7 @@ class EventListener implements Listener {
     const POTIONS = [
         373, 374, 437, 438, 444
     ];
-    
+
     const OTHER = [
         256, 259, 269, 273, 277, 284, 290, 291, 292, 293, 294
     ];
@@ -122,8 +122,9 @@ class EventListener implements Listener {
                 $event->setCancelled();
                 return;
             }
-        }   
+        }
         if (($reg = $this->plugin->getRegionByPlayer($player)) !== "") {
+            if ($reg->getFlag("pluginbypass") === "true") {
                 $block = $event->getBlock()->getId();
                 if ($reg->getFlag("use") === "false") {
                     if($player->hasPermission("worldguard.usechest." . $reg->getName()) && $block === Block::CHEST)
@@ -166,6 +167,7 @@ class EventListener implements Listener {
                         return;
                     }
                 } else $event->setCancelled(false);
+
                 if ($reg->getFlag("potions") === "false") {
                     if (in_array($event->getItem()->getId(), self::POTIONS)) {
                         $player->sendMessage(TF::RED.'You cannot use '.$event->getItem()->getName().' in this area.');
@@ -180,17 +182,22 @@ class EventListener implements Listener {
                         return;
                     }
                 } else $event->setCancelled(false);
-            return;
+                return;
+            } else $event->setCancelled(false);
         }
     }
 
     public function onBlockUpdate(BlockUpdateEvent $event){
-        $block = $event->getBlock();
-        if ($block->getName() === "Lava" || $block->getName() === "Water"){
-            $position = new Position($block->x,$block->y,$block->z,$block->getLevel());
-            if (($region = $this->plugin->getRegionFromPosition($position)) !== ""){
-                if ($region->getFlag("flow") === "false"){
-                    $event->setCancelled();
+
+        $plugreg = $this->getFlag("pluginbypass");
+        if ($plugreg->getFlag("pluginbypass") === "false") {
+            $block = $event->getBlock();
+            if ($block->getName() === "Lava" || $block->getName() === "Water"){
+                $position = new Position($block->x,$block->y,$block->z,$block->getLevel());
+                if (($region = $this->plugin->getRegionFromPosition($position)) !== ""){
+                    if ($region->getFlag("flow") === "false"){
+                        $event->setCancelled();
+                    }
                 }
             }
         }
@@ -364,7 +371,7 @@ class EventListener implements Listener {
             }
         }
     }
-    
+
     public function onHurt(EntityDamageEvent $event) {
         if(($region = $this->plugin->getRegionFromPosition($event->getEntity()->getPosition())) !== ""){
             if ($this->plugin->getRegionFromPosition($event->getEntity()->getPosition())->getFlag("invincible") === "true"){
@@ -375,7 +382,7 @@ class EventListener implements Listener {
         }
         return;
     }
-        
+
     public function onFallDamage(EntityDamageEvent $event){
         if(($region = $this->plugin->getRegionFromPosition($event->getEntity()->getPosition())) !== ""){
             $entity = $event->getEntity();
@@ -422,7 +429,7 @@ class EventListener implements Listener {
     {
         if (($reg = $this->plugin->getRegionByPlayer($player = $event->getPlayer())) !== "") {
             if ($reg->getFlag("item-drop") === "false" && !$player->hasPermission("worldguard.drop." . $reg->getName())) {
-                if ($reg->getFlag("deny-msg") === "true") { 
+                if ($reg->getFlag("deny-msg") === "true") {
                     $player->sendMessage(TF::RED. $this->plugin->resourceManager->getMessages()["denied-item-drop"]);
                 }
                 $event->setCancelled();
@@ -473,7 +480,7 @@ class EventListener implements Listener {
                 }
                 $event->setCancelled();
                 return;
-            }            
+            }
         }
         if (!empty($this->plugin->muted)) {
             $diff = array_diff($this->plugin->getServer()->getOnlinePlayers(), $this->plugin->muted);
@@ -518,7 +525,7 @@ class EventListener implements Listener {
             }
         }
     }
-	
+
     public function noHunger(PlayerExhaustEvent $exhaustEvent){
         $player = $exhaustEvent->getPlayer();
         if ($exhaustEvent->getPlayer() instanceof Player){
@@ -529,7 +536,7 @@ class EventListener implements Listener {
             }
         }
     }
-	
+
     public function onLeafDecay(LeavesDecayEvent $event)
     {
         if(($region = $this->plugin->getRegionFromPosition($event->getBlock()->asPosition())) !== "")
