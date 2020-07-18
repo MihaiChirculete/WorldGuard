@@ -763,17 +763,17 @@ class WorldGuard extends PluginBase {
                     }
                 } else {
                     $issuer->sendMessage(implode("\n".TF::LIGHT_PURPLE, [
-                        "Â§9Â§lWorldGuard Â§rÂ§9Help Page Â§7(by Chalapa)",
+                        "§9§lWorldGuard §r§9Help Page §7(by Chalapa)",
                         " ",
-                        "Â§e/worldguard Â§7- Â§eOpen up the User Interface",
-                        "Â§a/region create <region name> Â§7- Â§aCreate a new region.",
-                        "Â§3/region list Â§7- Â§3List all regions.",
-                        "Â§6/region info <region name> Â§7- Â§6Get information about your current region.",
-                        "Â§c/region delete <region name> Â§7- Â§cPermanently delete a region.",
-                        "Â§d/region flags <set/get/reset> <region name> Â§7- Â§dSet, Get, or Reset <region name>'s flags.",
+                        "§e/worldguard §7- §eOpen up the User Interface",
+                        "§a/region create <region name> §7- §aCreate a new region.",
+                        "§3/region list §7- §3List all regions.",
+                        "§6/region info <region name> §7- §6Get information about your current region.",
+                        "§c/region delete <region name> §7- §cPermanently delete a region.",
+                        "§d/region flags <set/get/reset> <region name> §7- §dSet, Get, or Reset <region name>'s flags.",
                         " ",
-                        "Â§9For additional help and documentation, visit WorldGuard's GitHub page:",
-                        "Â§9https://github.com/Chalapa13/WorldGuard/",
+                        "§9For additional help and documentation, visit WorldGuard's GitHub page:",
+                        "§9https://github.com/Chalapa13/WorldGuard/",
                     ]));
                 }
                 break;
