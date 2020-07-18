@@ -58,7 +58,7 @@ class ResourceUpdater
             "gui_creation_menu_rg_name_box" => "First you will have to enter a name for your region.",
             "gui_creation_menu_label2" => "If you want your region to expand infinitely upwards and downards check the following option.",
             "gui_creation_menu_toggle_expand" => "Expand vertically",
-            "gui_creation_menu_label3" => "Now hit the Â§a'Submit'Â§r and select 2 corners of your region as you will be instructed next.",
+            "gui_creation_menu_label3" => "Now hit the §a'Submit'§r and select 2 corners of your region as you will be instructed next.",
             "gui_dropdown_select_redefine" => "Select the region you would like to redefine",
             "gui_dropdown_select_delete" => "Select the region you would like to delete",
             "gui_dropdown_select_manage" => "Select the region you would like to manage",
