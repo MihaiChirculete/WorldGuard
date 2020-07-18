@@ -188,15 +188,13 @@ class EventListener implements Listener {
     }
 
     public function onBlockUpdate(BlockUpdateEvent $event){
-        $plugreg = $this->plugin->getRegionByPlayer($player);
-        if ($plugreg->getFlag("pluginbypass") === "false") {
-            $block = $event->getBlock();
+        $block = $event->getBlock();
+        $position = new Position($block->x,$block->y,$block->z,$block->getLevel());
+        $region = $this->plugin->getRegionFromPosition($position);
+        if ($region->getFlag("pluginbypass") === "false") {
             if ($block->getName() === "Lava" || $block->getName() === "Water"){
-                $position = new Position($block->x,$block->y,$block->z,$block->getLevel());
-                if (($region = $this->plugin->getRegionFromPosition($position)) !== ""){
-                    if ($region->getFlag("flow") === "false"){
-                        $event->setCancelled();
-                    }
+                if ($region->getFlag("flow") === "false"){
+                    $event->setCancelled();
                 }
             }
         }
