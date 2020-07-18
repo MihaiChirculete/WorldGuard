@@ -124,7 +124,7 @@ class EventListener implements Listener {
             }
         }
         if (($reg = $this->plugin->getRegionByPlayer($player)) !== "") {
-            if ($reg->getFlag("pluginbypass") === "true") {
+            if ($reg->getFlag("pluginbypass") === "false") {
                 $block = $event->getBlock()->getId();
                 if ($reg->getFlag("use") === "false") {
                     if($player->hasPermission("worldguard.usechest." . $reg->getName()) && $block === Block::CHEST)
