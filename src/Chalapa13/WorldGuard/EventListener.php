@@ -188,8 +188,7 @@ class EventListener implements Listener {
     }
 
     public function onBlockUpdate(BlockUpdateEvent $event){
-
-        $plugreg = $this->getFlag("pluginbypass");
+        $plugreg = $this->plugin->getRegionByPlayer($player);
         if ($plugreg->getFlag("pluginbypass") === "false") {
             $block = $event->getBlock();
             if ($block->getName() === "Lava" || $block->getName() === "Water"){
