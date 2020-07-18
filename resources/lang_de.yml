@@ -25,7 +25,7 @@ gui_flag_pvp: Erlaube PvP
 gui_flag_xp_drops: Erlaube Erfahrungspunkte
 gui_flag_invincible: Erlaube den Effekt Unsichtbarkeit
 gui_flag_fall_dmg: Erlaube Fallschaden
-gui_flag_usage: 'Erlaube das Benutzen (Kisten, Werkbank, o.A.)'
+gui_flag_usage: 'Erlaube das Benutzen (Kisten, Werkbank, o.Ä.)'
 gui_flag_item_drop: Erlaube Gegenstände fallenzulassen
 gui_flag_explosions: Erlaube Explosionen
 gui_flag_notify_enter: Meldung für das Betreten
