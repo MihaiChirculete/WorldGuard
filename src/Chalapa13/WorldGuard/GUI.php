@@ -24,8 +24,8 @@ class GUI
         $lang = $plugin->resourceManager->getLanguagePack();
 
         $issuer->sendForm(new MenuForm(
-            "Â§9Â§l". $lang["gui_wg_menu_title"], $lang["gui_label_choose_option"], [new Button("Â§6Â§l". $lang["gui_btn_rg_management"], new Image("textures/items/book_writable", "path")),
-            new Button("Â§5Â§l". $lang["gui_btn_help"])],
+            "§9§l". $lang["gui_wg_menu_title"], $lang["gui_label_choose_option"], [new Button("§6§l". $lang["gui_btn_rg_management"], new Image("textures/items/book_writable", "path")),
+            new Button("§5§l". $lang["gui_btn_help"])],
             function(Player $player, Button $selected) : void{
 
                 switch ($selected->getValue())
@@ -46,7 +46,7 @@ class GUI
         $lang = Utils::getPluginFromIssuer($issuer)->resourceManager->getLanguagePack();
 
         $issuer->sendForm(new MenuForm(
-            "Â§9Â§l" . $lang["gui_btn_rg_management"], $lang["gui_label_choose_option"],
+            "§9§l" . $lang["gui_btn_rg_management"], $lang["gui_label_choose_option"],
             [new Button($lang["gui_btn_manage_existing"]),
             new Button($lang["gui_btn_create_region"]),
             new Button($lang["gui_btn_redefine_region"]),
@@ -75,8 +75,8 @@ class GUI
     public static function displayRgCreation(Player $issuer)
     {
         $lang = Utils::getPluginFromIssuer($issuer)->resourceManager->getLanguagePack();
-
-        $issuer->sendForm(new CustomForm("Â§9Â§l" . $lang["gui_creation_menu_title"],
+        
+        $issuer->sendForm(new CustomForm("§9§l" . $lang["gui_creation_menu_title"],
             [
                 new Label($lang["gui_creation_menu_label1"]),
                 new Input($lang["gui_creation_menu_rg_name_box"], "MyRegion"),
@@ -100,7 +100,7 @@ class GUI
 
         $regions = array_keys(Utils::getPluginFromIssuer($issuer)->getRegions());
 
-        $issuer->sendForm(new CustomForm("Â§9Â§l" . $lang["gui_btn_rg_management"],
+        $issuer->sendForm(new CustomForm("§9§l" . $lang["gui_btn_rg_management"],
             [
                 new Dropdown($lang["gui_dropdown_select_redefine"], $regions),
             ],
@@ -117,7 +117,7 @@ class GUI
 
         $regions = array_keys($issuer->getServer()->getPluginManager()->getPlugin("WorldGuard")->getRegions());
 
-        $issuer->sendForm(new CustomForm("Â§9Â§l" . $lang["gui_btn_rg_management"],
+        $issuer->sendForm(new CustomForm("§9§l" . $lang["gui_btn_rg_management"],
             [
                 new Dropdown($lang["gui_dropdown_select_delete"], $regions),
             ],
@@ -133,7 +133,7 @@ class GUI
         $lang = Utils::getPluginFromIssuer($issuer)->resourceManager->getLanguagePack();
         $regions = array_keys($issuer->getServer()->getPluginManager()->getPlugin("WorldGuard")->getRegions());
 
-        $issuer->sendForm(new CustomForm("Â§9Â§l" . $lang["gui_btn_rg_management"],
+        $issuer->sendForm(new CustomForm("§9§l" . $lang["gui_btn_rg_management"],
             [
                 new Dropdown($lang["gui_dropdown_select_manage"], $regions),
             ],
@@ -151,7 +151,7 @@ class GUI
 
         $lang = Utils::getPluginFromIssuer($issuer)->resourceManager->getLanguagePack();
 
-        $issuer->sendForm(new CustomForm($lang["gui_manage_menu_title"] . " Â§9" . $rgName,
+        $issuer->sendForm(new CustomForm($lang["gui_manage_menu_title"] . " §9" . $rgName,
             [
                 new Toggle($lang["gui_flag_pluginbypass"], filter_var($rg->getFlag("pluginbypass"), FILTER_VALIDATE_BOOLEAN)),
                 new Toggle($lang["gui_flag_pvp"], filter_var($rg->getFlag("pvp"), FILTER_VALIDATE_BOOLEAN)),
@@ -268,7 +268,7 @@ class GUI
         $plugin = Utils::getPluginFromIssuer($issuer);
         $lang = $plugin->resourceManager->getLanguagePack();
 
-        $issuer->sendForm(new CustomForm("Â§9Â§l" . $lang["gui_btn_help"],
+        $issuer->sendForm(new CustomForm("§9§l" . $lang["gui_btn_help"],
             [
                 new Label($lang["gui_help_menu_label1"]),
                 new Label($lang["gui_help_menu_label2"]),
