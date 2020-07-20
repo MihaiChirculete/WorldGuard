@@ -159,7 +159,7 @@ class EventListener implements Listener {
                         return;
                     if($player->hasPermission("worldguard.usebutton." . $reg->getName()) && ($block === Block::STONE_BUTTON || $block === Block::WOODEN_BUTTON ))
                         return;
-                     if (in_array($block, self::USABLES)) {
+                    if (in_array($block, self::USABLES)) {
                         if ($reg->getFlag("deny-msg") === "true") {
                             $player->sendMessage(TF::RED.'You cannot interact with '.$event->getBlock()->getName().'s.');
                         }
@@ -183,7 +183,7 @@ class EventListener implements Listener {
                     }
                 } else $event->setCancelled(false);
                 return;
-            } else $event->setCancelled(false);
+            }
         }
     }
 
