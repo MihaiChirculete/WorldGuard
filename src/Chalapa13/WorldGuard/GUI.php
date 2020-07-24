@@ -75,7 +75,7 @@ class GUI
     public static function displayRgCreation(Player $issuer)
     {
         $lang = Utils::getPluginFromIssuer($issuer)->resourceManager->getLanguagePack();
-        
+
         $issuer->sendForm(new CustomForm("§9§l" . $lang["gui_creation_menu_title"],
             [
                 new Label($lang["gui_creation_menu_label1"]),
@@ -150,6 +150,8 @@ class GUI
         self::$currentlyEditedRg = $rgName;
 
         $lang = Utils::getPluginFromIssuer($issuer)->resourceManager->getLanguagePack();
+
+
 
         $issuer->sendForm(new CustomForm($lang["gui_manage_menu_title"] . " §9" . $rgName,
             [
