@@ -760,7 +760,7 @@ class WorldGuard extends PluginBase {
                     }
                 } else {
                     $issuer->sendMessage(implode("\n".TF::LIGHT_PURPLE, [
-                        "§9§lWorldGuard §r§9Help Page §7(by Chalapa)",
+                        "§9§lWorldGuard ("]).$this->getServer()->getVersion().implode("\n".TF::LIGHT_PURPLE, [") §r§9Help Page §7(by Chalapa)",
                         " ",
                         "§e/worldguard §7- §eOpen up the User Interface",
                         "§a/region create <region name> §7- §aCreate a new region.",
