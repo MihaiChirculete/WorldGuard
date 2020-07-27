@@ -1,9 +1,9 @@
 name: WorldGuard
 main: Chalapa13\WorldGuard\WorldGuard
 api: [4.0.0]
-version: 1.1.6.6
+version: 1.1.6.4
 author: Chalapa
-website: https://github.com/Chalapa13/WorldGuard
+website: https://github.com/Chalapa13
 commands:
   worldguard:
     description: Opens up the User Interface of WorldGuard.
