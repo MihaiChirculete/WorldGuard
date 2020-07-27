@@ -38,6 +38,7 @@ use Chalapa13\WorldGuard\ResourceUtils\ResourceUpdater;
 class WorldGuard extends PluginBase {
 
     const FLAGS = [
+        "pluginbypass" => "false",
         "block-place" => "false",
         "block-break" => "false",
         "pvp" => "true",
@@ -77,6 +78,7 @@ class WorldGuard extends PluginBase {
     ];
 
     const FLAG_TYPE = [
+        "pluginbypass" => "boolean",
         "block-place" => "boolean",
         "block-break" => "boolean",
         "pvp" => "boolean",
