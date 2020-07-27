@@ -195,7 +195,7 @@ class WorldGuard extends PluginBase {
 
     public function sessionizePlayer(Player $player)
     {
-        $this->players[$player->getRawUniqueId()] = "";
+        $this->players[$player->getUniqueId()] = "";
         $this->updateRegion($player);
     }
 
