@@ -195,7 +195,12 @@ class WorldGuard extends PluginBase {
 
     public function sessionizePlayer(Player $player)
     {
-        $this->players[$player->getRawUniqueId()] = "";
+        if ($this->getServer()->getApiVersion() > '3.9.9'){
+            $this->players[$player->getUniqueId()] = "";
+        }
+        else {
+            $this->players[$player->getRawUniqueId()] = "";
+        }
         $this->updateRegion($player);
     }
 
