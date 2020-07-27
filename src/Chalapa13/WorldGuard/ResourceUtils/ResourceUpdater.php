@@ -63,6 +63,7 @@ class ResourceUpdater
             "gui_dropdown_select_delete" => "Select the region you would like to delete",
             "gui_dropdown_select_manage" => "Select the region you would like to manage",
             "gui_manage_menu_title" => "Managing region:",
+            "gui_flag_pluginbypass" => "Plugin bypass for USE and FLOW",
             "gui_flag_pvp" => "PvP",
             "gui_flag_xp_drops" => "Experience drops",
             "gui_flag_invincible" => "Invincible",

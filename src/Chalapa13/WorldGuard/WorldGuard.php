@@ -38,6 +38,7 @@ use Chalapa13\WorldGuard\ResourceUtils\ResourceUpdater;
 class WorldGuard extends PluginBase {
 
     const FLAGS = [
+        "pluginbypass" => "false",
         "block-place" => "false",
         "block-break" => "false",
         "pvp" => "true",
@@ -77,6 +78,7 @@ class WorldGuard extends PluginBase {
     ];
 
     const FLAG_TYPE = [
+        "pluginbypass" => "boolean",
         "block-place" => "boolean",
         "block-break" => "boolean",
         "pvp" => "boolean",
@@ -193,12 +195,7 @@ class WorldGuard extends PluginBase {
 
     public function sessionizePlayer(Player $player)
     {
-        if ($this->getServer()->getApiVersion() > '3.9.9'){
-            $this->players[$player->getUniqueId()] = "";
-        }
-        else {
-            $this->players[$player->getRawUniqueId()] = "";
-        }
+        $this->players[$player->getRawUniqueId()] = "";
         $this->updateRegion($player);
     }
 
@@ -758,7 +755,7 @@ class WorldGuard extends PluginBase {
                     }
                 } else {
                     $issuer->sendMessage(implode("\n".TF::LIGHT_PURPLE, [
-                        "§9§lWorldGuard ("]).$this->getServer()->getVersion().implode("\n".TF::LIGHT_PURPLE, [") §r§9Help Page §7(by Chalapa)",
+                        "§9§lWorldGuard §r§9Help Page §7(by Chalapa)",
                         " ",
                         "§e/worldguard §7- §eOpen up the User Interface",
                         "§a/region create <region name> §7- §aCreate a new region.",
