@@ -151,8 +151,6 @@ class GUI
 
         $lang = Utils::getPluginFromIssuer($issuer)->resourceManager->getLanguagePack();
 
-
-
         $issuer->sendForm(new CustomForm($lang["gui_manage_menu_title"] . " §9" . $rgName,
             [
                 new Toggle($lang["gui_flag_pluginbypass"], filter_var($rg->getFlag("pluginbypass"), FILTER_VALIDATE_BOOLEAN)),
