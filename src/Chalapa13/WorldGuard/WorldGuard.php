@@ -2,13 +2,13 @@
 
 /**
 *
-*  _     _  _______  ______    ___      ______   _______  __   __  _______  ______    ______  
-* | | _ | ||       ||    _ |  |   |    |      | |       ||  | |  ||   _   ||    _ |  |      | 
+*  _     _  _______  ______    ___      ______   _______  __   __  _______  ______    ______
+* | | _ | ||       ||    _ |  |   |    |      | |       ||  | |  ||   _   ||    _ |  |      |
 * | || || ||   _   ||   | ||  |   |    |  _    ||    ___||  | |  ||  |_|  ||   | ||  |  _    |
 * |       ||  | |  ||   |_||_ |   |    | | |   ||   | __ |  |_|  ||       ||   |_||_ | | |   |
 * |       ||  |_|  ||    __  ||   |___ | |_|   ||   ||  ||       ||       ||    __  || |_|   |
 * |   _   ||       ||   |  | ||       ||       ||   |_| ||       ||   _   ||   |  | ||       |
-* |__| |__||_______||___|  |_||_______||______| |_______||_______||__| |__||___|  |_||______| 
+* |__| |__||_______||___|  |_||_______||______| |_______||_______||__| |__||___|  |_||______|
 *
 * By Chalapa13.
 *
@@ -143,8 +143,8 @@ class WorldGuard extends PluginBase {
         $this->resourceManager->loadResources();
         $this->resourceUpdater = ResourceUpdater::getInstance($this->resourceManager);
         $this->resourceUpdater->updateResourcesIfRequired(true);
-       
-        
+
+
         $regions = $this->resourceManager->getRegions();
         if (isset($regions)) {
             foreach ($regions as $name => $data) {
@@ -160,7 +160,7 @@ class WorldGuard extends PluginBase {
     public function onDisable(){
         $this->resourceManager->saveRegions($this->regions);
     }
-    
+
     public function getRegion(string $region)
     {
         return $this->regions[$region] ?? "";
@@ -193,7 +193,7 @@ class WorldGuard extends PluginBase {
 
     public function sessionizePlayer(Player $player)
     {
-        $this->players[$player->getRawUniqueId()] = "";
+        $this->players[$player->getUniqueId()] = "";
         $this->updateRegion($player);
     }
 
@@ -240,7 +240,7 @@ class WorldGuard extends PluginBase {
     {
         $new = $this->getRegion($newregion);
         $old = $this->getRegion($oldregion);
-        
+
         if ($player instanceof Player){
             if($this->resourceManager->getConfig()["debugging"] === true){
                 if(gettype($new) === "string"){
@@ -263,7 +263,7 @@ class WorldGuard extends PluginBase {
                     $cmd = str_replace("%player%", $player->getName(), $old->getFlag("console-cmd-on-leave"));
                     $player->getServer()->dispatchCommand(new ConsoleCommandSender(), $cmd);
                 }
-                if ($old->getFlag("allowed-leave") === "false") 
+                if ($old->getFlag("allowed-leave") === "false")
                 {
                     if(!$player->hasPermission("worldguard.leave." . $oldregion))
                     {
@@ -282,7 +282,7 @@ class WorldGuard extends PluginBase {
                         $player->removeEffect($effect->getId());
                     }
                 }
-                
+
                 if ($old->getFlight() === self::FLY_SUPERVISED) {
                     if ($player->getGamemode() != 1){
                         Utils::disableFlight($player);
@@ -295,7 +295,7 @@ class WorldGuard extends PluginBase {
                     $cmd = str_replace("%player%", $player->getName(), $new->getFlag("console-cmd-on-enter"));
                     $player->getServer()->dispatchCommand(new ConsoleCommandSender(), $cmd);
                 }
-                
+
                 if ($new->getFlag("allowed-enter") === "false"){
                     if(!$player->hasPermission("worldguard.enter." . $newregion))
                     {
@@ -433,7 +433,7 @@ class WorldGuard extends PluginBase {
             unset($map[0][3], $map[1][3]);
             $this->regions[$name] = new Region($name, $map[0], $map[1], $level, self::FLAGS);
             unset($this->process[$id], $this->creating[$id]);
-		
+
             $permission = new Permission("worldguard.enter." . $name, "Allows player to enter the " . $name . " region.", Permission::DEFAULT_OP);
             $permission->addParent("worldguard.enter", true);
             PermissionManager::getInstance()->addPermission($permission);
@@ -445,7 +445,7 @@ class WorldGuard extends PluginBase {
             $permission = new Permission("worldguard.place." . $name, "Allows player to build blocks in " . $name . " region.", Permission::DEFAULT_OP);
             $permission->addParent("worldguard.place", true);
             PermissionManager::getInstance()->addPermission($permission);
-		
+
             $permission = new Permission("worldguard.block-place." . $name, "Allows player to build blocks in " . $name . " region.", Permission::DEFAULT_OP);
             $permission->addParent("worldguard.block-place", true);
             PermissionManager::getInstance()->addPermission($permission);
@@ -453,7 +453,7 @@ class WorldGuard extends PluginBase {
             $permission = new Permission("worldguard.break." . $name, "Allows player to break blocks in " . $name . " region.", Permission::DEFAULT_OP);
             $permission->addParent("worldguard.break", true);
             PermissionManager::getInstance()->addPermission($permission);
-		
+
             $permission = new Permission("worldguard.block-break." . $name, "Allows player to build blocks in " . $name . " region.", Permission::DEFAULT_OP);
             $permission->addParent("worldguard.block-break", true);
             PermissionManager::getInstance()->addPermission($permission);
@@ -477,7 +477,7 @@ class WorldGuard extends PluginBase {
             $permission = new Permission("worldguard.usechestender." . $name, "Allows player to use ender chests in " . $name . " region.", Permission::DEFAULT_OP);
             $permission->addParent("worldguard.usechestender", true);
             PermissionManager::getInstance()->addPermission($permission);
-		
+
             $permission = new Permission("worldguard.usetrappedchest." . $name, "Allows player to use trapped chests in " . $name . " region.", Permission::DEFAULT_OP);
             $permission->addParent("worldguard.usetrappedchest", true);
             PermissionManager::getInstance()->addPermission($permission);
@@ -517,11 +517,11 @@ class WorldGuard extends PluginBase {
             $permission = new Permission("worldguard.usebeacon." . $name, "Allows player to use beacons in " . $name . " region.", Permission::DEFAULT_OP);
             $permission->addParent("worldguard.usebeacon", true);
             PermissionManager::getInstance()->addPermission($permission);
-		
+
             $permission = new Permission("worldguard.usepressureplate." . $name, "Allows player to use pressureplates in " . $name . " region.", Permission::DEFAULT_OP);
             $permission->addParent("worldguard.usepressureplate", true);
             PermissionManager::getInstance()->addPermission($permission);
-		
+
             $permission = new Permission("worldguard.usebutton." . $name, "Allows player to use buttons in " . $name . " region.", Permission::DEFAULT_OP);
             $permission->addParent("worldguard.usebutton", true);
             PermissionManager::getInstance()->addPermission($permission);
@@ -530,7 +530,7 @@ class WorldGuard extends PluginBase {
         }
         return false;
     }
-   
+
     public function onCommand(CommandSender $issuer, Command $cmd, string $label, array $args): bool
     {
         switch (strtolower($cmd->getName())) {
