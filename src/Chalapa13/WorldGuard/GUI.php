@@ -151,11 +151,8 @@ class GUI
 
         $lang = Utils::getPluginFromIssuer($issuer)->resourceManager->getLanguagePack();
 
-
-
         $issuer->sendForm(new CustomForm($lang["gui_manage_menu_title"] . " §9" . $rgName,
             [
-                new Toggle($lang["gui_flag_pluginbypass"], filter_var($rg->getFlag("pluginbypass"), FILTER_VALIDATE_BOOLEAN)),
                 new Toggle($lang["gui_flag_pvp"], filter_var($rg->getFlag("pvp"), FILTER_VALIDATE_BOOLEAN)),
                 new Toggle($lang["gui_flag_xp_drops"], filter_var($rg->getFlag("exp-drops"), FILTER_VALIDATE_BOOLEAN)),
                 new Toggle($lang["gui_flag_invincible"], filter_var($rg->getFlag("invincible"), FILTER_VALIDATE_BOOLEAN)),
@@ -188,15 +185,14 @@ class GUI
                 new Input($lang["gui_flag_priority"], filter_var($rg->getFlag("priority"), FILTER_VALIDATE_INT))
             ],
             function(Player $player, CustomFormResponse $response) : void{
-                list($pluginbypass, $pvpFlag, $xpFlag, $invincibleFlag, $fallDmgFlag, $useFlag, $itemDropFlag, $explosionsFlag,
+                list($pvpFlag, $xpFlag, $invincibleFlag, $fallDmgFlag, $useFlag, $itemDropFlag, $explosionsFlag,
                     $notifyEnterFlag, $notifyLeaveFlag, $potionsFlag, $allowEnterFlag, $allowLeaveFlag,
                     $gamemodeFlag, $sleepFlag, $sendChatFlag, $receiveChatFlag, $enderPearlFlag, $flyModeFlag, $eatingFlag, $HungerFlag,
                     $damageAnimalsFlag, $damageMonstersFlag, $leafDecayFlag, $plantGrowthFlag, $spreadingFlag, $blockBurnFlag,
                     $priorityFlag) = $response->getValues();
 
                 $lang = Utils::getPluginFromIssuer($player)->resourceManager->getLanguagePack();
-
-                $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" pluginbypass " . var_export($pluginbypass, true));
+                   
                 $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" pvp " . var_export($pvpFlag, true));
                 $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" exp-drops " . var_export($xpFlag, true));
                 $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" invincible " . var_export($invincibleFlag, true));
@@ -223,7 +219,7 @@ class GUI
                     case $lang["gui_gm_creative"]:
                         $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" game-mode creative");
                         break;
-
+                        
                      case $lang["gui_gm_adventure"]:
                         $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" game-mode adventure");
                         break;
