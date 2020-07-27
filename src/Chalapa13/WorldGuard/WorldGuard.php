@@ -26,7 +26,7 @@ use pocketmine\plugin\PluginBase;
 use pocketmine\command\{Command, CommandSender, ConsoleCommandSender};
 use pocketmine\event\player\PlayerCommandPreprocessEvent;
 use pocketmine\utils\TextFormat as TF;
-use pocketmine\Player;
+use pocketmine\player\Player;
 use pocketmine\entity\Effect;
 use pocketmine\level\Position;
 use pocketmine\permission\{Permission, Permissible, PermissionManager};

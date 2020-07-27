@@ -2,13 +2,13 @@
 
 /**
 *
-*  _     _  _______  ______    ___      ______   _______  __   __  _______  ______    ______  
-* | | _ | ||       ||    _ |  |   |    |      | |       ||  | |  ||   _   ||    _ |  |      | 
+*  _     _  _______  ______    ___      ______   _______  __   __  _______  ______    ______
+* | | _ | ||       ||    _ |  |   |    |      | |       ||  | |  ||   _   ||    _ |  |      |
 * | || || ||   _   ||   | ||  |   |    |  _    ||    ___||  | |  ||  |_|  ||   | ||  |  _    |
 * |       ||  | |  ||   |_||_ |   |    | | |   ||   | __ |  |_|  ||       ||   |_||_ | | |   |
 * |       ||  |_|  ||    __  ||   |___ | |_|   ||   ||  ||       ||       ||    __  || |_|   |
 * |   _   ||       ||   |  | ||       ||       ||   |_| ||       ||   _   ||   |  | ||       |
-* |__| |__||_______||___|  |_||_______||______| |_______||_______||__| |__||___|  |_||______| 
+* |__| |__||_______||___|  |_||_______||______| |_______||_______||__| |__||___|  |_||______|
 *
 * By Chalapa13.
 *
@@ -28,7 +28,7 @@ use pocketmine\event\Listener;
 use pocketmine\event\player\{PlayerJoinEvent, PlayerMoveEvent, PlayerInteractEvent, PlayerItemConsumeEvent, PlayerCommandPreprocessEvent, PlayerDropItemEvent, PlayerBedEnterEvent, PlayerChatEvent, PlayerItemHeldEvent, PlayerExhaustEvent};
 use pocketmine\item\Item;
 use pocketmine\item\Food;
-use pocketmine\Player;
+use pocketmine\player\Player;
 use pocketmine\utils\TextFormat as TF;
 use pocketmine\entity\{Entity, Animal, Monster};
 use pocketmine\plugin\MethodEventExecutor;
@@ -50,7 +50,7 @@ class EventListener implements Listener {
     const POTIONS = [
         373, 374, 437, 438, 444
     ];
-    
+
     const OTHER = [
         256, 259, 269, 273, 277, 284, 290, 291, 292, 293, 294
     ];
@@ -122,7 +122,7 @@ class EventListener implements Listener {
                 $event->setCancelled();
                 return;
             }
-        }   
+        }
         if (($reg = $this->plugin->getRegionByPlayer($player)) !== "") {
                 $block = $event->getBlock()->getId();
                 if ($reg->getFlag("use") === "false") {
@@ -364,7 +364,7 @@ class EventListener implements Listener {
             }
         }
     }
-    
+
     public function onHurt(EntityDamageEvent $event) {
         if(($region = $this->plugin->getRegionFromPosition($event->getEntity()->getPosition())) !== ""){
             if ($this->plugin->getRegionFromPosition($event->getEntity()->getPosition())->getFlag("invincible") === "true"){
@@ -375,7 +375,7 @@ class EventListener implements Listener {
         }
         return;
     }
-        
+
     public function onFallDamage(EntityDamageEvent $event){
         if(($region = $this->plugin->getRegionFromPosition($event->getEntity()->getPosition())) !== ""){
             $entity = $event->getEntity();
@@ -422,7 +422,7 @@ class EventListener implements Listener {
     {
         if (($reg = $this->plugin->getRegionByPlayer($player = $event->getPlayer())) !== "") {
             if ($reg->getFlag("item-drop") === "false" && !$player->hasPermission("worldguard.drop." . $reg->getName())) {
-                if ($reg->getFlag("deny-msg") === "true") { 
+                if ($reg->getFlag("deny-msg") === "true") {
                     $player->sendMessage(TF::RED. $this->plugin->resourceManager->getMessages()["denied-item-drop"]);
                 }
                 $event->setCancelled();
@@ -473,7 +473,7 @@ class EventListener implements Listener {
                 }
                 $event->setCancelled();
                 return;
-            }            
+            }
         }
         if (!empty($this->plugin->muted)) {
             $diff = array_diff($this->plugin->getServer()->getOnlinePlayers(), $this->plugin->muted);
@@ -518,7 +518,7 @@ class EventListener implements Listener {
             }
         }
     }
-	
+
     public function noHunger(PlayerExhaustEvent $exhaustEvent){
         $player = $exhaustEvent->getPlayer();
         if ($exhaustEvent->getPlayer() instanceof Player){
@@ -529,7 +529,7 @@ class EventListener implements Listener {
             }
         }
     }
-	
+
     public function onLeafDecay(LeavesDecayEvent $event)
     {
         if(($region = $this->plugin->getRegionFromPosition($event->getBlock()->asPosition())) !== "")
