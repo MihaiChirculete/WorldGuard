@@ -34,7 +34,9 @@ use pocketmine\Server;
 use Chalapa13\WorldGuard\ResourceUtils\ResourceManager;
 use Chalapa13\WorldGuard\ResourceUtils\ResourceUpdater;
 
-class_alias($this->getServer()->getApiVersion() > '3.9.9' ? '\pocketmine\player\Player' : '\pocketmine\Player', 'Player');
+define('API3_PLAYER_CLASS', '\pocketmine\Player');
+define('API4_PLAYER_CLASS', '\pocketmine\player\Player');
+class_alias(class_exists(API4_PLAYER_CLASS) ? API4_PLAYER_CLASS : API3_PLAYER_CLASS, 'Player');
 
 class WorldGuard extends PluginBase {
 
@@ -166,7 +168,7 @@ class WorldGuard extends PluginBase {
 
     public function getRawOrUUID(Player $player){
 
-        if ($this->getServer()->getApiVersion() > '3.9.9') {
+        if ($this->getServer()->getApiVersion() > '3.x') {
             return $player->getUniqueId()->toString();
         }
         return $player->getRawUniqueId();
