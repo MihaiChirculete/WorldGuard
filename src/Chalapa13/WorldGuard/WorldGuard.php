@@ -26,8 +26,6 @@ use pocketmine\plugin\PluginBase;
 use pocketmine\command\{Command, CommandSender, ConsoleCommandSender};
 use pocketmine\event\player\PlayerCommandPreprocessEvent;
 use pocketmine\utils\TextFormat as TF;
-use pocketmine\Player;
-use pocketmine\player\Player;
 use pocketmine\entity\Effect;
 use pocketmine\level\Position;
 use pocketmine\permission\{Permission, Permissible, PermissionManager};
@@ -35,6 +33,8 @@ use pocketmine\network\mcpe\protocol\SetTimePacket;
 use pocketmine\Server;
 use Chalapa13\WorldGuard\ResourceUtils\ResourceManager;
 use Chalapa13\WorldGuard\ResourceUtils\ResourceUpdater;
+
+class_alias($this->getServer()->getApiVersion() > '3.9.9' ? '\pocketmine\player\Player' : '\pocketmine\Player', 'Player');
 
 class WorldGuard extends PluginBase {
 
