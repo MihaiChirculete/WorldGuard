@@ -12,12 +12,12 @@ use Chalapa13\WorldGuard\forms\{CustomForm, CustomFormResponse, MenuForm, ModalF
 use Chalapa13\WorldGuard\elements\{Button, Dropdown, Image, Input, Label, Slider, StepSlider, Toggle};
 use Chalapa13\WorldGuard\Region;
 
-//define('API3_PLAYER_CLASS', '\pocketmine\Player');
-//define('API4_PLAYER_CLASS', '\pocketmine\player\Player');
-if (class_exists(API4_PLAYER_CLASS))
-    class_alias(API4_PLAYER_CLASS, 'Player');
-else if (class_exists(API3_PLAYER_CLASS))
-    class_alias(API3_PLAYER_CLASS, 'Player');
+define('API3_PLAYER_CLASS_GUI', '\pocketmine\Player');
+define('API4_PLAYER_CLASS_GUI', '\pocketmine\player\Player');
+if (class_exists(API4_PLAYER_CLASS_GUI))
+    class_alias(API4_PLAYER_CLASS_GUI, 'Player');
+else if (class_exists(API3_PLAYER_CLASS_GUI))
+    class_alias(API3_PLAYER_CLASS_GUI, 'Player');
 else exit("FATAL ERROR: unknown API version");
 
 class GUI

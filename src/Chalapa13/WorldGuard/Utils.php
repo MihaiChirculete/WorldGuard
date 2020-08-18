@@ -29,12 +29,12 @@ use pocketmine\entity\{Entity, Animal, Monster};
 use pocketmine\level\biome\Biome;
 use pocketmine\level\Level;
 
-//define('API3_PLAYER_CLASS', '\pocketmine\Player');
-//define('API4_PLAYER_CLASS', '\pocketmine\player\Player');
-if (class_exists(API4_PLAYER_CLASS))
-    class_alias(API4_PLAYER_CLASS, 'Player');
-else if (class_exists(API3_PLAYER_CLASS))
-    class_alias(API3_PLAYER_CLASS, 'Player');
+define('API3_PLAYER_CLASS_UTILS', '\pocketmine\Player');
+define('API4_PLAYER_CLASS_UTILS', '\pocketmine\player\Player');
+if (class_exists(API4_PLAYER_CLASS_UTILS))
+    class_alias(API4_PLAYER_CLASS_UTILS, 'Player');
+else if (class_exists(API3_PLAYER_CLASS_UTILS))
+    class_alias(API3_PLAYER_CLASS_UTILS, 'Player');
 else
     exit("FATAL ERROR: unknown API version");
 

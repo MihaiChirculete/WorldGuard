@@ -28,12 +28,12 @@ use pocketmine\level\Level;
 use pocketmine\utils\TextFormat as TF;
 use pocketmine\entity\{Effect, EffectInstance};
 
-//define('API3_PLAYER_CLASS', '\pocketmine\Player');
-//define('API4_PLAYER_CLASS', '\pocketmine\player\Player');
-if (class_exists(API4_PLAYER_CLASS))
-    class_alias(API4_PLAYER_CLASS, 'Player');
-else if (class_exists(API3_PLAYER_CLASS))
-    class_alias(API3_PLAYER_CLASS, 'Player');
+define('API3_PLAYER_CLASS_REG', '\pocketmine\Player');
+define('API4_PLAYER_CLASS_REG', '\pocketmine\player\Player');
+if (class_exists(API4_PLAYER_CLASS_REG))
+    class_alias(API4_PLAYER_CLASS_REG, 'Player');
+else if (class_exists(API3_PLAYER_CLASS_REG))
+    class_alias(API3_PLAYER_CLASS_REG, 'Player');
 else
     exit("FATAL ERROR: unknown API version");
 
