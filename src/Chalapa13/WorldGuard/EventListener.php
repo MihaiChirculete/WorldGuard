@@ -28,7 +28,7 @@ use pocketmine\event\Listener;
 use pocketmine\event\player\{PlayerJoinEvent, PlayerMoveEvent, PlayerInteractEvent, PlayerItemConsumeEvent, PlayerCommandPreprocessEvent, PlayerDropItemEvent, PlayerBedEnterEvent, PlayerChatEvent, PlayerItemHeldEvent, PlayerExhaustEvent};
 use pocketmine\item\Item;
 use pocketmine\item\Food;
-use pocketmine\Player;
+use pocketmine\player\Player;
 use pocketmine\utils\TextFormat as TF;
 use pocketmine\entity\{Entity, Animal, Monster};
 use pocketmine\plugin\MethodEventExecutor;
@@ -378,8 +378,8 @@ class EventListener implements Listener {
         }
         return;
     }
-
     public function onFallDamage(EntityDamageEvent $event) {
+
         if(($region = $this->plugin->getRegionFromPosition($event->getEntity()->getPosition())) !== ""){
             $entity = $event->getEntity();
             $cause = $event->getCause();

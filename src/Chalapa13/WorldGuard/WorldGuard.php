@@ -163,6 +163,14 @@ class WorldGuard extends PluginBase {
         $this->resourceManager->saveRegions($this->regions);
     }
 
+    public function getRawOrUUID(Player $player){
+
+        if ($this->getServer()->getApiVersion() > '3.9.9') {
+            return $player->getUniqueId()->toString();
+        }
+        return $player->getRawUniqueId();
+    }
+
     public function getRegion(string $region)
     {
         return $this->regions[$region] ?? "";
@@ -179,7 +187,7 @@ class WorldGuard extends PluginBase {
     public function getRegionOf(Player $player): string
     {
         if ($player instanceof Player){
-            return $this->players[$player->getRawUniqueId()] ?? "";
+            return $this->players[$this->getRawOrUUID($player)] ?? "";
         }
     }
 
@@ -195,12 +203,7 @@ class WorldGuard extends PluginBase {
 
     public function sessionizePlayer(Player $player)
     {
-        if ($this->getServer()->getApiVersion() > '3.9.9'){
-            $this->players[$player->getUniqueId()] = "";
-        }
-        else {
-            $this->players[$player->getRawUniqueId()] = "";
-        }
+        $this->players[$this->getRawOrUUID($player)] = "";
         $this->updateRegion($player);
     }
 
@@ -282,7 +285,7 @@ class WorldGuard extends PluginBase {
                     $player->sendTip(Utils::aliasParse($player, $msg));
                 }
                 if ($old->getFlag("receive-chat") === "false") {
-                    unset($this->muted[$player->getRawUniqueId()]);
+                    unset($this->muted[$this->getRawOrUUID($player)]);
                 }
                 foreach ($player->getEffects() as $effect) {
                     if ($effect->getDuration() >= 999999) {
@@ -338,7 +341,7 @@ class WorldGuard extends PluginBase {
                     $player->sendTip(Utils::aliasParse($player, $msg));
                 }
                 if ($new->getFlag("receive-chat") === "false") {
-                    $this->muted[$player->getRawUniqueId()] = $player;
+                    $this->muted[$this->getRawOrUUID($player)] = $player;
                 }
                 if(!$player->hasPermission("worldguard.bypass.fly." . $newregion)){
                     if (($flight = $new->getFlight()) !== self::FLY_VANILLA) {
@@ -423,7 +426,7 @@ class WorldGuard extends PluginBase {
 
     public function updateRegion(Player $player)
     {
-        $region = $this->players[$id = $player->getRawUniqueId()];
+        $region = $this->players[$id = $this->getRawOrUUID($player)];
         if (($newRegion = $this->getRegionNameFromPosition($player->getPosition())) !== $region) {
             $this->players[$id] = $newRegion;
             return $this->onRegionChange($player, $region, $newRegion);
@@ -433,7 +436,7 @@ class WorldGuard extends PluginBase {
 
     public function processCreation(Player $player)
     {
-        if (isset($this->creating[$id = $player->getRawUniqueId()], $this->process[$id])) {
+        if (isset($this->creating[$id = $this->getRawOrUUID($player)], $this->process[$id])) {
             $name = $this->process[$id];
             $map = $this->creating[$id];
             $level = $map[0][3];
@@ -593,7 +596,7 @@ class WorldGuard extends PluginBase {
                                 } else {
                                     if (isset($args[2])){
                                         if($args[2] == "extended"){
-                                            unset($this->creating[$id = $issuer->getRawUniqueId()], $this->process[$id]);
+                                            unset($this->creating[$id = $this->getRawOrUUID($issuer)], $this->process[$id]);
                                             $this->creating[$id] = [];
                                             $this->process[$id]= $args[1];
                                             $this->extended[$id] = [];
@@ -611,7 +614,7 @@ class WorldGuard extends PluginBase {
                                                 return false;
                                             }
                                             else{
-                                                unset($this->creating[$id = $issuer->getRawUniqueId()], $this->process[$id]);
+                                                unset($this->creating[$id = $this->getRawOrUUID($issuer)], $this->process[$id]);
                                                 $this->process[$id]= ("global.".$issuer->getLevel()->getName());
                                                 $this->creating[$id][] = [0, 0, 0, $issuer->getLevel()->getName()];
                                                 $this->creating[$id][] = [0, 0, 0, $issuer->getLevel()->getName()];
@@ -620,7 +623,7 @@ class WorldGuard extends PluginBase {
                                             }
                                         }
                                         else{
-                                            unset($this->creating[$id = $issuer->getRawUniqueId()], $this->process[$id]);
+                                            unset($this->creating[$id = $this->getRawOrUUID($issuer)], $this->process[$id]);
                                             $this->creating[$id] = [];
                                             $this->process[$id]= $args[1];
                                             $issuer->sendMessage(TF::YELLOW.'Right-Click two positions to complete creating the region ('.$args[1].').');
@@ -682,10 +685,10 @@ class WorldGuard extends PluginBase {
                                     return false;
                                 }
                                 else {
-                                       unset($this->creating[$id = $issuer->getRawUniqueId()], $this->process[$id]);
-                                       $this->creating[$id] = [];
-                                       $this->process[$id]= $args[1];
-                                       $issuer->sendMessage(TF::LIGHT_PURPLE.'Right-Click two positions to redefine your region ('.$args[1].').');
+                                    unset($this->creating[$id = $this->getRawOrUUID($issuer)], $this->process[$id]);
+                                    $this->creating[$id] = [];
+                                    $this->process[$id]= $args[1];
+                                    $issuer->sendMessage(TF::LIGHT_PURPLE.'Right-Click two positions to redefine your region ('.$args[1].').');
                                 }
                             }
                             break;
