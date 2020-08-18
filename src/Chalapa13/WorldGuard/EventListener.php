@@ -28,7 +28,6 @@ use pocketmine\event\Listener;
 use pocketmine\event\player\{PlayerJoinEvent, PlayerMoveEvent, PlayerInteractEvent, PlayerItemConsumeEvent, PlayerCommandPreprocessEvent, PlayerDropItemEvent, PlayerBedEnterEvent, PlayerChatEvent, PlayerItemHeldEvent, PlayerExhaustEvent};
 use pocketmine\item\Item;
 use pocketmine\item\Food;
-use pocketmine\player\Player;
 use pocketmine\utils\TextFormat as TF;
 use pocketmine\entity\{Entity, Animal, Monster};
 use pocketmine\plugin\MethodEventExecutor;
@@ -37,6 +36,10 @@ use pocketmine\level\Position;
 use pocketmine\network\mcpe\protocol\{ServerSettingsRequestPacket, ServerSettingsResponsePacket};
 use ReflectionObject;
 use function json_encode;
+
+define('API3_PLAYER_CLASS', '\pocketmine\Player');
+define('API4_PLAYER_CLASS', '\pocketmine\player\Player');
+class_alias(class_exists(API4_PLAYER_CLASS) ? API4_PLAYER_CLASS : API3_PLAYER_CLASS, 'Player');
 
 class EventListener implements Listener {
 
