@@ -36,7 +36,12 @@ use Chalapa13\WorldGuard\ResourceUtils\ResourceUpdater;
 
 define('API3_PLAYER_CLASS', '\pocketmine\Player');
 define('API4_PLAYER_CLASS', '\pocketmine\player\Player');
-class_alias(class_exists(API4_PLAYER_CLASS) ? API4_PLAYER_CLASS : API3_PLAYER_CLASS, 'Player');
+if (class_exists(API4_PLAYER_CLASS))
+    class_alias(API4_PLAYER_CLASS, 'Player');
+else if (class_exists(API3_PLAYER_CLASS))
+    class_alias(API3_PLAYER_CLASS, 'Player');
+else
+    exit("FATAL ERROR: unknown API version");
 
 class WorldGuard extends PluginBase {
 
