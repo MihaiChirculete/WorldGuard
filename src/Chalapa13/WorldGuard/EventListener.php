@@ -37,12 +37,12 @@ use pocketmine\network\mcpe\protocol\{ServerSettingsRequestPacket, ServerSetting
 use ReflectionObject;
 use function json_encode;
 
-define('API3_PLAYER_CLASS_EVENT', '\pocketmine\Player');
-define('API4_PLAYER_CLASS_EVENT', '\pocketmine\player\Player');
-if (class_exists(API4_PLAYER_CLASS_EVENT))
-    class_alias(API4_PLAYER_CLASS_EVENT, 'Player');
-else if (class_exists(API3_PLAYER_CLASS_EVENT))
-    class_alias(API3_PLAYER_CLASS_EVENT, 'Player');
+//define('API3_PLAYER_CLASS_EVENT', '\pocketmine\Player');
+//define('API4_PLAYER_CLASS_EVENT', '\pocketmine\player\Player');
+if (class_exists(API4_PLAYER_CLASS))
+    class_alias(API4_PLAYER_CLASS, 'Chalapa13\WorldGuard\Player');
+else if (class_exists(API3_PLAYER_CLASS))
+    class_alias(API3_PLAYER_CLASS, 'Chalapa13\WorldGuard\Player');
 else
     exit("FATAL ERROR: unknown API version");
 
