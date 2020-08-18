@@ -2,13 +2,13 @@
 
 /**
 *
-*  _     _  _______  ______    ___      ______   _______  __   __  _______  ______    ______  
-* | | _ | ||       ||    _ |  |   |    |      | |       ||  | |  ||   _   ||    _ |  |      | 
+*  _     _  _______  ______    ___      ______   _______  __   __  _______  ______    ______
+* | | _ | ||       ||    _ |  |   |    |      | |       ||  | |  ||   _   ||    _ |  |      |
 * | || || ||   _   ||   | ||  |   |    |  _    ||    ___||  | |  ||  |_|  ||   | ||  |  _    |
 * |       ||  | |  ||   |_||_ |   |    | | |   ||   | __ |  |_|  ||       ||   |_||_ | | |   |
 * |       ||  |_|  ||    __  ||   |___ | |_|   ||   ||  ||       ||       ||    __  || |_|   |
 * |   _   ||       ||   |  | ||       ||       ||   |_| ||       ||   _   ||   |  | ||       |
-* |__| |__||_______||___|  |_||_______||______| |_______||_______||__| |__||___|  |_||______| 
+* |__| |__||_______||___|  |_||_______||______| |_______||_______||__| |__||___|  |_||______|
 *
 * By Chalapa13.
 *
@@ -22,12 +22,14 @@
 
 namespace Chalapa13\WorldGuard;
 
-use pocketmine\Player;
+
 use pocketmine\Server;
 use pocketmine\network\mcpe\protocol\SetPlayerGameTypePacket;
 use pocketmine\entity\{Entity, Animal, Monster};
 use pocketmine\level\biome\Biome;
 use pocketmine\level\Level;
+
+class_alias(class_exists(API4_PLAYER_CLASS) ? API4_PLAYER_CLASS : API3_PLAYER_CLASS, 'Player');
 
 class Utils {
 

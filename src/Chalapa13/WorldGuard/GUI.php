@@ -12,8 +12,6 @@ use Chalapa13\WorldGuard\forms\{CustomForm, CustomFormResponse, MenuForm, ModalF
 use Chalapa13\WorldGuard\elements\{Button, Dropdown, Image, Input, Label, Slider, StepSlider, Toggle};
 use Chalapa13\WorldGuard\Region;
 
-define('API3_PLAYER_CLASS', '\pocketmine\Player');
-define('API4_PLAYER_CLASS', '\pocketmine\player\Player');
 class_alias(class_exists(API4_PLAYER_CLASS) ? API4_PLAYER_CLASS : API3_PLAYER_CLASS, 'Player');
 
 class GUI

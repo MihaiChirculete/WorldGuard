@@ -37,8 +37,6 @@ use pocketmine\network\mcpe\protocol\{ServerSettingsRequestPacket, ServerSetting
 use ReflectionObject;
 use function json_encode;
 
-define('API3_PLAYER_CLASS', '\pocketmine\Player');
-define('API4_PLAYER_CLASS', '\pocketmine\player\Player');
 class_alias(class_exists(API4_PLAYER_CLASS) ? API4_PLAYER_CLASS : API3_PLAYER_CLASS, 'Player');
 
 class EventListener implements Listener {
