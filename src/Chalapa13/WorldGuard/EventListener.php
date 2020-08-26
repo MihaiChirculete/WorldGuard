@@ -32,20 +32,10 @@ use pocketmine\utils\TextFormat as TF;
 use pocketmine\entity\{Entity, Animal, Monster};
 use pocketmine\plugin\MethodEventExecutor;
 use pocketmine\event\plugin\PluginEvent;
-use pocketmine\level\Position;
 use pocketmine\network\mcpe\protocol\{ServerSettingsRequestPacket, ServerSettingsResponsePacket};
 use ReflectionObject;
 use function json_encode;
 
-//define('API3_PLAYER_CLASS_EVENT', '\pocketmine\Player');
-//define('API4_PLAYER_CLASS_EVENT', '\pocketmine\player\Player');
-/*if (class_exists(API4_PLAYER_CLASS))
-    class_alias(API4_PLAYER_CLASS, 'Chalapa13\WorldGuard\Player');
-else if (class_exists(API3_PLAYER_CLASS))
-    class_alias(API3_PLAYER_CLASS, 'Chalapa13\WorldGuard\Player');
-else
-    exit("FATAL ERROR: unknown API version");
-*/
 class EventListener implements Listener {
 
     //The reason why item IDs are being used directly, rather than ItemIds::CONSTANTs is for the cross-compatibility amongst forks.
@@ -197,7 +187,7 @@ class EventListener implements Listener {
 
     public function onBlockUpdate(BlockUpdateEvent $event){
         $block = $event->getBlock();
-        $position = new Position($block->x,$block->y,$block->z,$block->getLevel());
+        $position = new \WGPosition($block->x,$block->y,$block->z,$block->getLevel());
         $region = $this->plugin->getRegionFromPosition($position);
         if ($region->getFlag("pluginbypass") === "false") {
             if ($block->getName() === "Lava" || $block->getName() === "Water"){
@@ -223,7 +213,7 @@ class EventListener implements Listener {
         if ($z < 0){
             $z = ($z + 1);
         }
-        $position = new Position($x,$block->y,$z,$block->getLevel());
+        $position = new \WGPosition($x,$block->y,$z,$block->getLevel());
         if (($region = $this->plugin->getRegionFromPosition($position)) !== ""){
             if ($region->getFlag("pluginbypass") === "false"){
                 if ($region->getFlag("block-place") === "false"){
@@ -259,7 +249,7 @@ class EventListener implements Listener {
         if ($z < 0){
             $z = ($z + 1);
         }
-        $position = new Position($x,$block->y,$z,$block->getLevel());
+        $position = new \WGPosition($x,$block->y,$z,$block->getLevel());
         if (($region = $this->plugin->getRegionFromPosition($position)) !== ""){
             if ($region->getFlag("pluginbypass") === "false"){
                 if ($region->getFlag("block-break") === "false"){
@@ -305,10 +295,10 @@ class EventListener implements Listener {
     public function onHurtByEntity(EntityDamageByEntityEvent $event) {
         $victim = $event->getEntity();
         $damager = $event->getDamager();
-        if (($victim) instanceof Player) {
+        if (($victim) instanceof \WGPlayerClass) {
             if (($reg = $this->plugin->getRegionByPlayer($victim)) !== "") {
                 if ($reg->getFlag("pvp") === "false"){
-         	    	if(($damager) instanceof Player) {
+                    if(($damager) instanceof \WGPlayerClass) {
                         if ($reg->getFlag("deny-msg") === "true") {
                             $damager->sendMessage(TF::RED. $this->plugin->resourceManager->getMessages()["denied-pvp"]);
                         }
@@ -317,10 +307,10 @@ class EventListener implements Listener {
                 	}
             	}
             }
-            if (($damager) instanceof Player) {
+            if (($damager) instanceof \WGPlayerClass) {
                 if (($reg = $this->plugin->getRegionByPlayer($damager)) !== "") {
                     if ($reg->getFlag("pvp") === "false"){
-                        if(($victim) instanceof Player) {
+                        if(($victim) instanceof \WGPlayerClass) {
                             if ($reg->getFlag("deny-msg") === "true") {
                                 $damager->sendMessage(TF::RED. $this->plugin->resourceManager->getMessages()["denied-pvp"]);
                             }
@@ -336,7 +326,7 @@ class EventListener implements Listener {
 
         if(Utils::isAnimal($event->getEntity()))
         {
-            if(($player = $event->getDamager()) instanceof Player)
+            if(($player = $event->getDamager()) instanceof \WGPlayerClass)
             if(($region = $this->plugin->getRegionFromPosition($event->getEntity()->getPosition())) !== "")
             {
                 if ($region->getFlag("allow-damage-animals") === "false") {
@@ -351,7 +341,7 @@ class EventListener implements Listener {
 
         if(Utils::isMonster($event->getEntity()))
         {
-            if(($player = $event->getDamager()) instanceof Player)
+            if(($player = $event->getDamager()) instanceof \WGPlayerClass)
                 if(($region = $this->plugin->getRegionFromPosition($event->getEntity()->getPosition())) !== "")
                 {
                     if ($region->getFlag("allow-damage-animals") === "false") {
@@ -364,7 +354,7 @@ class EventListener implements Listener {
 
         if(strpos(get_class($event->getEntity()), "monster") !== false)
         {
-            if(($player = $event->getDamager()) instanceof Player)
+            if(($player = $event->getDamager()) instanceof \WGPlayerClass)
             if(($region = $this->plugin->getRegionFromPosition($event->getEntity()->getPosition())) !== "")
             {
                 if ($region->getFlag("allow-damage-monsters") === "false") {
@@ -379,7 +369,7 @@ class EventListener implements Listener {
     public function onHurt(EntityDamageEvent $event) {
         if(($region = $this->plugin->getRegionFromPosition($event->getEntity()->getPosition())) !== ""){
             if ($this->plugin->getRegionFromPosition($event->getEntity()->getPosition())->getFlag("invincible") === "true"){
-                if($event->getEntity() instanceof Player) {
+                if($event->getEntity() instanceof \WGPlayerClass) {
                     $event->setCancelled();
                 }
             }
@@ -516,7 +506,7 @@ class EventListener implements Listener {
     public function onItemConsume(PlayerItemConsumeEvent $event){
         $player = $event->getPlayer();
         $item = $event->getItem();
-        if ($player instanceof Player){
+        if ($player instanceof \WGPlayerClass){
             if(($region = $this->plugin->getRegionByPlayer($event->getPlayer())) !== ""){
                 if($region->getFlag("eat") === "false" && !$player->hasPermission("worldguard.eat." . $region->getName())) {
                     $event->setCancelled();
@@ -530,7 +520,7 @@ class EventListener implements Listener {
 
     public function noHunger(PlayerExhaustEvent $exhaustEvent){
         $player = $exhaustEvent->getPlayer();
-        if ($exhaustEvent->getPlayer() instanceof Player){
+        if ($exhaustEvent->getPlayer() instanceof \WGPlayerClass){
             if(($region = $this->plugin->getRegionByPlayer($exhaustEvent->getPlayer())) !== ""){
                 if($region->getFlag("hunger") === "false") {
                     $exhaustEvent->setCancelled(true);

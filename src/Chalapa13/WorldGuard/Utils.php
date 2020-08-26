@@ -29,15 +29,7 @@ use pocketmine\entity\{Entity, Animal, Monster};
 use pocketmine\level\biome\Biome;
 use pocketmine\level\Level;
 
-//define('API3_PLAYER_CLASS_UTILS', '\pocketmine\Player');
-//define('API4_PLAYER_CLASS_UTILS', '\pocketmine\player\Player');
-/*if (class_exists(API4_PLAYER_CLASS))
-    class_alias(API4_PLAYER_CLASS, 'Chalapa13\WorldGuard\Player');
-else if (class_exists(API3_PLAYER_CLASS))
-    class_alias(API3_PLAYER_CLASS, 'Chalapa13\WorldGuard\Player');
-else
-    exit("FATAL ERROR: unknown API version");
-*/
+
 class Utils {
 
     const GAMEMODES = [
@@ -67,7 +59,7 @@ class Utils {
         return $return;
     }
 
-    public static function disableFlight(Player $player)
+    public static function disableFlight(\WGPlayerClass $player)
     {
         $player->setAllowFlight(false);
         $pk = new SetPlayerGameTypePacket();
@@ -89,7 +81,7 @@ class Utils {
      *
      * Use this to parse aliases in a string
      */
-    public static function aliasParse(Player $player, string $msg)
+    public static function aliasParse(\WGPlayerClass $player, string $msg)
     {
         $parsedMsg = str_replace("{player_name}", $player->getName() ,$msg);
         $parsedMsg = str_replace("&", "§", $parsedMsg);
@@ -265,7 +257,7 @@ class Utils {
 
     // given an issuer object, returns the plugin object
     // useful for static functions when you need the plugin refference
-    public static function getPluginFromIssuer(Player $issuer)
+    public static function getPluginFromIssuer(\WGPlayerClass $issuer)
     {
         return $issuer->getServer()->getPluginManager()->getPlugin("WorldGuard");
     }
