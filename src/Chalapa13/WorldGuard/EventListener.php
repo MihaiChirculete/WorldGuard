@@ -270,9 +270,9 @@ class EventListener implements Listener {
                     $event->setCancelled();
                     }
                 }
-                if ($region->getFlag("exp-drops") === "false"){
-                    $event->setXpDropAmount(0);
-                }
+            }
+            if ($region->getFlag("exp-drops") === "false"){
+                $event->setXpDropAmount(0);
             }
         }
     }
