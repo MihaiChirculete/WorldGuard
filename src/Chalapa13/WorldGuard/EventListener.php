@@ -189,10 +189,12 @@ class EventListener implements Listener {
         $block = $event->getBlock();
         $position = new \WGPosition($block->x,$block->y,$block->z,$block->getLevel());
         $region = $this->plugin->getRegionFromPosition($position);
-        if ($region->getFlag("pluginbypass") === "false") {
-            if ($block->getName() === "Lava" || $block->getName() === "Water"){
-                if ($region->getFlag("flow") === "false"){
-                    $event->setCancelled();
+        if ($region !== ""){
+            if ($region->getFlag("pluginbypass") === "false") {
+                if ($block->getName() === "Lava" || $block->getName() === "Water"){
+                    if ($region->getFlag("flow") === "false"){
+                        $event->setCancelled();
+                    }
                 }
             }
         }
@@ -266,9 +268,9 @@ class EventListener implements Listener {
                     $event->setCancelled();
                     }
                 }
-                if ($region->getFlag("exp-drops") === "false"){
-                    $event->setXpDropAmount(0);
-                }
+            }
+            if ($region->getFlag("exp-drops") === "false"){
+                $event->setXpDropAmount(0);
             }
         }
     }
