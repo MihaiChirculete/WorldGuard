@@ -2,13 +2,13 @@
 
 /**
 *
-*  _     _  _______  ______    ___      ______   _______  __   __  _______  ______    ______  
-* | | _ | ||       ||    _ |  |   |    |      | |       ||  | |  ||   _   ||    _ |  |      | 
+*  _     _  _______  ______    ___      ______   _______  __   __  _______  ______    ______
+* | | _ | ||       ||    _ |  |   |    |      | |       ||  | |  ||   _   ||    _ |  |      |
 * | || || ||   _   ||   | ||  |   |    |  _    ||    ___||  | |  ||  |_|  ||   | ||  |  _    |
 * |       ||  | |  ||   |_||_ |   |    | | |   ||   | __ |  |_|  ||       ||   |_||_ | | |   |
 * |       ||  |_|  ||    __  ||   |___ | |_|   ||   ||  ||       ||       ||    __  || |_|   |
 * |   _   ||       ||   |  | ||       ||       ||   |_| ||       ||   _   ||   |  | ||       |
-* |__| |__||_______||___|  |_||_______||______| |_______||_______||__| |__||___|  |_||______| 
+* |__| |__||_______||___|  |_||_______||______| |_______||_______||__| |__||___|  |_||______|
 *
 * By Chalapa13.
 *
@@ -22,12 +22,13 @@
 
 namespace Chalapa13\WorldGuard;
 
-use pocketmine\Player;
+
 use pocketmine\Server;
 use pocketmine\network\mcpe\protocol\SetPlayerGameTypePacket;
 use pocketmine\entity\{Entity, Animal, Monster};
 use pocketmine\level\biome\Biome;
 use pocketmine\level\Level;
+
 
 class Utils {
 
@@ -58,7 +59,7 @@ class Utils {
         return $return;
     }
 
-    public static function disableFlight(Player $player)
+    public static function disableFlight(\WGPlayerClass $player)
     {
         $player->setAllowFlight(false);
         $pk = new SetPlayerGameTypePacket();
@@ -80,7 +81,7 @@ class Utils {
      *
      * Use this to parse aliases in a string
      */
-    public static function aliasParse(Player $player, string $msg)
+    public static function aliasParse(\WGPlayerClass $player, string $msg)
     {
         $parsedMsg = str_replace("{player_name}", $player->getName() ,$msg);
         $parsedMsg = str_replace("&", "§", $parsedMsg);
@@ -256,7 +257,7 @@ class Utils {
 
     // given an issuer object, returns the plugin object
     // useful for static functions when you need the plugin refference
-    public static function getPluginFromIssuer(Player $issuer)
+    public static function getPluginFromIssuer(\WGPlayerClass $issuer)
     {
         return $issuer->getServer()->getPluginManager()->getPlugin("WorldGuard");
     }
