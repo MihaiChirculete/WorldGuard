@@ -64,6 +64,8 @@ class ResourceUpdater
             "gui_dropdown_select_manage" => "Select the region you would like to manage",
             "gui_manage_menu_title" => "Managing region:",
             "gui_flag_pluginbypass" => "Plugin bypass for USE and FLOW",
+            "gui_flag_blockbreak" => "Allow block break",
+            "gui_flag_blockplace" => "Allow block place",
             "gui_flag_pvp" => "PvP",
             "gui_flag_xp_drops" => "Experience drops",
             "gui_flag_invincible" => "Invincible",
@@ -96,8 +98,8 @@ class ResourceUpdater
             "gui_flag_spread" => "Allow spreading",
             "gui_flag_block_burn" => "Allow block burn",
             "gui_flag_priority" => "Region priority",
-            "gui_help_menu_label1" => "If you need help setting up world guard check out the tutorial we made for you:",
-            "gui_help_menu_label2" => "http://worldguard.ddns.net/tutorial"
+            "gui_help_menu_label1" => "If you need help setting up WorldGuard, you can contact us on Discord for help:",
+            "gui_help_menu_label2" => "https://discord.com/invite/uZevqGX",
         );
     }
 

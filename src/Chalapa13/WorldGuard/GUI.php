@@ -154,6 +154,8 @@ class GUI
         $issuer->sendForm(new CustomForm($lang["gui_manage_menu_title"] . " §9" . $rgName,
             [
                 new Toggle($lang["gui_flag_pluginbypass"], filter_var($rg->getFlag("pluginbypass"), FILTER_VALIDATE_BOOLEAN)),
+                new Toggle($lang["gui_flag_blockbreak"], filter_var($rg->getFlag("block-break"), FILTER_VALIDATE_BOOLEAN)),
+                new Toggle($lang["gui_flag_blockplace"], filter_var($rg->getFlag("block-place"), FILTER_VALIDATE_BOOLEAN)),
                 new Toggle($lang["gui_flag_pvp"], filter_var($rg->getFlag("pvp"), FILTER_VALIDATE_BOOLEAN)),
                 new Toggle($lang["gui_flag_xp_drops"], filter_var($rg->getFlag("exp-drops"), FILTER_VALIDATE_BOOLEAN)),
                 new Toggle($lang["gui_flag_invincible"], filter_var($rg->getFlag("invincible"), FILTER_VALIDATE_BOOLEAN)),
@@ -186,7 +188,7 @@ class GUI
                 new Input($lang["gui_flag_priority"], filter_var($rg->getFlag("priority"), FILTER_VALIDATE_INT))
             ],
             function(Player $player, CustomFormResponse $response) : void{
-                list($pluginbypass, $pvpFlag, $xpFlag, $invincibleFlag, $fallDmgFlag, $useFlag, $itemDropFlag, $explosionsFlag,
+                list($pluginBypass, $blockBreak, $blockPlace, $pvpFlag, $xpFlag, $invincibleFlag, $fallDmgFlag, $useFlag, $itemDropFlag, $explosionsFlag,
                     $notifyEnterFlag, $notifyLeaveFlag, $potionsFlag, $allowEnterFlag, $allowLeaveFlag,
                     $gamemodeFlag, $sleepFlag, $sendChatFlag, $receiveChatFlag, $enderPearlFlag, $flyModeFlag, $eatingFlag, $HungerFlag,
                     $damageAnimalsFlag, $damageMonstersFlag, $leafDecayFlag, $plantGrowthFlag, $spreadingFlag, $blockBurnFlag,
@@ -194,7 +196,9 @@ class GUI
 
                 $lang = Utils::getPluginFromIssuer($player)->resourceManager->getLanguagePack();
 
-                $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" pluginbypass " . var_export($pluginbypass, true));
+                $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" pluginbypass " . var_export($pluginBypass, true));
+                $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" block-break " . var_export($blockBreak, true));
+                $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" block-place " . var_export($blockPlace, true));
                 $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" pvp " . var_export($pvpFlag, true));
                 $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" exp-drops " . var_export($xpFlag, true));
                 $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" invincible " . var_export($invincibleFlag, true));
@@ -211,37 +215,29 @@ class GUI
                 $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" send-chat " . var_export($sendChatFlag, true));
                 $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" receive-chat " . var_export($receiveChatFlag, true));
                 $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" enderpearl " . var_export($enderPearlFlag, true));
-
                 switch ($gamemodeFlag)
                 {
                     case $lang["gui_gm_survival"]:
                         $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" game-mode survival");
                         break;
-
                     case $lang["gui_gm_creative"]:
                         $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" game-mode creative");
                         break;
-
                      case $lang["gui_gm_adventure"]:
                         $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" game-mode adventure");
                         break;
                 }
-
-
                 switch ($flyModeFlag)
                 {
                     case "Vanilla":
                         $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" fly-mode 0");
                         break;
-
                     case $lang["gui_enabled"]:
                         $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" fly-mode 1");
                         break;
-
                     case $lang["gui_disabled"]:
                         $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" fly-mode 2");
                         break;
-
                     case "Supervised":
                         $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" fly-mode 3");
                         break;
