@@ -19,6 +19,7 @@ class ResourceManager
     private $lang = [];
     private $config = [];
     private $regions = [];
+    private $langList = [];
 
 
     private function __construct(WorldGuard $plugin, Server $sv)
@@ -38,11 +39,24 @@ class ResourceManager
         return ResourceManager::$instance;
     }
 
+    public function getLangResource()
+    {
+        $result = [];
+
+        foreach($this->plugin->getResources() as $resource)
+        {
+            if(mb_strpos($resource, "lang_") !== false)
+                $result[] = substr($resource, 5, 0);
+        }
+
+        $this->langList = $result;
+
+    }
+
     public function getConfig() { return $this->config; }
     public function getLanguagePack() { return $this->lang; }
     public function getMessages() { return $this->messages; }
     public function getRegions() : array { return $this->regions; }
-
     public function getPluginVersion() { return $this->pluginVersion; }
 
     public function getConfigVersion()
@@ -80,6 +94,12 @@ class ResourceManager
         $this->loadLanguagePack($path);
         $this->loadMessages($path);
         $this->loadRegions($path);
+    }
+
+    public function getLanguageFolder(): string
+    {
+        var_dump($this->getFile() . "resources" . DIRECTORY_SEPARATOR);
+        return $this->getFile() . "resources" . DIRECTORY_SEPARATOR;
     }
 
     public function loadRegions($path)
@@ -126,14 +146,27 @@ class ResourceManager
          */
         if (is_file($path . "lang_" . $this->config["language"] . ".yml")) {
             $this->lang = yaml_parse_file($path . "lang_" . $this->config["language"] . ".yml");
+
+            //load file here from ressource
+            //$this->getFile() . "resources" . DIRECTORY_SEPARATOR . "lang_". $this->config["language"] . ".yml"
+
+
+
+
         } else {
+
+            $langfile = $this->getFile()->getLangResource . $this->config["language"]. ".yml";
+            var_dump($langfile);
+
             // if the file does not exist, generate a default english one and use that file
-            $this->config["language"] = "en";
-            yaml_emit_file($path.'config.yml', $this->config);
 
-            $this->lang = $this->resUpdaterInstance->getDefaultLanguagePack();
 
-            yaml_emit_file($path.'lang_en.yml', $this->lang);
+            //$this->config["language"] = "en";
+            //yaml_emit_file($path.'config.yml', $this->config);
+
+            //$this->lang = $this->resUpdaterInstance->getDefaultLanguagePack();
+
+            //yaml_emit_file($path.'lang_en.yml', $this->lang);
         }
     }
 
