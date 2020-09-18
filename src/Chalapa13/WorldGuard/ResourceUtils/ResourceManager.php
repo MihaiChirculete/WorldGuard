@@ -19,7 +19,7 @@ class ResourceManager
     private $lang = [];
     private $config = [];
     private $regions = [];
-    private $langList = [];
+    private $resource = [];
 
 
     private function __construct(WorldGuard $plugin, Server $sv)
@@ -37,20 +37,6 @@ class ResourceManager
             ResourceManager::$instance = new ResourceManager($plugin, $sv);
 
         return ResourceManager::$instance;
-    }
-
-    public function getLangResource()
-    {
-        $result = [];
-
-        foreach($this->plugin->getResources() as $resource)
-        {
-            if(mb_strpos($resource, "lang_") !== false)
-                $result[] = substr($resource, 5, 0);
-        }
-
-        $this->langList = $result;
-
     }
 
     public function getConfig() { return $this->config; }
@@ -89,12 +75,12 @@ class ResourceManager
         if (!is_dir($path = $this->pluginInstance->getDataFolder())) {
             mkdir($path);
         }
+        
 
         $this->loadConfig($path);
         $this->loadLanguagePack($path);
         $this->loadMessages($path);
         $this->loadRegions($path);
-        $this->loadLanguageFolder($path);
     }
 
     public function loadRegions($path)
@@ -133,6 +119,19 @@ class ResourceManager
             yaml_emit_file($path.'config.yml', $this->config);
         }
     }
+    
+    public function getLangResource()
+    {
+        $result = [];
+        
+        foreach($this->pluginInstance->getResources() as $resource)
+        {
+            if(mb_strpos($resource, "lang_") !== false)
+                $result[] = substr($resource, 5, 0);
+        }
+        echo "load language pack" . var_export( $resource, true);
+        return $resource . "lang_" . $this->config["language"] . ".yml";   
+    }
 
     public function loadLanguagePack($path)
     {
@@ -141,19 +140,21 @@ class ResourceManager
          */
         if (is_file($path . "lang_" . $this->config["language"] . ".yml")) {
             $this->lang = yaml_parse_file($path . "lang_" . $this->config["language"] . ".yml");
+            //Use the File from plugin_data
         } else {
-            
-            $langfile = $this->getFile()->getLangResource . $this->config["language"]. ".yml";
-
-            if (!$this->config["language"] = "en" && $langfile = "lang_" . $this->config["language"]) {
-                // load all lang files from ressource
+            if (!$this->config["language"] = "en" && is_file($path . "lang_" . $this->config["language"] . ".yml")) {
+                
+                // load all lang from ressource in plugin data
+                
+                yaml_parse_file($this->getLangResource, $this->lang); 
+                echo "load from resssss" . var_export($this->getLangResource, true);
                 
             } else {
 
             // if the file does not exist, generate a default english one and use that file
             $this->config["language"] = "en";
             yaml_emit_file($path.'config.yml', $this->config);
-
+            
             $this->lang = $this->resUpdaterInstance->getDefaultLanguagePack();
 
             yaml_emit_file($path.'lang_en.yml', $this->lang);
