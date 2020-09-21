@@ -149,31 +149,26 @@ class ResourceManager
         }
     }
     
-    public function loadLanguagePack($path)
+
+    public function loadLanguagePack()
     {
-        /**
-         * load language file
-         */
-        $configured = "lang_" . $this->config["language"] . ".yml";
-        //Use the File from plugin_data
-        if (is_file($path . $configured)) {
-            $this->lang = yaml_parse_file($path . $configured);
-        } else {
-            // load lang from ressource in plugin_data
-            if (array_search($configured, $this->pluginInstance->getResources()) !== FALSE) { 
-                if (!$this->pluginInstance->saveResource($configured)) {
-                    //ERROR LOG in DEBUG need to be added
-                } else {
-                    $this->lang = yaml_parse_file($path . $configured);
-                }
-            } else {
-            // if the file does not exist in plugin_data and resource, generate a default english one and use that file
+        $path = $this->pluginInstance->getDataFolder();
+        $langFile = "lang_" . $this->config["language"] . ".yml";
+        //if not in phar ressource ord plugin_folder
+        if (!is_file($path . $langFile) && !$this->pluginInstance->saveResource($langFile)) {
+            //use en lang file
+            $langFile = "lang_en.yml";
             $this->config["language"] = "en";
             yaml_emit_file($path.'config.yml', $this->config);
-            $this->lang = $this->resUpdaterInstance->getDefaultLanguagePack();
-            yaml_emit_file($path.'lang_en.yml', $this->lang);
+            //create default en lang file
+            if (!is_file($path . $langFile) && !$this->pluginInstance->saveResource($langFile)) {
+                $this->lang = $this->resUpdaterInstance->getDefaultLanguagePack();
+                yaml_emit_file($path.'lang_en.yml', $this->lang);
+                return;
             }
         }
+        // load language
+        $this->lang =  yaml_parse_file($path . $langFile);
     }
 
     public function loadMessages($path)
