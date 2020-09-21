@@ -159,22 +159,23 @@ class ResourceManager
          * load language file
          */
         $configured = "lang_" . $this->config["language"] . ".yml";
-        
+        //Use the File from plugin_data
         if (is_file($path . $configured)) {
-            //Use the File from plugin_data
             $this->lang = yaml_parse_file($path . $configured);
         } else {
-            // load lang from ressource in plugin data
+            // load lang from ressource in plugin_data
             if (array_search($configured, $this->pluginInstance->getResources()) !== FALSE) { 
-//INSERT HERE LOADING FILE FROM RES
+                if (!$this->pluginInstance->saveResource($configured)) {
+                    //ERROR LOG in DEBUG
+                } else {
+                    $this->lang = yaml_parse_file($path . $configured);
+                }
             } else {
 
-            // if the file does not exist, generate a default english one and use that file
+            // if the file does not exist in plugin_data and resource, generate a default english one and use that file
             $this->config["language"] = "en";
             yaml_emit_file($path.'config.yml', $this->config);
-            
             $this->lang = $this->resUpdaterInstance->getDefaultLanguagePack();
-
             yaml_emit_file($path.'lang_en.yml', $this->lang);
             }
         }

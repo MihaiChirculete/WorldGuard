@@ -23,7 +23,7 @@ class ResourceUpdater
 
         $this->defaultConfig = array(
             "version" => $this->resourceManagerInstance->getPluginVersion(),
-            "language to use" => "you could use de, fr, en, ru",
+            "language to use" => "you could use de, fr, en, ro. if the file does not exist, it will create a default en file!",
             "language" => "en",
             "debugging" => false);
 
