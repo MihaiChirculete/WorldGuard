@@ -19,9 +19,6 @@ class ResourceManager
     private $lang = [];
     private $config = [];
     private $regions = [];
-    private $resource = [];
-
-
     private function __construct(WorldGuard $plugin, Server $sv)
     {
         $this->pluginInstance = $plugin;
@@ -30,7 +27,6 @@ class ResourceManager
 
         $this->pluginVersion = $this->pluginInstance->getDescription()->getVersion();
     }
-
     public static function getInstance(WorldGuard $plugin, Server $sv)
     {
         if(ResourceManager::$instance === null)
@@ -38,7 +34,7 @@ class ResourceManager
 
         return ResourceManager::$instance;
     }
-    
+
     //Base Lang from Client -> looked into MyPlot  files 
     /*public function getLanguage() : BaseLang {
         return $this->baseLang;
@@ -166,12 +162,11 @@ class ResourceManager
             // load lang from ressource in plugin_data
             if (array_search($configured, $this->pluginInstance->getResources()) !== FALSE) { 
                 if (!$this->pluginInstance->saveResource($configured)) {
-                    //ERROR LOG in DEBUG
+                    //ERROR LOG in DEBUG need to be added
                 } else {
                     $this->lang = yaml_parse_file($path . $configured);
                 }
             } else {
-
             // if the file does not exist in plugin_data and resource, generate a default english one and use that file
             $this->config["language"] = "en";
             yaml_emit_file($path.'config.yml', $this->config);
