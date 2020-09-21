@@ -160,7 +160,7 @@ class ResourceManager
             $this->lang = yaml_parse_file($path . $configured);
         } else {
             // load lang from ressource in plugin_data
-            if (array_search($configured, $this->pluginInstance->getResources()) !== FALSE) { 
+            if (array_search($configured, $this->pluginInstance->getResource()) !== FALSE) { 
                 if (!$this->pluginInstance->saveResource($configured)) {
                     //ERROR LOG in DEBUG need to be added
                 } else {
