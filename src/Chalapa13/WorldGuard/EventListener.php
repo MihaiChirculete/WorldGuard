@@ -280,7 +280,7 @@ class EventListener implements Listener {
 
     public function onDeathItemDrop(PlayerDeathEvent $event) {        
         if (($reg = $this->plugin->getRegionByPlayer($player = $event->getPlayer())) !== "") {
-            if ($region->getFlag("item-by-death") === "false" && !$player->hasPermission("worldguard.deathdrop." . $reg->getName())) {
+            if ($reg->getFlag("item-by-death") === "false" && !$player->hasPermission("worldguard.deathdrop." . $reg->getName())) {
                 if ($reg->getFlag("deny-msg") === "true") {
                     $player->sendMessage(TF::RED. $this->plugin->resourceManager->getMessages()["denied-item-death-drop"]);
                 }
