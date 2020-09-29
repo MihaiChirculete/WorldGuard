@@ -284,7 +284,8 @@ class EventListener implements Listener {
                 if ($reg->getFlag("deny-msg") === "true") {
                     $player->sendMessage(TF::RED. $this->plugin->resourceManager->getMessages()["denied-item-death-drop"]);
                 }
-                return $event->setDrops([]);
+                $event->setDrops([]);
+                return;
             }
         }
     }
