@@ -2,7 +2,7 @@ name: WorldGuard
 main: Chalapa13\WorldGuard\WorldGuard
 api: [3.0.0]
 mcpe-protocol: 408
-version: 1.1.7.1
+version: 1.1.7.3
 author: Chalapa
 website: https://github.com/Chalapa13/WorldGuard
 commands:
@@ -41,6 +41,8 @@ permissions:
   worldguard.eat:
     default: op
   worldguard.drop:
+    default: op
+  worldguard.deathdrop:
     default: op
   worldguard.usechest:
     default: op
