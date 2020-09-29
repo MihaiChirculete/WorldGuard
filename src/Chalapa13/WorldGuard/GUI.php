@@ -154,6 +154,7 @@ class GUI
         $issuer->sendForm(new CustomForm($lang["gui_manage_menu_title"] . " §9" . $rgName,
             [
                 new Toggle($lang["gui_flag_pluginbypass"], filter_var($rg->getFlag("pluginbypass"), FILTER_VALIDATE_BOOLEAN)),
+                new Toggle($lang["gui_flag_deny_message"], filter_var($rg->getFlag("deny-msg"), FILTER_VALIDATE_BOOLEAN)),
                 new Toggle($lang["gui_flag_blockbreak"], filter_var($rg->getFlag("block-break"), FILTER_VALIDATE_BOOLEAN)),
                 new Toggle($lang["gui_flag_blockplace"], filter_var($rg->getFlag("block-place"), FILTER_VALIDATE_BOOLEAN)),
                 new Toggle($lang["gui_flag_pvp"], filter_var($rg->getFlag("pvp"), FILTER_VALIDATE_BOOLEAN)),
@@ -165,6 +166,7 @@ class GUI
                 // add flag for allowed commands
                 new Toggle($lang["gui_flag_usage"], filter_var($rg->getFlag("use"), FILTER_VALIDATE_BOOLEAN)),
                 new Toggle($lang["gui_flag_item_drop"], filter_var($rg->getFlag("item-drop"), FILTER_VALIDATE_BOOLEAN)),
+                new Toggle($lang["gui_flag_item_death_drop"], filter_var($rg->getFlag("item-by-death"), FILTER_VALIDATE_BOOLEAN)),
                 new Toggle($lang["gui_flag_explosions"], filter_var($rg->getFlag("explosion"), FILTER_VALIDATE_BOOLEAN)),
                 new Input($lang["gui_flag_notify_enter"], $rg->getFlag("notify-enter")),
                 new Input($lang["gui_flag_notify_leave"], $rg->getFlag("notify-leave")),
@@ -188,7 +190,7 @@ class GUI
                 new Input($lang["gui_flag_priority"], filter_var($rg->getFlag("priority"), FILTER_VALIDATE_INT))
             ],
             function(Player $player, CustomFormResponse $response) : void{
-                list($pluginBypass, $blockBreak, $blockPlace, $pvpFlag, $xpFlag, $invincibleFlag, $fallDmgFlag, $useFlag, $itemDropFlag, $explosionsFlag,
+                list($pluginBypass, $denyMessage, $blockBreak, $blockPlace, $pvpFlag, $xpFlag, $invincibleFlag, $fallDmgFlag, $useFlag, $itemDeathDropFlag, $itemDropFlag, $explosionsFlag,
                     $notifyEnterFlag, $notifyLeaveFlag, $potionsFlag, $allowEnterFlag, $allowLeaveFlag,
                     $gamemodeFlag, $sleepFlag, $sendChatFlag, $receiveChatFlag, $enderPearlFlag, $flyModeFlag, $eatingFlag, $HungerFlag,
                     $damageAnimalsFlag, $damageMonstersFlag, $leafDecayFlag, $plantGrowthFlag, $spreadingFlag, $blockBurnFlag,
@@ -197,6 +199,7 @@ class GUI
                 $lang = Utils::getPluginFromIssuer($player)->resourceManager->getLanguagePack();
 
                 $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" pluginbypass " . var_export($pluginBypass, true));
+                $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" deny-msg " . var_export($denyMessage, true));
                 $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" block-break " . var_export($blockBreak, true));
                 $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" block-place " . var_export($blockPlace, true));
                 $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" pvp " . var_export($pvpFlag, true));
@@ -205,6 +208,7 @@ class GUI
                 $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" fall-dmg " . var_export($fallDmgFlag, true));
                 $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" use " . var_export($useFlag, true));
                 $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" item-drop " . var_export($itemDropFlag, true));
+                $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" item-by-death " . var_export($itemDeathDropFlag, true));
                 $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" explosion " . var_export($explosionsFlag, true));
                 if($notifyEnterFlag != '' || $notifyEnterFlag != ' '){$player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" notify-enter " . $notifyEnterFlag);}
                 if($notifyLeaveFlag != '' || $notifyLeaveFlag != ' '){$player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" notify-leave " . $notifyLeaveFlag);}

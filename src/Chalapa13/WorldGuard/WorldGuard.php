@@ -39,6 +39,7 @@ class WorldGuard extends PluginBase {
 
     const FLAGS = [
         "pluginbypass" => "false",
+        "deny-msg" => "true",
         "block-place" => "false",
         "block-break" => "false",
         "pvp" => "true",
@@ -54,6 +55,7 @@ class WorldGuard extends PluginBase {
         "allowed-cmds" => [],
         "use" => "false",
         "item-drop" => "true",
+        "item-by-death" => "true",
         "explosion" => "false",
         "notify-enter" => "",
         "notify-leave" => "",
@@ -79,6 +81,7 @@ class WorldGuard extends PluginBase {
 
     const FLAG_TYPE = [
         "pluginbypass" => "boolean",
+        "deny-msg" => "boolean",
         "block-place" => "boolean",
         "block-break" => "boolean",
         "pvp" => "boolean",
@@ -94,6 +97,7 @@ class WorldGuard extends PluginBase {
         "allowed-cmds" => "array",
         "use" => "boolean",
         "item-drop" => "boolean",
+        "item-by-death" => "boolean",
         "explosion" => "boolean",
         "notify-enter" => "string",
         "notify-leave" => "string",
