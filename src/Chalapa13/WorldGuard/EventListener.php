@@ -289,11 +289,6 @@ class EventListener implements Listener {
         }
     }
             
-        
-        
-        
-
-    
     public function onBurn(BlockBurnEvent $event) {
         if (($region = $this->plugin->getRegionFromPosition($event->getBlock())) !== "") {
             if ($region->getFlag("allow-block-burn") === "false")
