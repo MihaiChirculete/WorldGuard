@@ -289,15 +289,19 @@ class WorldGuard extends PluginBase {
                     unset($this->muted[$player->getRawUniqueId()]);
                 }
                 foreach ($player->getEffects() as $effect) {
-                    if ($effect->getDuration() >= 999999) {
+                    if ($effect->getDuration() <= 999999) {
                         $player->removeEffect($effect->getId());
                     }
                 }
 
                 if ($old->getFlight() === self::FLY_SUPERVISED) {
-                    if ($player->getGamemode() != 1){
-                        Utils::disableFlight($player);
-                    }
+                    if ($old->getFlight() === self::FLY_VANILLA) {
+                        //Old Fly Permission ???
+                    } else {
+                        if ($player->getGamemode() != 1){
+                            Utils::disableFlight($player);
+                        }
+                    } 
                 }
             }
 
