@@ -161,7 +161,33 @@ class GUI
                 new Toggle($lang["gui_flag_xp_drops"], filter_var($rg->getFlag("exp-drops"), FILTER_VALIDATE_BOOLEAN)),
                 new Toggle($lang["gui_flag_invincible"], filter_var($rg->getFlag("invincible"), FILTER_VALIDATE_BOOLEAN)),
                 new Toggle($lang["gui_flag_fall_dmg"],filter_var($rg->getFlag("fall-dmg"), FILTER_VALIDATE_BOOLEAN)),
-                // add flag for effects
+                new Dropdown($lang["gui_flag_effect"], [
+                    $lang["gui_effect_speed"],
+                    $lang["gui_effect_slowness"],
+                    $lang["gui_effect_haste"],
+                    $lang["gui_effect_fatigue"],
+                    $lang["gui_effect_strength"],
+                    $lang["gui_effect_healing"],
+                    $lang["gui_effect_damage"],
+                    $lang["gui_effect_jump_boost"],
+                    $lang["gui_effect_nausea"],
+                    $lang["gui_effect_regeneration"],
+                    $lang["gui_effect_resistance"],
+                    $lang["gui_effect_fire_resistance"],
+                    $lang["gui_effect_water_breathing"],
+                    $lang["gui_effect_invisiblilty"],
+                    $lang["gui_effect_blindness"],
+                    $lang["gui_effect_night_vision"],
+                    $lang["gui_effect_hunger"],
+                    $lang["gui_effect_weakness"],
+                    $lang["gui_effect_poison"],
+                    $lang["gui_effect_wither"],
+                    $lang["gui_effect_healthboost"],
+                    $lang["gui_effect_absorption"],
+                    $lang["gui_effect_saturation"],
+                    $lang["gui_effect_leviatation"],
+                    $lang["gui_effect_fatal_poison"],
+                    $lang["gui_effect_conduit_power"]]),
                 // add flag for blocked commands
                 // add flag for allowed commands
                 new Toggle($lang["gui_flag_usage"], filter_var($rg->getFlag("use"), FILTER_VALIDATE_BOOLEAN)),
@@ -190,7 +216,7 @@ class GUI
                 new Input($lang["gui_flag_priority"], filter_var($rg->getFlag("priority"), FILTER_VALIDATE_INT))
             ],
             function(Player $player, CustomFormResponse $response) : void{
-                list($pluginBypass, $denyMessage, $blockBreak, $blockPlace, $pvpFlag, $xpFlag, $invincibleFlag, $fallDmgFlag, $useFlag, $itemDeathDropFlag, $itemDropFlag, $explosionsFlag,
+                list($pluginBypass, $effectsFlag ,$denyMessage, $blockBreak, $blockPlace, $pvpFlag, $xpFlag, $invincibleFlag, $fallDmgFlag, $useFlag, $itemDeathDropFlag, $itemDropFlag, $explosionsFlag,
                     $notifyEnterFlag, $notifyLeaveFlag, $potionsFlag, $allowEnterFlag, $allowLeaveFlag,
                     $gamemodeFlag, $sleepFlag, $sendChatFlag, $receiveChatFlag, $enderPearlFlag, $flyModeFlag, $eatingFlag, $HungerFlag,
                     $damageAnimalsFlag, $damageMonstersFlag, $leafDecayFlag, $plantGrowthFlag, $spreadingFlag, $blockBurnFlag,
@@ -219,6 +245,87 @@ class GUI
                 $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" send-chat " . var_export($sendChatFlag, true));
                 $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" receive-chat " . var_export($receiveChatFlag, true));
                 $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" enderpearl " . var_export($enderPearlFlag, true));
+                switch ($effectsFlag)
+                {
+                    case $lang["gui_effect_speed"]:
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 1");
+                        break;
+                    case $lang["gui_effect_slowness"]:
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 2");
+                        break;
+                    case $lang["gui_effect_haste"]:
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 3");
+                        break;
+                    case $lang["gui_effect_fatigue"]:
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 4");
+                        break;
+                    case $lang["gui_effect_strength"]:
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 5");
+                        break;
+                    case $lang["gui_effect_healing"]:
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 6");
+                        break;
+                    case $lang["gui_effect_damage"]:
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 7");
+                        break;
+                    case $lang["gui_effect_jump_boost"]:
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 8");
+                        break;
+                    case $lang["gui_effect_nausea"]:
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 9");
+                        break;
+                    case $lang["gui_effect_regeneration"]:
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 10");
+                        break;
+                    case $lang["gui_effect_resistance"]:
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 11");
+                        break;
+                    case $lang["gui_effect_fire_resistance"]:
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 12");
+                        break;
+                    case $lang["gui_effect_water_breathing"]:
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 13");
+                        break;
+                    case $lang["gui_effect_invisiblilty"]:
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 14");
+                        break;
+                    case $lang["gui_effect_blindness"]:
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 15");
+                        break;
+                    case $lang["gui_effect_night_vision"]:
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 16");
+                        break;
+                    case $lang["gui_effect_hunger"]:
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 17");
+                        break;
+                    case $lang["gui_effect_weakness"]:
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 18");
+                        break;
+                    case $lang["gui_effect_poison"]:
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 19");
+                        break;
+                    case $lang["gui_effect_wither"]:
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 20");
+                        break;
+                    case $lang["gui_effect_healthboost"]:
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 21");
+                        break;
+                    case $lang["gui_effect_absorption"]:
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 22");
+                        break;
+                    case $lang["gui_effect_saturation"]:
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 23");
+                        break;
+                    case $lang["gui_effect_leviatation"]:
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 24");
+                        break;
+                    case $lang["gui_effect_fatal_poison"]:
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 25");
+                        break;
+                    case $lang["gui_effect_conduit_power"]:
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 26");
+                        break;
+                }
                 switch ($gamemodeFlag)
                 {
                     case $lang["gui_gm_survival"]:

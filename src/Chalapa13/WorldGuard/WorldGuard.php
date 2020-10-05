@@ -288,19 +288,20 @@ class WorldGuard extends PluginBase {
                 if ($old->getFlag("receive-chat") === "false") {
                     unset($this->muted[$player->getRawUniqueId()]);
                 }
-                foreach ($player->getEffects() as $effect) {
-                    if ($effect->getDuration() <= 999999) {
+                
+                
+                //delete only effect, if it is in effect flag on region changing
+                $rgEffects = $old->getFlag("effects");
+                foreach($player->getEffects() as $effect) {
+                    if(array_key_exists($effect->getId(), $rgEffects)) {
+                        echo "effect: " . var_export($effect, true) . "effectflag: " . var_export($rgEffects, true);
                         $player->removeEffect($effect->getId());
                     }
                 }
 
                 if ($old->getFlight() === self::FLY_SUPERVISED) {
-                    if ($old->getFlight() === self::FLY_VANILLA) {
-                        //Old Fly Permission ???
-                    } else {
-                        if ($player->getGamemode() != 1){
-                            Utils::disableFlight($player);
-                        }
+                    if ($player->getGamemode() != 1){
+                        Utils::disableFlight($player);  
                     } 
                 }
             }
