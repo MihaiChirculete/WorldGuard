@@ -106,6 +106,7 @@ class ResourceUpdater
             "gui_help_menu_label2" => "https://discord.com/invite/uZevqGX",
             //effects
             "gui_flag_effect" => "Effects",
+            "gui_effect_delete" => "Delete all Effects",
             "gui_effect_speed" => "Speed",
             "gui_effect_slowness" => "Slowness",
             "gui_effect_haste" => "Haste",
