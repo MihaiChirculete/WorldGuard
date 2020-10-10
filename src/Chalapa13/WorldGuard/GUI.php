@@ -162,6 +162,7 @@ class GUI
                 new Toggle($lang["gui_flag_invincible"], filter_var($rg->getFlag("invincible"), FILTER_VALIDATE_BOOLEAN)),
                 new Toggle($lang["gui_flag_fall_dmg"],filter_var($rg->getFlag("fall-dmg"), FILTER_VALIDATE_BOOLEAN)),
                 new Dropdown($lang["gui_flag_effect"], [
+                    $lang["gui_effect_delete"],
                     $lang["gui_effect_speed"],
                     $lang["gui_effect_slowness"],
                     $lang["gui_effect_haste"],
@@ -247,6 +248,9 @@ class GUI
                 $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" enderpearl " . var_export($enderPearlFlag, true));
                 switch ($effectsFlag)
                 {
+                    case $lang["gui_effect_delete"]:
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 0");
+                        break;
                     case $lang["gui_effect_speed"]:
                         $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 1");
                         break;

@@ -115,21 +115,25 @@ class Region {
 
         if ($flag === "effects") {
             if (!is_numeric($value)) {
-                return TF::RED.'Value of "effect" flag must be numeric.';
+                return TF::RED."Value of effect flag must be numeric.";
             }
             if (isset($avalue[1])) {
                 if (is_numeric($avalue[1])) {
                     $this->flags["effects"][$value] = $avalue[1];
                     $effectType = Effect::getEffect($value);
                     $this->effects[$value] = new EffectInstance($effectType, 999999999, --$avalue[1], false);
-                    return TF::YELLOW.'Added "'.($this->effects[$value])->getType()->getName().' '.Utils::getRomanNumber(++$avalue[1]).'" effect to "'.$this->name.'" region.';
+                    return TF::YELLOW."Added ".($this->effects[$value])->getType()->getName()." ".Utils::getRomanNumber(++$avalue[1])." effect to ".$this->name." region.";
                 } else {
-                    return TF::RED."Amplifier must be numerical.\n".TF::GRAY.'Example: /region flags set '.$this->name.' '.$value.' 1';
+                    return TF::RED."Amplifier must be numerical.\n".TF::GRAY."Example: /region flags set ".$this->name." ".$value." 1";
                 }
+            if ($value == 0) {
+                $this->flag["effects"] = "";
+                return TF::YELLOW."Effects would be deleted in" .$this->name." region.";
+            }
             } else {
                 $this->flags["effects"][$value] = 0;
                 $this->effects[$value] = new EffectInstance(Effect::getEffect($value), 999999999, 0);
-                return TF::YELLOW.'Added "'.($this->effects[$value])->getId().' I" effect to "'.$this->name.'" region.';
+                return TF::YELLOW."Added ".($this->effects[$value])->getId()." effect to ".$this->name." region.";
             }
             return;
         }
