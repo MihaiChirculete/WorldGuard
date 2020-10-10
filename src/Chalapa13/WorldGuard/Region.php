@@ -126,15 +126,15 @@ class Region {
                     $this->flags["effects"][$value] = $avalue[1];
                     $effectType = Effect::getEffect($value);
                     $this->effects[$value] = new EffectInstance($effectType, 999999999, --$avalue[1], false);
-                    return TF::YELLOW."Added ".($this->effects[$value])->getType()->getName()." ".Utils::getRomanNumber(++$avalue[1])." effect to ".$this->name." region.";
+                    return TF::YELLOW.'Added "'.($this->effects[$value])->getType()->getName().' '.Utils::getRomanNumber(++$avalue[1]).'" effect to "'.$this->name.'" region.';
                 } else {
-                    return TF::RED."Amplifier must be numerical.\n".TF::GRAY."Example: /region flags set ".$this->name." ".$value." 1";
+                    return TF::RED."Amplifier must be numerical.\n".TF::GRAY.'Example: /region flags set '.$this->name.' '.$value.' 1';
                 }
 
             } else {
                 $this->flags["effects"][$value] = 0;
                 $this->effects[$value] = new EffectInstance(Effect::getEffect($value), 999999999, 0);
-                return TF::YELLOW."Added ".($this->effects[$value])->getId()." effect to ".$this->name." region.";
+                return TF::YELLOW.'Added "'.($this->effects[$value])->getId().'" effect to "'.$this->name.'" region.';
             }
             return;
         }
@@ -157,8 +157,7 @@ class Region {
                 break;
             case "boolean":
                 if ($value !== "true" && $value !== "false") {
-                    print_r(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS));
-                    return TF::RED.'Value of "'.$flag.'" must either be "true" or "false", '.$value.' is not allowed.';
+                    return TF::RED.'Value of "'.$flag.'" must either be "true" or "false"';
                 }
                 break;
             case "array":
