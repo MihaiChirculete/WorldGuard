@@ -119,7 +119,7 @@ class Region {
             }
             if ($value == 0) {
                 $this->flag["effects"] = "";
-                return TF::YELLOW."All effects would be removed in " .$this->name." region.";
+                return TF::YELLOW.'All "effects" (of "'.$this->name.'") would be removed.';
             }
             if (isset($avalue[1])) {
                 if (is_numeric($avalue[1])) {
@@ -152,7 +152,7 @@ class Region {
                         ]);
                     }
                     $this->flags["fly-mode"] = (int)$value;
-                    return TF::YELLOW.'Flight mode was changed to: '.$value.'.';
+                    return TF::YELLOW.'"Flight mode" (of "'.$this->name.'") was changed to: '.$value.'.';
                 }
                 break;
             case "boolean":
