@@ -160,34 +160,14 @@ class GUI
                 new Toggle($lang["gui_flag_pvp"], filter_var($rg->getFlag("pvp"), FILTER_VALIDATE_BOOLEAN)),
                 new Toggle($lang["gui_flag_xp_drops"], filter_var($rg->getFlag("exp-drops"), FILTER_VALIDATE_BOOLEAN)),
                 new Toggle($lang["gui_flag_invincible"], filter_var($rg->getFlag("invincible"), FILTER_VALIDATE_BOOLEAN)),
-                new Toggle($lang["gui_flag_fall_dmg"],filter_var($rg->getFlag("fall-dmg"), FILTER_VALIDATE_BOOLEAN)),
-                new Dropdown($lang["gui_flag_effect"], [
-                    $lang["gui_effect_delete"],
-                    $lang["gui_effect_speed"],
-                    $lang["gui_effect_slowness"],
-                    $lang["gui_effect_haste"],
-                    $lang["gui_effect_fatigue"],
-                    $lang["gui_effect_strength"],
-                    $lang["gui_effect_healing"],
-                    $lang["gui_effect_damage"],
-                    $lang["gui_effect_jump_boost"],
-                    $lang["gui_effect_nausea"],
-                    $lang["gui_effect_regeneration"],
-                    $lang["gui_effect_resistance"],
-                    $lang["gui_effect_fire_resistance"],
-                    $lang["gui_effect_water_breathing"],
-                    $lang["gui_effect_invisiblilty"],
-                    $lang["gui_effect_blindness"],
-                    $lang["gui_effect_night_vision"],
-                    $lang["gui_effect_hunger"],
-                    $lang["gui_effect_weakness"],
-                    $lang["gui_effect_poison"],
-                    $lang["gui_effect_wither"],
-                    $lang["gui_effect_healthboost"],
-                    $lang["gui_effect_absorption"],
-                    $lang["gui_effect_saturation"],
-                    $lang["gui_effect_leviatation"],
-                    $lang["gui_effect_fatal_poison"],
+                new Toggle($lang["gui_flag_fall_dmg"], filter_var($rg->getFlag("fall-dmg"), FILTER_VALIDATE_BOOLEAN)),
+                new Dropdown($lang["gui_flag_effect"], [$lang["gui_effect_delete"], $lang["gui_effect_speed"], $lang["gui_effect_slowness"], 
+                    $lang["gui_effect_haste"], $lang["gui_effect_fatigue"], $lang["gui_effect_strength"], $lang["gui_effect_healing"], 
+                    $lang["gui_effect_damage"], $lang["gui_effect_jump_boost"], $lang["gui_effect_nausea"], $lang["gui_effect_regeneration"], 
+                    $lang["gui_effect_resistance"], $lang["gui_effect_fire_resistance"], $lang["gui_effect_water_breathing"], 
+                    $lang["gui_effect_invisiblilty"], $lang["gui_effect_blindness"], $lang["gui_effect_night_vision"], $lang["gui_effect_hunger"], 
+                    $lang["gui_effect_weakness"], $lang["gui_effect_poison"], $lang["gui_effect_wither"], $lang["gui_effect_healthboost"], 
+                    $lang["gui_effect_absorption"], $lang["gui_effect_saturation"], $lang["gui_effect_leviatation"], $lang["gui_effect_fatal_poison"], 
                     $lang["gui_effect_conduit_power"]]),
                 // add flag for blocked commands
                 // add flag for allowed commands
@@ -217,11 +197,11 @@ class GUI
                 new Input($lang["gui_flag_priority"], filter_var($rg->getFlag("priority"), FILTER_VALIDATE_INT))
             ],
             function(Player $player, CustomFormResponse $response) : void{
-                list($pluginBypass, $effectsFlag ,$denyMessage, $blockBreak, $blockPlace, $pvpFlag, $xpFlag, $invincibleFlag, $fallDmgFlag, $useFlag, $itemDeathDropFlag, $itemDropFlag, $explosionsFlag,
-                    $notifyEnterFlag, $notifyLeaveFlag, $potionsFlag, $allowEnterFlag, $allowLeaveFlag,
-                    $gamemodeFlag, $sleepFlag, $sendChatFlag, $receiveChatFlag, $enderPearlFlag, $flyModeFlag, $eatingFlag, $HungerFlag,
-                    $damageAnimalsFlag, $damageMonstersFlag, $leafDecayFlag, $plantGrowthFlag, $spreadingFlag, $blockBurnFlag,
-                    $priorityFlag) = $response->getValues();
+                list($pluginBypass, $effectsFlag, $denyMessage, $blockBreak, $blockPlace, $pvpFlag, $xpFlag, $invincibleFlag, $fallDmgFlag, 
+                    $useFlag, $itemDeathDropFlag, $itemDropFlag, $explosionsFlag, $notifyEnterFlag, $notifyLeaveFlag, $potionsFlag, 
+                    $allowEnterFlag, $allowLeaveFlag, $gamemodeFlag, $sleepFlag, $sendChatFlag, $receiveChatFlag, $enderPearlFlag, 
+                    $flyModeFlag, $eatingFlag, $HungerFlag, $damageAnimalsFlag, $damageMonstersFlag, 
+                    $leafDecayFlag, $plantGrowthFlag, $spreadingFlag, $blockBurnFlag, $priorityFlag) = $response->getValues();
 
                 $lang = Utils::getPluginFromIssuer($player)->resourceManager->getLanguagePack();
 
