@@ -117,6 +117,10 @@ class Region {
             if (!is_numeric($value)) {
                 return TF::RED."Value of effect flag must be numeric.";
             }
+            if ($value == 0) {
+                $this->flag["effects"] = "";
+                return TF::YELLOW."All effects would be removed in " .$this->name." region.";
+            }
             if (isset($avalue[1])) {
                 if (is_numeric($avalue[1])) {
                     $this->flags["effects"][$value] = $avalue[1];
@@ -126,10 +130,7 @@ class Region {
                 } else {
                     return TF::RED."Amplifier must be numerical.\n".TF::GRAY."Example: /region flags set ".$this->name." ".$value." 1";
                 }
-            if ($value == 0) {
-                $this->flag["effects"] = "";
-                return TF::YELLOW."Effects would be deleted in" .$this->name." region.";
-            }
+
             } else {
                 $this->flags["effects"][$value] = 0;
                 $this->effects[$value] = new EffectInstance(Effect::getEffect($value), 999999999, 0);
