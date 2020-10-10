@@ -197,8 +197,8 @@ class GUI
                 new Input($lang["gui_flag_priority"], filter_var($rg->getFlag("priority"), FILTER_VALIDATE_INT))
             ],
             function(Player $player, CustomFormResponse $response) : void{
-                list($pluginBypass, $effectsFlag, $denyMessage, $blockBreak, $blockPlace, $pvpFlag, $xpFlag, $invincibleFlag, $fallDmgFlag, 
-                    $useFlag, $itemDeathDropFlag, $itemDropFlag, $explosionsFlag, $notifyEnterFlag, $notifyLeaveFlag, $potionsFlag, 
+                list($pluginBypass, $denyMessage, $blockBreak, $blockPlace, $pvpFlag, $xpFlag, $invincibleFlag, $fallDmgFlag, $effectsFlag,
+                    $useFlag, $itemDropFlag, $itemDeathDropFlag, $explosionsFlag, $notifyEnterFlag, $notifyLeaveFlag, $potionsFlag, 
                     $allowEnterFlag, $allowLeaveFlag, $gamemodeFlag, $sleepFlag, $sendChatFlag, $receiveChatFlag, $enderPearlFlag, 
                     $flyModeFlag, $eatingFlag, $HungerFlag, $damageAnimalsFlag, $damageMonstersFlag, 
                     $leafDecayFlag, $plantGrowthFlag, $spreadingFlag, $blockBurnFlag, $priorityFlag) = $response->getValues();

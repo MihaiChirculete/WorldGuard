@@ -157,7 +157,8 @@ class Region {
                 break;
             case "boolean":
                 if ($value !== "true" && $value !== "false") {
-                    return TF::RED.'Value of "'.$flag.'" must either be "true" or "false"';
+                    print_r(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS));
+                    return TF::RED.'Value of "'.$flag.'" must either be "true" or "false", '.$value.' is not allowed.';
                 }
                 break;
             case "array":
