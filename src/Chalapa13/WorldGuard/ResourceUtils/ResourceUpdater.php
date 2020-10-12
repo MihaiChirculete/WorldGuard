@@ -133,6 +133,7 @@ class ResourceUpdater
             "gui_effect_leviatation" => "Levitation",
             "gui_effect_fatal_poison" => "Fatal Poison",
             "gui_effect_conduit_power" => "Conduit Power",
+            "gui_effect_restart_label" => "After adding/deleting effect you need to restart your server!",
         );
     }
 

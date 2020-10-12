@@ -169,6 +169,7 @@ class GUI
                     $lang["gui_effect_weakness"], $lang["gui_effect_poison"], $lang["gui_effect_wither"], $lang["gui_effect_healthboost"], 
                     $lang["gui_effect_absorption"], $lang["gui_effect_saturation"], $lang["gui_effect_leviatation"], $lang["gui_effect_fatal_poison"], 
                     $lang["gui_effect_conduit_power"]]),
+                new Label($lang["gui_effect_restart_label"]),
                 // add flag for blocked commands
                 // add flag for allowed commands
                 new Toggle($lang["gui_flag_usage"], filter_var($rg->getFlag("use"), FILTER_VALIDATE_BOOLEAN)),
