@@ -117,8 +117,8 @@ class Region {
             if (!is_numeric($value)) {
                 return TF::RED."Value of effect flag must be numeric.";
             }
-            if ($value == 0) {
-                $this->flag["effects"] = "";
+            if (!$value > 0) {
+                $this->flag["effects"] = " []";
                 return TF::YELLOW.'All "effects" (of "'.$this->name.'") would be removed.';
             }
             if (isset($avalue[1])) {
