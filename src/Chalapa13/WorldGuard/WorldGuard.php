@@ -247,19 +247,17 @@ class WorldGuard extends PluginBase {
         return $currentRegion;
     }
 
-    public function onPlayerLogoutRegion(Player $player)
-    {
+    public function onPlayerLogoutRegion(Player $player) {
         //if player is loggedIn in WG Region and Logout
         $wgReg = $this->getRegion($name);
         if($player instanceof Player && !$wgReg = ""){
-            if($player->server->onPlayerLogout()) {
-                if($this->resourceManager->getConfig()["debugging"] === true){
-                    $this->getLogger()->info("Player should remove all Effects with logout");
-                }
-                $player->removeAllEffects();
+            if($this->resourceManager->getConfig()["debugging"] === true){
+                $this->getLogger()->info("Instance of player is in WorldGuard Region! Effects from Region should be deleted");
+                $player->removeAllEffects();  
             }
         }
     }
+
     public function onRegionChange(Player $player, string $oldregion, string $newregion)
     {
         $new = $this->getRegion($newregion);

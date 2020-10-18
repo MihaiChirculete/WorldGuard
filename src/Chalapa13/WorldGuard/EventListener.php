@@ -25,7 +25,7 @@ use pocketmine\block\Block;
 use pocketmine\event\block\{BlockPlaceEvent, BlockBreakEvent, LeavesDecayEvent, BlockGrowEvent, BlockUpdateEvent, BlockSpreadEvent, BlockBurnEvent};
 use pocketmine\event\entity\{EntityDamageEvent, EntityDamageByEntityEvent, EntityDeathEvent, EntityExplodeEvent, ProjectileLaunchEvent};
 use pocketmine\event\Listener;
-use pocketmine\event\player\{PlayerJoinEvent, PlayerMoveEvent, PlayerInteractEvent, PlayerItemConsumeEvent, PlayerCommandPreprocessEvent, PlayerDropItemEvent, PlayerBedEnterEvent, PlayerChatEvent, PlayerItemHeldEvent, PlayerExhaustEvent, PlayerDeathEvent};
+use pocketmine\event\player\{PlayerJoinEvent, PlayerMoveEvent, PlayerInteractEvent, PlayerItemConsumeEvent, PlayerCommandPreprocessEvent, PlayerDropItemEvent, PlayerBedEnterEvent, PlayerChatEvent, PlayerItemHeldEvent, PlayerExhaustEvent, PlayerDeathEvent, PlayerQuitEvent};
 use pocketmine\item\Item;
 use pocketmine\item\Food;
 use pocketmine\Player;
@@ -68,6 +68,10 @@ class EventListener implements Listener {
     public function onJoin(PlayerJoinEvent $event)
     {
         $this->plugin->sessionizePlayer($event->getPlayer());
+    }
+    public function onPlayerLogout(PlayerQuitEvent $event)
+    {
+        $this->plugin->onPlayerLogoutRegion($event->getPlayer());
     }
 
     public function onInteract(PlayerInteractEvent $event)
