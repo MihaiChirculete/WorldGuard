@@ -39,6 +39,7 @@ class WorldGuard extends PluginBase {
 
     const FLAGS = [
         "pluginbypass" => "false",
+        "deny-msg" => "true",
         "block-place" => "false",
         "block-break" => "false",
         "pvp" => "true",
@@ -54,6 +55,7 @@ class WorldGuard extends PluginBase {
         "allowed-cmds" => [],
         "use" => "false",
         "item-drop" => "true",
+        "item-by-death" => "true",
         "explosion" => "false",
         "notify-enter" => "",
         "notify-leave" => "",
@@ -79,6 +81,7 @@ class WorldGuard extends PluginBase {
 
     const FLAG_TYPE = [
         "pluginbypass" => "boolean",
+        "deny-msg" => "boolean",
         "block-place" => "boolean",
         "block-break" => "boolean",
         "pvp" => "boolean",
@@ -94,6 +97,7 @@ class WorldGuard extends PluginBase {
         "allowed-cmds" => "array",
         "use" => "boolean",
         "item-drop" => "boolean",
+        "item-by-death" => "boolean",
         "explosion" => "boolean",
         "notify-enter" => "string",
         "notify-leave" => "string",
@@ -243,6 +247,17 @@ class WorldGuard extends PluginBase {
         return $currentRegion;
     }
 
+    public function onPlayerLogoutRegion(Player $player, string $name) {
+        //if player is loggedIn in WG Region and Logout
+        $wgReg = $this->getRegion($name);
+        if($player instanceof Player && !$wgReg = ""){
+            if($this->resourceManager->getConfig()["debugging"] === true){
+                $this->getLogger()->info("Instance of player is in WorldGuard Region! Effects from Region should be deleted");
+                $player->removeAllEffects();  
+            }
+        }
+    }
+
     public function onRegionChange(Player $player, string $oldregion, string $newregion)
     {
         $new = $this->getRegion($newregion);
@@ -284,16 +299,22 @@ class WorldGuard extends PluginBase {
                 if ($old->getFlag("receive-chat") === "false") {
                     unset($this->muted[$player->getRawUniqueId()]);
                 }
-                foreach ($player->getEffects() as $effect) {
-                    if ($effect->getDuration() >= 999999) {
+                
+                //delete only effect, if it is in effect flag on region changing
+                $rgEffects = $old->getFlag("effects");
+                foreach($player->getEffects() as $effect) {
+                    if(array_key_exists($effect->getId(), $rgEffects)) {
+                        if($this->resourceManager->getConfig()["debugging"] === true){
+                            echo "effect: " . var_export($effect, true) . "effectflag: " . var_export($rgEffects, true);
+                        }
                         $player->removeEffect($effect->getId());
                     }
                 }
 
                 if ($old->getFlight() === self::FLY_SUPERVISED) {
                     if ($player->getGamemode() != 1){
-                        Utils::disableFlight($player);
-                    }
+                        Utils::disableFlight($player);  
+                    } 
                 }
             }
 

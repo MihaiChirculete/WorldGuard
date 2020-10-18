@@ -115,7 +115,11 @@ class Region {
 
         if ($flag === "effects") {
             if (!is_numeric($value)) {
-                return TF::RED.'Value of "effect" flag must be numeric.';
+                return TF::RED."Value of effect flag must be numeric.";
+            }
+            if (!$value > 0) {
+                $this->flags["effects"] = [];
+                return TF::YELLOW.'All "effects" (of "'.$this->name.'") would be removed.';
             }
             if (isset($avalue[1])) {
                 if (is_numeric($avalue[1])) {
@@ -126,10 +130,11 @@ class Region {
                 } else {
                     return TF::RED."Amplifier must be numerical.\n".TF::GRAY.'Example: /region flags set '.$this->name.' '.$value.' 1';
                 }
+
             } else {
                 $this->flags["effects"][$value] = 0;
                 $this->effects[$value] = new EffectInstance(Effect::getEffect($value), 999999999, 0);
-                return TF::YELLOW.'Added "'.($this->effects[$value])->getId().' I" effect to "'.$this->name.'" region.';
+                return TF::YELLOW.'Added "'.($this->effects[$value])->getId().'" effect to "'.$this->name.'" region.';
             }
             return;
         }
@@ -147,7 +152,7 @@ class Region {
                         ]);
                     }
                     $this->flags["fly-mode"] = (int)$value;
-                    return TF::YELLOW.'Flight mode was changed to: '.$value.'.';
+                    return TF::YELLOW.'"Flight mode" (of "'.$this->name.'") was changed to: '.$value.'.';
                 }
                 break;
             case "boolean":

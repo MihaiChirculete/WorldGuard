@@ -25,7 +25,7 @@ use pocketmine\block\Block;
 use pocketmine\event\block\{BlockPlaceEvent, BlockBreakEvent, LeavesDecayEvent, BlockGrowEvent, BlockUpdateEvent, BlockSpreadEvent, BlockBurnEvent};
 use pocketmine\event\entity\{EntityDamageEvent, EntityDamageByEntityEvent, EntityDeathEvent, EntityExplodeEvent, ProjectileLaunchEvent};
 use pocketmine\event\Listener;
-use pocketmine\event\player\{PlayerJoinEvent, PlayerMoveEvent, PlayerInteractEvent, PlayerItemConsumeEvent, PlayerCommandPreprocessEvent, PlayerDropItemEvent, PlayerBedEnterEvent, PlayerChatEvent, PlayerItemHeldEvent, PlayerExhaustEvent};
+use pocketmine\event\player\{PlayerJoinEvent, PlayerMoveEvent, PlayerInteractEvent, PlayerItemConsumeEvent, PlayerCommandPreprocessEvent, PlayerDropItemEvent, PlayerBedEnterEvent, PlayerChatEvent, PlayerItemHeldEvent, PlayerExhaustEvent, PlayerDeathEvent, PlayerQuitEvent};
 use pocketmine\item\Item;
 use pocketmine\item\Food;
 use pocketmine\Player;
@@ -68,6 +68,10 @@ class EventListener implements Listener {
     public function onJoin(PlayerJoinEvent $event)
     {
         $this->plugin->sessionizePlayer($event->getPlayer());
+    }
+    public function onPlayerLogout(PlayerQuitEvent $event)
+    {
+        $this->plugin->onPlayerLogoutRegion($event->getPlayer());
     }
 
     public function onInteract(PlayerInteractEvent $event)
@@ -274,9 +278,22 @@ class EventListener implements Listener {
             if ($region->getFlag("exp-drops") === "false"){
                 $event->setXpDropAmount(0);
             }
+
         }
     }
 
+    public function onDeathItemDrop(PlayerDeathEvent $event) {        
+        if (($reg = $this->plugin->getRegionByPlayer($player = $event->getPlayer())) !== "") {
+            if ($reg->getFlag("item-by-death") === "false" && !$player->hasPermission("worldguard.deathdrop." . $reg->getName())) {
+                if ($reg->getFlag("deny-msg") === "true") {
+                    $player->sendMessage(TF::RED. $this->plugin->resourceManager->getMessages()["denied-item-death-drop"]);
+                }
+                $event->setDrops([]);
+                return;
+            }
+        }
+    }
+            
     public function onBurn(BlockBurnEvent $event) {
         if (($region = $this->plugin->getRegionFromPosition($event->getBlock())) !== "") {
             if ($region->getFlag("allow-block-burn") === "false")
