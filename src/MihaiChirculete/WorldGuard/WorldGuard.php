@@ -10,29 +10,27 @@
 * |   _   ||       ||   |  | ||       ||       ||   |_| ||       ||   _   ||   |  | ||       |
 * |__| |__||_______||___|  |_||_______||______| |_______||_______||__| |__||___|  |_||______|
 *
-* By Chalapa13.
+
+* By MihaiChirculete.
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU Lesser General Public License as published by
 * the Free Software Foundation, either version 3 of the License, or
 * (at your option) any later version.
 *
-* GitHub: https://github.com/Chalapa13
+* GitHub: https://github.com/MihaiChirculete
 */
 
-namespace Chalapa13\WorldGuard;
+namespace MihaiChirculete\WorldGuard;
 
 use pocketmine\plugin\PluginBase;
 use pocketmine\command\{Command, CommandSender, ConsoleCommandSender};
-use pocketmine\event\player\PlayerCommandPreprocessEvent;
 use pocketmine\utils\TextFormat as TF;
-use pocketmine\entity\Effect;
-use pocketmine\permission\{Permission, Permissible, PermissionManager};
-use pocketmine\network\mcpe\protocol\SetTimePacket;
+use pocketmine\permission\{Permission, PermissionManager};
 use pocketmine\Server;
 use pocketmine\VersionInfo;
-use Chalapa13\WorldGuard\ResourceUtils\ResourceManager;
-use Chalapa13\WorldGuard\ResourceUtils\ResourceUpdater;
+use MihaiChirculete\WorldGuard\ResourceUtils\ResourceManager;
+use MihaiChirculete\WorldGuard\ResourceUtils\ResourceUpdater;
 
 if (version_compare(VersionInfo::BASE_VERSION, '4.0.0', '>='))
     class_alias(\pocketmine\player\Player::class, '\WGPlayerClass');
@@ -48,6 +46,7 @@ class WorldGuard extends PluginBase {
 
     const FLAGS = [
         "pluginbypass" => "false",
+        "deny-msg" => "true",
         "block-place" => "false",
         "block-break" => "false",
         "pvp" => "true",
@@ -63,6 +62,7 @@ class WorldGuard extends PluginBase {
         "allowed-cmds" => [],
         "use" => "false",
         "item-drop" => "true",
+        "item-by-death" => "true",
         "explosion" => "false",
         "notify-enter" => "",
         "notify-leave" => "",
@@ -88,6 +88,7 @@ class WorldGuard extends PluginBase {
 
     const FLAG_TYPE = [
         "pluginbypass" => "boolean",
+        "deny-msg" => "boolean",
         "block-place" => "boolean",
         "block-break" => "boolean",
         "pvp" => "boolean",
@@ -103,6 +104,7 @@ class WorldGuard extends PluginBase {
         "allowed-cmds" => "array",
         "use" => "boolean",
         "item-drop" => "boolean",
+        "item-by-death" => "boolean",
         "explosion" => "boolean",
         "notify-enter" => "string",
         "notify-leave" => "string",
@@ -236,15 +238,9 @@ class WorldGuard extends PluginBase {
         $name = $this->getRegionNameFromPosition($pos);
         return $name !== "" ? $this->getRegion($name) : "";
     }
-
     public function getRegionNameFromPosition(\WGPosition $pos) : string {
         $currentRegion = "";
         $highestPriority = -1;
-        if ($this->getAPI4forWG() == true){
-            $global = new \WGPosition(0,0,0,$pos->getWorld());
-        }
-        else $global = new \WGPosition(0,0,0,$pos->getLevel());
-
         foreach ($this->regions as $name => $region) {
             if ($this->getAPI4forWG() == true){
                 if ($region->getLevelName() === $this->getWorld($pos)->getDisplayName()) {
@@ -268,23 +264,6 @@ class WorldGuard extends PluginBase {
 
             }
             else if ($region->getLevelName() === $pos->getLevel()->getName()) {
-                $reg1 = $region->getPos1();
-                $reg2 = $region->getPos2();
-                $x = array_flip(range($reg1[0], $reg2[0]));
-                if (isset($x[$pos->x])) {
-                    $y = array_flip(range($reg1[1], $reg2[1]));
-                    if (isset($y[$pos->y])) {
-                        $z = array_flip(range($reg1[2], $reg2[2]));
-                        if (isset($z[$pos->z])) {
-                            if($highestPriority<intval($region->getFlag("priority")))
-                            {
-                                $highestPriority = intval($region->getFlag("priority"));
-                                $currentRegion = $name;
-                            }
-                        }
-                    }
-                }
-            }
         }
         if($currentRegion == ""){
             if ($this->getAPI4forWG() == true){
@@ -297,6 +276,17 @@ class WorldGuard extends PluginBase {
             }
         }
         return $currentRegion;
+    }
+
+    public function onPlayerLogoutRegion(Player $player) {
+        //if player is loggedIn in WG Region and Logout
+        $wgReg = $this->getRegion($player);
+        if($player instanceof Player && $wgReg !== ""){
+            if($this->resourceManager->getConfig()["debugging"] === true){
+                $this->getLogger()->info("Instance of player is in WorldGuard Region! Effects from Region should be deleted");
+                $player->removeAllEffects();  
+            }
+        }
     }
 
     public function onRegionChange(\WGPlayerClass $player, string $oldregion, string $newregion)
@@ -340,16 +330,21 @@ class WorldGuard extends PluginBase {
                 if ($old->getFlag("receive-chat") === "false") {
                     unset($this->muted[$this->getRawOrUUID($player)]);
                 }
-                foreach ($player->getEffects() as $effect) {
-                    if ($effect->getDuration() >= 999999) {
+                //delete only effect, if it is in effect flag on region changing
+                $rgEffects = $old->getFlag("effects");
+                foreach($player->getEffects() as $effect) {
+                    if(array_key_exists($effect->getId(), $rgEffects)) {
+                        if($this->resourceManager->getConfig()["debugging"] === true){
+                            echo "effect: " . var_export($effect, true) . "effectflag: " . var_export($rgEffects, true);
+                        }
                         $player->removeEffect($effect->getId());
                     }
                 }
 
                 if ($old->getFlight() === self::FLY_SUPERVISED) {
                     if ($player->getGamemode() != 1){
-                        Utils::disableFlight($player);
-                    }
+                        Utils::disableFlight($player);  
+                    } 
                 }
             }
 
@@ -826,7 +821,8 @@ class WorldGuard extends PluginBase {
                         "§d/region flags <set/get/reset> <region name> §7- §dSet, Get, or Reset <region name>'s flags.",
                         " ",
                         "§9For additional help and documentation, visit WorldGuard's GitHub page:",
-                        "§9https://github.com/Chalapa13/WorldGuard/",
+                        "§9https://github.com/MihaiChirculete/WorldGuard/",
+
                     ]));
                 }
                 break;

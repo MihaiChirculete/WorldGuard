@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-namespace Chalapa13\WorldGuard\elements;
+namespace MihaiChirculete\WorldGuard\elements;
 use JsonSerializable;
 class Image implements JsonSerializable{
 	public const TYPE_URL = "url";

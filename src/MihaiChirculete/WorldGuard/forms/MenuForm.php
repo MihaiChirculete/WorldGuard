@@ -1,12 +1,11 @@
 <?php
 declare(strict_types=1);
-namespace Chalapa13\WorldGuard\forms;
+namespace MihaiChirculete\WorldGuard\forms;
 use Closure;
-use Chalapa13\WorldGuard\elements\Button;
-use pocketmine\{form\FormValidationException, utils\Utils};
+use MihaiChirculete\WorldGuard\elements\Button;
+use pocketmine\{form\FormValidationException, Player, utils\Utils};
 use function array_merge;
 use function is_string;
-
 class MenuForm extends Form{
 	/** @var Button[] */
 	protected $buttons = [];
@@ -70,7 +69,7 @@ class MenuForm extends Form{
 	 */
 	public function setOnClose(?Closure $onClose) : self{
 		if($onClose !== null){
-		    Utils::validateCallableSignature(function(\WGPlayerClass $player) : void{}, $onClose);
+		  Utils::validateCallableSignature(function(\WGPlayerClass $player) : void{}, $onClose);
 			$this->onClose = $onClose;
 		}
 		return $this;

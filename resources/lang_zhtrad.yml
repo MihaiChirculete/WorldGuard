@@ -1,0 +1,53 @@
+---
+author_name: Taylarity
+gui_wg_menu_title: 世界守衛菜單
+gui_label_choose_option: 請選擇選項
+gui_btn_rg_management: 區域管理
+gui_btn_help: 協助
+gui_btn_manage_existing: 管理現有區域
+gui_btn_create_region: 創建新區域
+gui_btn_redefine_region: 重新定義區域
+gui_btn_delete_region: 刪除區域
+gui_creation_menu_title: 創建區域菜單
+gui_creation_menu_label1: 讓我協助創建區域!
+gui_creation_menu_rg_name_box: 首先輸入區域名稱.
+gui_creation_menu_label2: 如你希望區域上下無限延伸, 請在選擇以下選項.
+gui_creation_menu_toggle_expand: 垂直延伸
+gui_creation_menu_label3: "現在請按 \xA7a'確認'\xA7r 並選擇區域的兩角. 你將會被提示."
+gui_dropdown_select_redefine: 選擇你希望重新定義的區域
+gui_dropdown_select_delete: 選擇你希望刪除的區域
+gui_dropdown_select_manage: 選擇你希望管理的區域
+gui_manage_menu_title: '管理區域:'
+gui_flag_pvp: 玩家對戰 (PvP)
+gui_flag_xp_drops: 經驗值掉落
+gui_flag_invincible: 無敵 (免疫任何傷害)
+gui_flag_fall_dmg: 掉落傷害
+gui_flag_usage: 使用 (例如箱子及門)
+gui_flag_item_drop: 物品掉落
+gui_flag_explosions: 爆炸
+gui_flag_notify_enter: 進入區域提示
+gui_flag_notify_leave: 離開區域提示
+gui_flag_potions: 允許使用藥水
+gui_flag_allowed_enter: 允許進入區域
+gui_flag_allowed_leave: 允許離開區域
+gui_flag_gm: 遊戲模式
+gui_gm_survival: 生存模式
+gui_gm_creative: 創造模式
+gui_flag_sleep: 允許睡覺
+gui_flag_send_chat: 允許發出對話
+gui_flag_rcv_chat: 允許接收對話
+gui_flag_enderpearl: 允許使用終界珍珠
+gui_flag_fly_mode: 飛行模式
+gui_enabled: 啟用
+gui_disabled: 停用
+gui_flag_eat: 允許進食
+gui_flag_dmg_animals: 允許傷害動物
+gui_flag_dmg_monsters: 允許傷害怪物
+gui_flag_leaf_decay: 允許樹葉枯萎
+gui_flag_plant_growth: 允許植物生長
+gui_flag_spread: 允許蔓延 (例如草地)
+gui_flag_block_burn: 允許方塊著火
+gui_flag_priority: 區域優先權
+gui_help_menu_label1: '如你需要有關設置世界守衛的協助, 請參閱以下教程:'
+gui_help_menu_label2: https://github.com/Chalapa13/WorldGuard/wiki/Tutorial
+...

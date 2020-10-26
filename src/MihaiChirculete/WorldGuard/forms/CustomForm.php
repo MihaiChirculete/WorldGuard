@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
-namespace Chalapa13\WorldGuard\forms;
+namespace MihaiChirculete\WorldGuard\forms;
 use Closure;
-use Chalapa13\WorldGuard\elements\Element;
-use pocketmine\{form\FormValidationException, utils\Utils};
+use MihaiChirculete\WorldGuard\elements\Element;
+use pocketmine\{form\FormValidationException, Player, utils\Utils};
 use function array_merge;
 use function gettype;
 use function is_array;
@@ -54,6 +54,7 @@ class CustomForm extends Form{
 	protected function serializeFormData() : array{
 		return ["content" => $this->elements];
 	}
+
 	final public function handleResponse(\WGPlayerClass $player, $data) : void{
 		if($data === null){
 			if($this->onClose !== null){

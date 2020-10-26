@@ -10,30 +10,24 @@
 * |   _   ||       ||   |  | ||       ||       ||   |_| ||       ||   _   ||   |  | ||       |
 * |__| |__||_______||___|  |_||_______||______| |_______||_______||__| |__||___|  |_||______|
 *
-* By Chalapa13.
+* By MihaiChirculete.
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU Lesser General Public License as published by
 * the Free Software Foundation, either version 3 of the License, or
 * (at your option) any later version.
 *
-* GitHub: https://github.com/Chalapa13
+* GitHub: https://github.com/MihaiChirculete
 */
 
-namespace Chalapa13\WorldGuard;
+namespace MihaiChirculete\WorldGuard;
 use pocketmine\block\Block;
 use pocketmine\event\block\{BlockPlaceEvent, BlockBreakEvent, LeavesDecayEvent, BlockGrowEvent, BlockUpdateEvent, BlockSpreadEvent, BlockBurnEvent};
-use pocketmine\event\entity\{EntityDamageEvent, EntityDamageByEntityEvent, EntityDeathEvent, EntityExplodeEvent, ProjectileLaunchEvent};
+use pocketmine\event\entity\{EntityDamageEvent, EntityDamageByEntityEvent, EntityExplodeEvent, ProjectileLaunchEvent};
 use pocketmine\event\Listener;
-use pocketmine\event\player\{PlayerJoinEvent, PlayerMoveEvent, PlayerInteractEvent, PlayerItemConsumeEvent, PlayerCommandPreprocessEvent, PlayerDropItemEvent, PlayerBedEnterEvent, PlayerChatEvent, PlayerItemHeldEvent, PlayerExhaustEvent};
-use pocketmine\item\Item;
-use pocketmine\item\Food;
+use pocketmine\event\player\{PlayerJoinEvent, PlayerMoveEvent, PlayerInteractEvent, PlayerItemConsumeEvent, PlayerCommandPreprocessEvent, PlayerDropItemEvent, PlayerBedEnterEvent, PlayerChatEvent, PlayerExhaustEvent, PlayerDeathEvent, PlayerQuitEvent};
 use pocketmine\utils\TextFormat as TF;
-use pocketmine\entity\{Entity, Animal, Monster};
-use pocketmine\plugin\MethodEventExecutor;
-use pocketmine\event\plugin\PluginEvent;
-use pocketmine\network\mcpe\protocol\{ServerSettingsRequestPacket, ServerSettingsResponsePacket};
-use ReflectionObject;
+use pocketmine\level\Position;
 use function json_encode;
 
 class EventListener implements Listener {
@@ -41,17 +35,12 @@ class EventListener implements Listener {
     //The reason why item IDs are being used directly, rather than ItemIds::CONSTANTs is for the cross-compatibility amongst forks.
 
     //These are the items that can be activated with the "use" flag enabled.
-    const USABLES = [
-        23, 25, 54, 58, 61, 62, 63, 64, 68, 69, 70, 71, 72, 77, 84, 92, 93, 94, 96, 107, 116, 117, 118, 125, 130, 131, 132, 137, 138, 143, 145, 146, 147, 148, 149, 150, 154, 167, 183, 184, 185, 186, 187, 188, 189, 193, 194, 195, 196, 197
-    ];
 
-    const POTIONS = [
-        373, 374, 437, 438, 444
-    ];
+    const USABLES = [23, 25, 54, 58, 61, 62, 63, 64, 68, 69, 70, 71, 72, 77, 84, 92, 93, 94, 96, 107, 116, 117, 118, 125, 130, 131, 132, 137, 138, 143, 145, 146, 147, 148, 149, 150, 154, 167, 183, 184, 185, 186, 187, 188, 189, 193, 194, 195, 196, 197];
 
-    const OTHER = [
-        256, 259, 269, 273, 277, 284, 290, 291, 292, 293, 294
-    ];
+    const POTIONS = [373, 374, 437, 438, 444];
+
+    const OTHER = [256, 259, 269, 273, 277, 284, 290, 291, 292, 293, 294];
 
     private $plugin;
 
@@ -60,12 +49,18 @@ class EventListener implements Listener {
         $this->plugin = $plugin;
     }
 
+
     /**
     * @priority MONITOR
     */
     public function onJoin(PlayerJoinEvent $event)
     {
         $this->plugin->sessionizePlayer($event->getPlayer());
+    }
+
+    public function onLeave(PlayerQuitEvent $event)
+    {
+        $this->plugin->onPlayerLogoutRegion($event->getPlayer());
     }
 
     public function onInteract(PlayerInteractEvent $event)
@@ -275,6 +270,18 @@ class EventListener implements Listener {
         }
     }
 
+    public function onDeathItemDrop(PlayerDeathEvent $event) {        
+        if (($reg = $this->plugin->getRegionByPlayer($player = $event->getPlayer())) !== "") {
+            if ($reg->getFlag("item-by-death") === "false" && !$player->hasPermission("worldguard.deathdrop." . $reg->getName())) {
+                if ($reg->getFlag("deny-msg") === "true") {
+                    $player->sendMessage(TF::RED. $this->plugin->resourceManager->getMessages()["denied-item-death-drop"]);
+                }
+                $event->setDrops([]);
+                return;
+            }
+        }
+    }
+            
     public function onBurn(BlockBurnEvent $event) {
         if (($region = $this->plugin->getRegionFromPosition($event->getBlock())) !== "") {
             if ($region->getFlag("allow-block-burn") === "false")
@@ -379,9 +386,7 @@ class EventListener implements Listener {
         return;
     }
     public function onFallDamage(EntityDamageEvent $event) {
-
         if(($region = $this->plugin->getRegionFromPosition($event->getEntity()->getPosition())) !== ""){
-            $entity = $event->getEntity();
             $cause = $event->getCause();
             if ($this->plugin->getRegionFromPosition($event->getEntity()->getPosition())->getFlag("fall-dmg") === "false"){
                 if($cause == EntityDamageEvent::CAUSE_FALL){
@@ -507,7 +512,6 @@ class EventListener implements Listener {
 
     public function onItemConsume(PlayerItemConsumeEvent $event){
         $player = $event->getPlayer();
-        $item = $event->getItem();
         if ($player instanceof \WGPlayerClass){
             if(($region = $this->plugin->getRegionByPlayer($event->getPlayer())) !== ""){
                 if($region->getFlag("eat") === "false" && !$player->hasPermission("worldguard.eat." . $region->getName())) {
@@ -521,7 +525,6 @@ class EventListener implements Listener {
     }
 
     public function noHunger(PlayerExhaustEvent $exhaustEvent){
-        $player = $exhaustEvent->getPlayer();
         if ($exhaustEvent->getPlayer() instanceof \WGPlayerClass){
             if(($region = $this->plugin->getRegionByPlayer($exhaustEvent->getPlayer())) !== ""){
                 if($region->getFlag("hunger") === "false") {

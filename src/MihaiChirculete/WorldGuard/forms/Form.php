@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-namespace Chalapa13\WorldGuard\forms;
+namespace MihaiChirculete\WorldGuard\forms;
 use Closure;
 use function array_merge;
 abstract class Form implements \pocketmine\form\Form{

@@ -42,6 +42,8 @@ permissions:
     default: op
   worldguard.drop:
     default: op
+  worldguard.deathdrop:
+    default: op
   worldguard.usechest:
     default: op
   worldguard.usechestender:

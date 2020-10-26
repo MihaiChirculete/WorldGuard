@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
-namespace Chalapa13\WorldGuard\forms;
-use Chalapa13\WorldGuard\elements\{Dropdown, Element, Input, Label, Slider, StepSlider, Toggle};
+namespace MihaiChirculete\WorldGuard\forms;
+use MihaiChirculete\WorldGuard\elements\{Dropdown, Element, Input, Label, Slider, StepSlider, Toggle};
 use pocketmine\form\FormValidationException;
 use function array_shift;
 use function get_class;

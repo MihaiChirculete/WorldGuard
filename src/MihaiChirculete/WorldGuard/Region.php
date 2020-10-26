@@ -2,25 +2,25 @@
 
 /**
 *
-*  _     _  _______  ______    ___      ______   _______  __   __  _______  ______    ______
-* | | _ | ||       ||    _ |  |   |    |      | |       ||  | |  ||   _   ||    _ |  |      |
+*  _     _  _______  ______    ___      ______   _______  __   __  _______  ______    ______  
+* | | _ | ||       ||    _ |  |   |    |      | |       ||  | |  ||   _   ||    _ |  |      | 
 * | || || ||   _   ||   | ||  |   |    |  _    ||    ___||  | |  ||  |_|  ||   | ||  |  _    |
 * |       ||  | |  ||   |_||_ |   |    | | |   ||   | __ |  |_|  ||       ||   |_||_ | | |   |
 * |       ||  |_|  ||    __  ||   |___ | |_|   ||   ||  ||       ||       ||    __  || |_|   |
 * |   _   ||       ||   |  | ||       ||       ||   |_| ||       ||   _   ||   |  | ||       |
-* |__| |__||_______||___|  |_||_______||______| |_______||_______||__| |__||___|  |_||______|
+* |__| |__||_______||___|  |_||_______||______| |_______||_______||__| |__||___|  |_||______| 
 *
-* By Chalapa13.
+* By MihaiChirculete.
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU Lesser General Public License as published by
 * the Free Software Foundation, either version 3 of the License, or
 * (at your option) any later version.
 *
-* GitHub: https://github.com/Chalapa13
+* GitHub: https://github.com/MihaiChirculete
 */
 
-namespace Chalapa13\WorldGuard;
+namespace MihaiChirculete\WorldGuard;
 
 use pocketmine\Server;
 use pocketmine\math\Vector3;
@@ -114,7 +114,11 @@ class Region {
 
         if ($flag === "effects") {
             if (!is_numeric($value)) {
-                return TF::RED.'Value of "effect" flag must be numeric.';
+                return TF::RED."Value of effect flag must be numeric.";
+            }
+            if (!$value > 0) {
+                $this->flags["effects"] = [];
+                return TF::YELLOW.'All "effects" (of "'.$this->name.'") would be removed.';
             }
             if (isset($avalue[1])) {
                 if (is_numeric($avalue[1])) {
@@ -128,7 +132,7 @@ class Region {
             } else {
                 $this->flags["effects"][$value] = 0;
                 $this->effects[$value] = new EffectInstance(Effect::getEffect($value), 999999999, 0);
-                return TF::YELLOW.'Added "'.($this->effects[$value])->getId().' I" effect to "'.$this->name.'" region.';
+                return TF::YELLOW.'Added "'.($this->effects[$value])->getId().'" effect to "'.$this->name.'" region.';
             }
             return;
         }
@@ -146,7 +150,7 @@ class Region {
                         ]);
                     }
                     $this->flags["fly-mode"] = (int)$value;
-                    return TF::YELLOW.'Flight mode was changed to: '.$value.'.';
+                    return TF::YELLOW.'"Flight mode" (of "'.$this->name.'") was changed to: '.$value.'.';
                 }
                 break;
             case "boolean":
