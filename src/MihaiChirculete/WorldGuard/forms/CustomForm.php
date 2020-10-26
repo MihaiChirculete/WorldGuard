@@ -55,7 +55,7 @@ class CustomForm extends Form{
 		return ["content" => $this->elements];
 	}
 
-
+	final public function handleResponse(\WGPlayerClass $player, $data) : void{
 		if($data === null){
 			if($this->onClose !== null){
 				($this->onClose)($player);
