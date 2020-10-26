@@ -1,10 +1,10 @@
 name: WorldGuard
-main: Chalapa13\WorldGuard\WorldGuard
+main: MihaiChirculete\WorldGuard\WorldGuard
 api: [3.0.0, 4.0.0]
 mcpe-protocol: 408
-version: 1.1.7.1
-author: Chalapa
-website: https://github.com/Chalapa13/WorldGuard
+version: 1.1.8
+author: MihaiChirculete
+website: https://github.com/MihaiChirculete/WorldGuard
 commands:
   worldguard:
     description: Opens up the User Interface of WorldGuard.
