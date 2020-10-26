@@ -56,7 +56,7 @@ class Utils {
         return $return;
     }
 
-    public static function disableFlight(Player $player)
+    public static function disableFlight(\WGPlayerClass $player)
     {
         $player->setAllowFlight(false);
         $pk = new SetPlayerGameTypePacket();
@@ -78,7 +78,7 @@ class Utils {
      *
      * Use this to parse aliases in a string
      */
-    public static function aliasParse(Player $player, string $msg)
+    public static function aliasParse(\WGPlayerClass $player, string $msg)
     {
         $parsedMsg = str_replace("{player_name}", $player->getName() ,$msg);
         $parsedMsg = str_replace("&", "§", $parsedMsg);
@@ -254,7 +254,7 @@ class Utils {
 
     // given an issuer object, returns the plugin object
     // useful for static functions when you need the plugin refference
-    public static function getPluginFromIssuer(Player $issuer)
+    public static function getPluginFromIssuer(\WGPlayerClass $issuer)
     {
         return $issuer->getServer()->getPluginManager()->getPlugin("WorldGuard");
     }

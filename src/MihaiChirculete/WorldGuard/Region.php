@@ -129,7 +129,6 @@ class Region {
                 } else {
                     return TF::RED."Amplifier must be numerical.\n".TF::GRAY.'Example: /region flags set '.$this->name.' '.$value.' 1';
                 }
-
             } else {
                 $this->flags["effects"][$value] = 0;
                 $this->effects[$value] = new EffectInstance(Effect::getEffect($value), 999999999, 0);
