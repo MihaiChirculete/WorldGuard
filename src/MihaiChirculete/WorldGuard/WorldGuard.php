@@ -247,9 +247,9 @@ class WorldGuard extends PluginBase {
         //if player is loggedIn in WG Region and Logout
         $wgReg = $this->getRegion($player);
         if($player instanceof Player && $wgReg !== ""){
+            $player->removeAllEffects();
             if($this->resourceManager->getConfig()["debugging"] === true){
-                $this->getLogger()->info("Instance of player is in WorldGuard Region! Effects from Region should be deleted");
-                $player->removeAllEffects();  
+                $this->getLogger()->info("Instance of player is in WorldGuard Region! Effects from Region should be deleted"); 
             }
         }
     }
