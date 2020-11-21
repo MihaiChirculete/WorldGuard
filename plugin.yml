@@ -2,7 +2,7 @@ name: WorldGuard
 main: MihaiChirculete\WorldGuard\WorldGuard
 api: [3.0.0]
 mcpe-protocol: 419
-version: 1.1.8
+version: 1.1.9
 author: MihaiChirculete
 website: https://github.com/MihaiChirculete/WorldGuard
 commands:
