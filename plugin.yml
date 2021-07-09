@@ -1,8 +1,6 @@
----
 name: WorldGuard
 main: MihaiChirculete\WorldGuard\WorldGuard
-api:
-- 3.20.0
+api: [3.0.0]
 mcpe-protocol: 440
 version: 1.1.94
 author: MihaiChirculete
@@ -10,16 +8,13 @@ website: https://github.com/MihaiChirculete/WorldGuard
 commands:
   worldguard:
     description: Opens up the User Interface of WorldGuard.
-    aliases:
-    - wg
+    aliases: ["wg"]
     default: op
   region:
     description: Create/Manage/Delete regions.
-    aliases:
-    - rg
+    aliases: ["rg"]
     default: op
-softdepend:
-- RedstoneCircuit
+softdepend: ["RedstoneCircuit"]
 permissions:
   worldguard.ui:
     default: op
@@ -79,4 +74,3 @@ permissions:
     default: op
   worldguard.bypass.gamemode:
     default: op
-...
