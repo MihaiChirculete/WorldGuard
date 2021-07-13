@@ -793,4 +793,8 @@ class WorldGuard extends PluginBase {
         }
         return true;
     }
+
+    public function getKnockback() {
+        return $this->resourceManager->getConfig()["knockback"];
+    }
 }
