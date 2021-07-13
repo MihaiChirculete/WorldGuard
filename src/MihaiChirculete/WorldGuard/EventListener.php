@@ -487,47 +487,49 @@ class EventListener implements Listener {
         }
     }
 
-    ///**
-    // * @param ProjectileLaunchEvent $event
-    // * @ignoreCancelled true
-    // */
-    //public function onEnderpearl(ProjectileLaunchEvent $event)
-    //{
-    //    if ($event->getEntity()::NETWORK_ID !== 87) return;
-    //    if (($region = $this->plugin->getRegionFromPosition($entity = $event->getEntity())) !== "") {
-    //        if ($region->getFlag("enderpearl") === "false") {
-    //            // if pearl was thrown by a player then cancel the event
-    //            if ((($player = $entity->getOwningEntity()) !== null)) {
-    //                $event->setCancelled();
-    //                if ($region->getFlag("deny-msg") === "true") {
-    //                    $player->sendMessage(TF::RED. $this->plugin->resourceManager->getMessages()["denied-ender-pearls"]);
-    //                }
-    //            }
-    //        }
-    //    }
-    //}
-
-   	/**
-     * @priority Low
+    /**
+     * @param ProjectileLaunchEvent $event
+     * @ignoreCancelled true
      */
-
-    public function onEnderPearl(PlayerInteractEvent $event){
-    	$player = $event->getPlayer();
-    	if($event->getAction() === PlayerInteractEvent::RIGHT_CLICK_AIR){
-        	if ($player instanceof Player){
-        		if ($event->getItem()->getID() == 368) {
-        			if(($region = $this->plugin->getRegionByPlayer($event->getPlayer())) !== ""){
-        				if ($region->getFlag("enderpearl") === "false") {
-        					$event->setCancelled();
-        					if ($region->getFlag("deny-msg") === "true") {
-          		            	$player->sendMessage(TF::RED. $this->plugin->resourceManager->getMessages()["denied-ender-pearls"]);
-                    		}
-                    	}
+    public function onEnderpearl(ProjectileLaunchEvent $event)
+    {
+        if ($event->getEntity()::NETWORK_ID !== 87) return;
+        if (($region = $this->plugin->getRegionFromPosition($entity = $event->getEntity())) !== "") {
+            if ($region->getFlag("enderpearl") === "false") {
+                // if pearl was thrown by a player then cancel the event
+                if ((($player = $entity->getOwningEntity()) !== null)) {
+                    $event->setCancelled();
+                    if ($region->getFlag("deny-msg") === "true") {
+                        $player->sendMessage(TF::RED. $this->plugin->resourceManager->getMessages()["denied-ender-pearls"]);
                     }
                 }
             }
         }
     }
+
+    /**
+     * @priority Low
+     */
+
+    /** New EnderpearlEvent
+     * public function onEnderPearl(PlayerInteractEvent $event){
+     * 	$player = $event->getPlayer();
+     * 	if($event->getAction() === PlayerInteractEvent::RIGHT_CLICK_AIR){
+     *    	if ($player instanceof Player){
+     *    		if ($event->getItem()->getID() == 368) {
+     *  			if(($region = $this->plugin->getRegionByPlayer($event->getPlayer())) !== ""){
+     *  				if ($region->getFlag("enderpearl") === "false") {
+     *   					$event->setCancelled();
+     *   					if ($region->getFlag("deny-msg") === "true") {
+     *     		            	$player->sendMessage(TF::RED. $this->plugin->resourceManager->getMessages()["denied-ender-pearls"]);
+     *               		}
+     *               	}
+     *              }
+     *           }
+     *       }
+     *   }
+     * }
+     */
 
     public function onItemConsume(PlayerItemConsumeEvent $event){
         $player = $event->getPlayer();
