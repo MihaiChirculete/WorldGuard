@@ -78,7 +78,7 @@ class EventListener implements Listener {
                 }
             }
         }
-        if ($event->getItem()->getID() == 368 && $event->getAction() === PlayerInteractEvent::RIGHT_CLICK_AIR) {
+        if ($event->getItem()->getID() == 368 && $event->getAction() === $event::RIGHT_CLICK_AIR) {
             $player = $event->getPlayer();
             if(($region = $this->plugin->getRegionByPlayer($event->getPlayer())) !== ""){
                 if ($region->getFlag("enderpearl") === "false") {
