@@ -499,28 +499,6 @@ class EventListener implements Listener {
         }
     }
 
-    ///**
-    // * @param PlayerInteractEvent $event
-    // * @ignoreCancelled true
-    // */
-    //public function onEnderPearl(PlayerInteractEvent $event){
-    //    $player = $event->getPlayer();
-    //    if($event->getAction() === PlayerInteractEvent::RIGHT_CLICK_AIR){
-    //        if ($player instanceof Player){
-    //            if ($event->getItem()->getID() == 368) {
-    //                if(($region = $this->plugin->getRegionByPlayer($event->getPlayer())) !== ""){
-    //                    if ($region->getFlag("enderpearl") === "false") {
-    //                        $event->setCancelled();
-    //                        if ($region->getFlag("deny-msg") === "true") {
-    //                            $player->sendMessage(TF::RED. $this->plugin->resourceManager->getMessages()["denied-ender-pearls"]);
-    //                        }
-    //                    }
-    //                }
-    //            }
-    //        }
-    //    }
-    //}
-
     public function onItemConsume(PlayerItemConsumeEvent $event){
         $player = $event->getPlayer();
         if ($player instanceof Player){
