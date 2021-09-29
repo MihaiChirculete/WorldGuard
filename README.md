@@ -1,4 +1,4 @@
-# ProtectMyWorld [![Poggit-CI](https://poggit.pmmp.io/ci.badge/Chalapa13/WorldGuard/WorldGuard)](https://poggit.pmmp.io/ci/Chalapa13/WorldGuard/WorldGuard)
+# WorldGuard [![Poggit-CI](https://poggit.pmmp.io/ci.badge/Chalapa13/WorldGuard/WorldGuard)](https://poggit.pmmp.io/ci/Chalapa13/WorldGuard/WorldGuard)
 
 [![](https://poggit.pmmp.io/shield.state/WorldGuard)](https://poggit.pmmp.io/p/WorldGuard)
 [![](https://poggit.pmmp.io/shield.api/WorldGuard)](https://poggit.pmmp.io/p/WorldGuard)
@@ -6,7 +6,8 @@
 [![](https://poggit.pmmp.io/shield.dl/WorldGuard)](https://poggit.pmmp.io/p/WorldGuard)
 
 
-IMPORTANT NOTE: This plugin has nothing to do with the original 'WorldGuard' plugin for 'Bukkit' which is available [here](https://dev.bukkit.org/projects/worldguard).
+IMPORTANT NOTE: This plugin has nothing to do with the original 'WorldGuard' plugin for 'Bukkit' which is available [here](https://dev.bukkit.org/projects/worldguard). This plugin was built from scratch by an entirely different team that the one behind WorldGuard for Bukkit.
+
 
 # Features
 - User friendly interface for users that prefer a menu rather than typing lenghty commands.   
