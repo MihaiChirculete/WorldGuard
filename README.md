@@ -6,7 +6,7 @@
 [![](https://poggit.pmmp.io/shield.dl/WorldGuard)](https://poggit.pmmp.io/p/WorldGuard)
 
 
-This plugin is a port of the popular bukkit plugin called ["WorldGuard"](https://dev.bukkit.org/projects/worldguard). It was originally developed by [Muqsit](https://github.com/Muqsit), but more flags and extended capabilities were added by me.
+IMPORTANT NOTE: This plugin has nothing to do with the original 'WorldGuard' plugin for 'Bukkit' which is available [here](https://dev.bukkit.org/projects/worldguard).
 
 # Features
 - User friendly interface for users that prefer a menu rather than typing lenghty commands.   
