@@ -1,4 +1,4 @@
-# WorldGuard [![Poggit-CI](https://poggit.pmmp.io/ci.badge/Chalapa13/WorldGuard/WorldGuard)](https://poggit.pmmp.io/ci/Chalapa13/WorldGuard/WorldGuard)
+# ProtectMyWorld [![Poggit-CI](https://poggit.pmmp.io/ci.badge/Chalapa13/WorldGuard/WorldGuard)](https://poggit.pmmp.io/ci/Chalapa13/WorldGuard/WorldGuard)
 
 [![](https://poggit.pmmp.io/shield.state/WorldGuard)](https://poggit.pmmp.io/p/WorldGuard)
 [![](https://poggit.pmmp.io/shield.api/WorldGuard)](https://poggit.pmmp.io/p/WorldGuard)
@@ -34,9 +34,3 @@ Some flags come with their own permission in order to customize regions even mor
 
 # Need assistance?
 [Join the plugin's discord server!](https://discordapp.com/invite/uZevqGX)
-
-# Donations
-Are you enjoying using our plugin?   
-Has our work been helpful to you?   
-Support us by making a small donation!   
-[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A27544VGVMLKA&source=url)
