@@ -50,7 +50,6 @@ class WorldGuard extends PluginBase {
         "block-place" => "false",
         "block-break" => "false",
         "pvp" => "true",
-        "deny-msg" => "true",
         "console-cmd-on-enter" => "none",
         "console-cmd-on-leave" => "none",
         "flow" => "true",
@@ -92,7 +91,6 @@ class WorldGuard extends PluginBase {
         "block-place" => "boolean",
         "block-break" => "boolean",
         "pvp" => "boolean",
-        "deny-msg" => "boolean",
         "console-cmd-on-enter" => "string",
         "console-cmd-on-leave" => "string",
         "flow" => "boolean",
@@ -282,9 +280,9 @@ class WorldGuard extends PluginBase {
         //if player is loggedIn in WG Region and Logout
         $wgReg = $this->getRegion($player);
         if($player instanceof Player && $wgReg !== ""){
+            $player->removeAllEffects();
             if($this->resourceManager->getConfig()["debugging"] === true){
-                $this->getLogger()->info("Instance of player is in WorldGuard Region! Effects from Region should be deleted");
-                $player->removeAllEffects();  
+                $this->getLogger()->info("Instance of player is in WorldGuard Region! Effects from Region should be deleted"); 
             }
         }
     }
@@ -828,5 +826,9 @@ class WorldGuard extends PluginBase {
                 break;
         }
         return true;
+    }
+
+    public function getKnockback() {
+        return $this->resourceManager->getConfig()["knockback"];
     }
 }

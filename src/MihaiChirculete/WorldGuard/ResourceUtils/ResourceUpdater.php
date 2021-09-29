@@ -24,6 +24,7 @@ class ResourceUpdater
             "version" => $this->resourceManagerInstance->getPluginVersion(),
             "language to use" => "you could use de, fr, en, ro, zhsimp or zhtrad. (zhtrad is for traditional chinese, zhsimp for simplified chinese) if the file does not exist, it will create a default en file!",
             "language" => "en",
+            "knockback" => 4,
             "debugging" => false);
 
         $this->defaultMessages = array (
@@ -65,7 +66,7 @@ class ResourceUpdater
             "gui_dropdown_select_manage" => "Select the region you would like to manage",
             "gui_manage_menu_title" => "Managing region:",
             "gui_flag_pluginbypass" => "Plugin bypass for USE and FLOW and also BLOCKBREAK and BLOCKPLACE (MyPlot)",
-            "gui_flag_deny_message" => "Disable messages for Players",
+            "gui_flag_deny_message" => "Enable messages for Players",
             "gui_flag_blockbreak" => "Allow block break",
             "gui_flag_blockplace" => "Allow block place",
             "gui_flag_pvp" => "PvP",
