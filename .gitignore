@@ -2,3 +2,4 @@ Makefile
 *.phar
 build.cmd
 .idea
+build/
