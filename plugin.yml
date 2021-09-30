@@ -1,4 +1,4 @@
-name: ProtectMyWorld
+name: WorldGuard
 main: MihaiChirculete\WorldGuard\WorldGuard
 api: [3.0.0]
 mcpe-protocol: 465
