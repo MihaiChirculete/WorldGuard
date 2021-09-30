@@ -6,7 +6,8 @@
 [![](https://poggit.pmmp.io/shield.dl/WorldGuard)](https://poggit.pmmp.io/p/WorldGuard)
 
 
-This plugin is a port of the popular bukkit plugin called ["WorldGuard"](https://dev.bukkit.org/projects/worldguard). It was originally developed by [Muqsit](https://github.com/Muqsit), but more flags and extended capabilities were added by me.
+IMPORTANT NOTE: This plugin has nothing to do with the original 'WorldGuard' plugin for 'Bukkit' which is available [here](https://dev.bukkit.org/projects/worldguard). This plugin was built from scratch by an entirely different team than the one behind WorldGuard for Bukkit and is not affiliated to them in any way.
+
 
 # Features
 - User friendly interface for users that prefer a menu rather than typing lenghty commands.   
@@ -34,9 +35,3 @@ Some flags come with their own permission in order to customize regions even mor
 
 # Need assistance?
 [Join the plugin's discord server!](https://discordapp.com/invite/uZevqGX)
-
-# Donations
-Are you enjoying using our plugin?   
-Has our work been helpful to you?   
-Support us by making a small donation!   
-[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A27544VGVMLKA&source=url)

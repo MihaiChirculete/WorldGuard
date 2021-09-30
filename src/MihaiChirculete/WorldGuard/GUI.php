@@ -95,6 +95,9 @@ class GUI
         $lang = Utils::getPluginFromIssuer($issuer)->resourceManager->getLanguagePack();
 
         $regions = array_keys(Utils::getPluginFromIssuer($issuer)->getRegions());
+        foreach ($regions as $key => $value) {
+            $regions[$key] = strval($value);
+        }
 
         $issuer->sendForm(new CustomForm("§9§l" . $lang["gui_btn_rg_management"],
             [
@@ -112,6 +115,9 @@ class GUI
         $lang = Utils::getPluginFromIssuer($issuer)->resourceManager->getLanguagePack();
 
         $regions = array_keys($issuer->getServer()->getPluginManager()->getPlugin("WorldGuard")->getRegions());
+        foreach ($regions as $key => $value) {
+            $regions[$key] = strval($value);
+        }
 
         $issuer->sendForm(new CustomForm("§9§l" . $lang["gui_btn_rg_management"],
             [
@@ -128,6 +134,9 @@ class GUI
     {
         $lang = Utils::getPluginFromIssuer($issuer)->resourceManager->getLanguagePack();
         $regions = array_keys($issuer->getServer()->getPluginManager()->getPlugin("WorldGuard")->getRegions());
+        foreach ($regions as $key => $value) {
+            $regions[$key] = strval($value);
+        }
 
         $issuer->sendForm(new CustomForm("§9§l" . $lang["gui_btn_rg_management"],
             [
