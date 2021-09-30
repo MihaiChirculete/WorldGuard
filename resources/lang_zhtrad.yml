@@ -49,5 +49,5 @@ gui_flag_spread: 允許蔓延 (例如草地)
 gui_flag_block_burn: 允許方塊著火
 gui_flag_priority: 區域優先權
 gui_help_menu_label1: '如你需要有關設置世界守衛的協助, 請參閱以下教程:'
-gui_help_menu_label2: https://github.com/Chalapa13/WorldGuard/wiki/Tutorial
+gui_help_menu_label2: https://github.com/MihaiChirculete/WorldGuard/wiki/Tutorial
 ...

@@ -57,5 +57,5 @@ gui_flag_block_burn: Erlaubt das Ausbreiten von Feuer
 gui_flag_priority: 'Priorität von einer Region:'
 gui_help_menu_label1: "Wenn du Hilfe bei den Einstellungen von World Guard brauchst, schau dir das Tutorial an,
   welches wir für dich gemacht haben:"
-gui_help_menu_label2: https://github.com/Chalapa13/WorldGuard/wiki/Tutorial
+gui_help_menu_label2: https://github.com/MihaiChirculete/WorldGuard/wiki/Tutorial
 ...
