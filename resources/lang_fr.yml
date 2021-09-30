@@ -54,6 +54,6 @@ gui_flag_block_burn: "Autoriser les blocks de br\xFBler"
 gui_flag_priority: "Priorit\xE9 r\xE9gionale"
 gui_help_menu_label1: 'Si vous avez besoin d''aide pour configurer World Guard, consultez
   le tutoriel nous l''avons fait pour vous: '
-gui_help_menu_label2: http://worldguard.ddns.net/tutorial
+gui_help_menu_label2: https://github.com/MihaiChirculete/WorldGuard/wiki/Tutorial
 gui_btn_advertising: Advertising
 ...
