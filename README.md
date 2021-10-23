@@ -1,4 +1,4 @@
-# WorldGuard [![Poggit-CI](https://poggit.pmmp.io/ci.badge/Chalapa13/WorldGuard/WorldGuard)](https://poggit.pmmp.io/ci/Chalapa13/WorldGuard/WorldGuard)
+# WorldGuard [![Poggit-CI](https://poggit.pmmp.io/ci.badge/MihaiChirculete/WorldGuard/WorldGuard)](https://poggit.pmmp.io/ci/Chalapa13/WorldGuard/WorldGuard)
 
 [![](https://poggit.pmmp.io/shield.state/WorldGuard)](https://poggit.pmmp.io/p/WorldGuard)
 [![](https://poggit.pmmp.io/shield.api/WorldGuard)](https://poggit.pmmp.io/p/WorldGuard)
@@ -28,7 +28,7 @@ Be sure to check the above link when updating the plugin to see changes and view
 
 # Download
 You can download the latest stable compiled plugin from [here](https://poggit.pmmp.io/p/WorldGuard).
-If you want more frequent updates you can get the compiled plugin from [here](https://poggit.pmmp.io/ci/Chalapa13/WorldGuard/WorldGuard), however keep in mind that these versions have a higher risk of bugs.
+If you want more frequent updates you can get the compiled plugin from [here](https://poggit.pmmp.io/ci/MihaiChirculete/WorldGuard/WorldGuard), however keep in mind that these versions have a higher risk of bugs.
 
 # Customizable Permissions
 Some flags come with their own permission in order to customize regions even more and only allow certain groups of players do certain actions in a region.
