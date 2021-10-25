@@ -103,18 +103,25 @@ class EventListener implements Listener {
                     $z = ($z + 1);
                 }
                 $player->sendMessage(TF::YELLOW.'Selected position: X'.$x.', Y: '.$block->y.', Z: '.$z.', Level: '.$block->getLevel()->getName());
-                if (!isset($this->plugin->extended[$id = ($player = $event->getPlayer())->getRawUniqueId()])){
+                
+		    
+		if (!isset($this->plugin->extended[$id = ($player = $event->getPlayer())->getRawUniqueId()])){
                     $this->plugin->creating[$id][] = [$x, $block->y, $z, $block->getLevel()->getName()];
-                }
+		    usleep(10);
+		}
                 else{
                     if (count($this->plugin->creating[$id]) == 0) {
                         $this->plugin->creating[$id][] = [$x, 0, $z, $block->getLevel()->getName()];
-                    }
+		    //usleep(10);
+		    }
                     elseif (count($this->plugin->creating[$id]) >= 1) {
                         $this->plugin->creating[$id][] = [$x, 255, $z, $block->getLevel()->getName()];
-                    }
+		    //usleep(10);
+		    }
                 }
-                if (count($this->plugin->creating[$id]) >= 2) {
+                
+		    
+		if (count($this->plugin->creating[$id]) >= 2) {
                     if (($reg = $this->plugin->processCreation($player)) !== false) {
                         $player->sendMessage(TF::GREEN.'Successfully created region '.$reg);
                     } else {
