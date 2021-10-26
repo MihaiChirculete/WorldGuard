@@ -21,7 +21,7 @@ IMPORTANT NOTE: This plugin has nothing to do with the original 'WorldGuard' plu
 For the full list of flags check the tutorial.
 
 # Tutorial
-Read the [tutorial](http://worldguard.zapto.org/tutorial).     
+Read the [tutorial](https://github.com/MihaiChirculete/WorldGuard/wiki/Tutorial).     
 Video tutorial available [here](https://www.youtube.com/watch?v=80s21rwU7K8).
 
 Be sure to check the above link when updating the plugin to see changes and view available flags. (can also be found in-game by doing /rg flags get region_name)
