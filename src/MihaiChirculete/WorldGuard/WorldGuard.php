@@ -510,7 +510,7 @@ class WorldGuard extends PluginBase {
             $permission->addParent("worldguard.break", true);
             PermissionManager::getInstance()->addPermission($permission);
 
-            $permission = new Permission("worldguard.block-break." . $name, "Allows player to build blocks in " . $name . " region.", Permission::DEFAULT_OP);
+            $permission = new Permission("worldguard.block-break." . $name, "Allows player to break blocks in " . $name . " region.", Permission::DEFAULT_OP);
             $permission->addParent("worldguard.block-break", true);
             PermissionManager::getInstance()->addPermission($permission);
 

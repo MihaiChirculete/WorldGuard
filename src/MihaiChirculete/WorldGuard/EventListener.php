@@ -111,7 +111,7 @@ class EventListener implements Listener {
                     $this->plugin->creating[$id][] = [$x, $block->y, $z, $block->getLevel()->getName()];
                 }
                 else{
-                    if (count($this->plugin->creating[$id]) == '') {
+                    if (count($this->plugin->creating[$id]) == 0) {
                         $this->plugin->creating[$id][] = [$x, 0, $z, $block->getLevel()->getName()];
                     }
                     elseif (count($this->plugin->creating[$id]) >= 1) {

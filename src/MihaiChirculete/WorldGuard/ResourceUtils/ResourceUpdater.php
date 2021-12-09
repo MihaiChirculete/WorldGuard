@@ -22,7 +22,7 @@ class ResourceUpdater
 
         $this->defaultConfig = array(
             "version" => $this->resourceManagerInstance->getPluginVersion(),
-            "language to use" => "you could use de, fr, en, ro, zhsimp or zhtrad. (zhtrad is for traditional chinese, zhsimp for simplified chinese) if the file does not exist, it will create a default en file!",
+            "language to use" => "you could use de, fr, en, ro, tr zhsimp or zhtrad. (zhtrad is for traditional chinese, zhsimp for simplified chinese) if the file does not exist, it will create a default en file!",
             "language" => "en",
             "knockback" => 4,
             "debugging" => false);

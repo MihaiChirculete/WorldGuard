@@ -1,0 +1,61 @@
+---
+author_name: xAliTura01
+gui_wg_menu_title: World Guard Menü
+gui_label_choose_option: Bir seçenek belirle
+gui_btn_rg_management: Bölge Seçenekleri
+gui_btn_help: Yardım
+gui_btn_manage_existing: Bölgeyi ayarla
+gui_btn_create_region: Yeni bir bölge oluştur
+gui_btn_redefine_region: Bölge değiştir
+gui_btn_delete_region: Bir bölgeyi sil
+gui_creation_menu_title: Bölge oluştur
+gui_creation_menu_label1: Yeni bir bölge oluşturmana yardım etmeme izin ver.
+gui_creation_menu_rg_name_box: Önce yeni bölgeniz için bir ad girin.
+gui_creation_menu_label2: Bölgenizi alttan 0'dan gökyüzüne 255 dikey olarak ayarlamak ister misiniz,
+   ardından aşağıdaki seçeneği etkinleştirmeniz gerekir.
+gui_creation_menu_toggle_expand: Dikey olarak genişlet
+gui_creation_menu_label3: \xA7a'Submit'\xA7r'ye basın ve ardından sağ tıklama ile 2 köşe noktası seçin,
+   hangi bölgenizin alanını belirtir.
+gui_dropdown_select_redefine: Değiştirmek istediğiniz bölgeyi seçin. Bunu yapmak için tekrar iki köşe noktası seçmelisiniz.
+gui_dropdown_select_delete: Silmek istediğiniz bölgeyi seçin.
+gui_dropdown_select_manage: Ayarlamak istediğiniz bölgeyi seçin.
+gui_manage_menu_title: Bölge Ayarları:
+gui_flag_pluginbypass: Kullanım ve sıvı dağılımı (MyPlot için baypas vb. oluşturabilir)
+gui_flag_blockbreak: Blok kırma
+gui_flag_blockplace: Blok koyma
+gui_flag_pvp: PvP
+gui_flag_xp_drops: XP puanları
+gui_flag_invincible: Görünmezlik etkisi
+gui_flag_fall_dmg: Düşme hasarına izin ver
+gui_flag_usage: Kullanıma izin ver (kutular, tezgah vb.)
+gui_flag_item_drop: Öğelerin düşmesi
+gui_flag_explosions: Patlama
+gui_flag_notify_enter: Giriş için mesaj
+gui_flag_notify_leave: Çıkış için mesaj
+gui_flag_potions: İksirlere izin
+gui_flag_allowed_enter: Girişe izin
+gui_flag_allowed_leave: Çıkışa izin
+gui_flag_gm: Gamemode
+gui_gm_survival: Hayatta kalma
+gui_gm_creative: Yaratıcı
+gui_gm_adventure: Macere
+gui_flag_sleep: Uyku
+gui_flag_send_chat: Sohbette mesaj yazma
+gui_flag_rcv_chat: Mesajların sohbette alınması
+gui_flag_enderpearl: Ender pearlerinin kullanımı
+gui_flag_fly_mode: Uçma modu
+gui_enabled: Aktif
+gui_disabled: De-Aktif
+gui_flag_eat: Yemek yeme
+gui_flag_hunger: Açlık hissi
+gui_flag_dmg_animals: Hayvanların hasar alması
+gui_flag_dmg_monsters: Saldırgan yaratıklar
+gui_flag_leaf_decay: Yaprağın dağılması
+gui_flag_plant_growth: Bitkinin büyümesi
+gui_flag_spread: Blokların yayılması (çim blokları, miselyum, vb.)
+gui_flag_block_burn: Yangının yayılması
+gui_flag_priority: Bir bölgeden öncelik:
+gui_help_menu_label1: World Guard ayarlarıyla ilgili yardıma ihtiyacınız varsa, eğiticiye göz atın,
+   sizin için yaptığımız:
+gui_help_menu_label2: https://github.com/MihaiChirculete/WorldGuard/wiki/Tutorial
+...
