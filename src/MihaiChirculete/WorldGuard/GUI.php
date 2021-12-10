@@ -4,13 +4,13 @@
 namespace MihaiChirculete\WorldGuard;
 use pocketmine\utils\TextFormat as TF;
 use pocketmine\command\CommandSender;
-use pocketmine\command\ConsoleCommandSender;
+//use pocketmine\command\ConsoleCommandSender;
 use MihaiChirculete\WorldGuard\forms\{CustomForm, CustomFormResponse, MenuForm};
 use MihaiChirculete\WorldGuard\elements\{Button, Dropdown, Image, Input, Label, Toggle};
 
 class GUI
 {
-
+/*
     public static $currentlyEditedRg = "";
 
     public static function displayMenu(CommandSender $issuer)
@@ -21,8 +21,7 @@ class GUI
         $issuer->sendForm(new MenuForm(
             "§9§l". $lang["gui_wg_menu_title"], $lang["gui_label_choose_option"], [new Button("§6§l". $lang["gui_btn_rg_management"], new Image("textures/items/book_writable", "path")),
             new Button("§5§l". $lang["gui_btn_help"])],
-            function(\WGPlayerClass $player, Button $selected) : void{
-
+            function(Player $player, Button $selected) : void{
                 switch ($selected->getValue())
                 {
                     case 0:
@@ -41,7 +40,7 @@ class GUI
         $lang = Utils::getPluginFromIssuer($issuer)->resourceManager->getLanguagePack();
 
         $issuer->sendForm(new MenuForm(
-            "§9§l" . $lang["gui_btn_rg_management"], $lang["gui_label_choose_option"],
+            "Â§9Â§l" . $lang["gui_btn_rg_management"], $lang["gui_label_choose_option"],
             [new Button($lang["gui_btn_manage_existing"]),
             new Button($lang["gui_btn_create_region"]),
             new Button($lang["gui_btn_redefine_region"]),
@@ -71,7 +70,7 @@ class GUI
     {
         $lang = Utils::getPluginFromIssuer($issuer)->resourceManager->getLanguagePack();
 
-        $issuer->sendForm(new CustomForm("§9§l" . $lang["gui_creation_menu_title"],
+        $issuer->sendForm(new CustomForm("Â§9Â§l" . $lang["gui_creation_menu_title"],
             [
                 new Label($lang["gui_creation_menu_label1"]),
                 new Input($lang["gui_creation_menu_rg_name_box"], "MyRegion"),
@@ -99,7 +98,7 @@ class GUI
             $regions[$key] = strval($value);
         }
 
-        $issuer->sendForm(new CustomForm("§9§l" . $lang["gui_btn_rg_management"],
+        $issuer->sendForm(new CustomForm("Â§9Â§l" . $lang["gui_btn_rg_management"],
             [
                 new Dropdown($lang["gui_dropdown_select_redefine"], $regions),
             ],
@@ -119,7 +118,7 @@ class GUI
             $regions[$key] = strval($value);
         }
 
-        $issuer->sendForm(new CustomForm("§9§l" . $lang["gui_btn_rg_management"],
+        $issuer->sendForm(new CustomForm("Â§9Â§l" . $lang["gui_btn_rg_management"],
             [
                 new Dropdown($lang["gui_dropdown_select_delete"], $regions),
             ],
@@ -137,7 +136,7 @@ class GUI
             $regions[$key] = strval($value);
         }
 
-        $issuer->sendForm(new CustomForm("§9§l" . $lang["gui_btn_rg_management"],
+        $issuer->sendForm(new CustomForm("Â§9Â§l" . $lang["gui_btn_rg_management"],
             [
                 new Dropdown($lang["gui_dropdown_select_manage"], $regions),
             ],
@@ -155,7 +154,7 @@ class GUI
 
         $lang = Utils::getPluginFromIssuer($issuer)->resourceManager->getLanguagePack();
 
-        $issuer->sendForm(new CustomForm($lang["gui_manage_menu_title"] . " §9" . $rgName,
+        $issuer->sendForm(new CustomForm($lang["gui_manage_menu_title"] . " Â§9" . $rgName,
             [
                 new Toggle($lang["gui_flag_pluginbypass"], filter_var($rg->getFlag("pluginbypass"), FILTER_VALIDATE_BOOLEAN)),
                 new Toggle($lang["gui_flag_deny_message"], filter_var($rg->getFlag("deny-msg"), FILTER_VALIDATE_BOOLEAN)),
@@ -364,7 +363,7 @@ class GUI
         $plugin = Utils::getPluginFromIssuer($issuer);
         $lang = $plugin->resourceManager->getLanguagePack();
 
-        $issuer->sendForm(new CustomForm("§9§l" . $lang["gui_btn_help"],
+        $issuer->sendForm(new CustomForm("Â§9Â§l" . $lang["gui_btn_help"],
             [
                 new Label($lang["gui_help_menu_label1"]),
                 new Label($lang["gui_help_menu_label2"]),
@@ -373,4 +372,5 @@ class GUI
         ));
 
     }
+    */
 }
