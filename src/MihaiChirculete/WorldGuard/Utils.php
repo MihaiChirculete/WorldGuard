@@ -78,7 +78,7 @@ class Utils {
     public static function aliasParse(\WGPlayerClass $player, string $msg)
     {
         $parsedMsg = str_replace("{player_name}", $player->getName() ,$msg);
-        $parsedMsg = str_replace("&", "Â§", $parsedMsg);
+        $parsedMsg = str_replace("&", "§", $parsedMsg);
 
         return $parsedMsg;
     }
