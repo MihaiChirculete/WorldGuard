@@ -22,22 +22,18 @@
 
 namespace MihaiChirculete\WorldGuard;
 
-use pocketmine\Player;
-use pocketmine\network\mcpe\protocol\SetPlayerGameTypePacket;
-use pocketmine\entity\{Entity, Animal, Monster};
-use pocketmine\level\biome\Biome;
+use pocketmine\player\Player;
+//use pocketmine\network\mcpe\protocol\SetPlayerGameTypePacket;
+use pocketmine\entity\Entity;
+use \pocketmine\world\biome\Biome;
 
 class Utils {
 
     const GAMEMODES = [
-        "0" => "survival",
-        "s" => "survival",
+        "0","s" => "survival",
         "1","c" => "creative",
-        //"c" => "creative",
-        "2" => "adventure",
-        "a" => "adventure",
-        "3" => "spectator",
-        "sp" => "spectator",
+        "2","a" => "adventure",
+        "3","sp" => "spectator",
     ];
 
     public static function getRomanNumber(int $integer, $upcase = true) : string
@@ -59,9 +55,10 @@ class Utils {
     public static function disableFlight(\WGPlayerClass $player)
     {
         $player->setAllowFlight(false);
-        $pk = new SetPlayerGameTypePacket();
+        //TODO: Fix This!
+     /* $pk = new SetPlayerGameTypePacket();
         $pk->gamemode = $player->getGamemode() & 0x01;
-        $player->dataPacket($pk);
+        $player->dataPacket($pk); */
         $player->setFlying(false);
         $player->sendSettings();
     }
@@ -81,7 +78,7 @@ class Utils {
     public static function aliasParse(\WGPlayerClass $player, string $msg)
     {
         $parsedMsg = str_replace("{player_name}", $player->getName() ,$msg);
-        $parsedMsg = str_replace("&", "§", $parsedMsg);
+        $parsedMsg = str_replace("&", "Â§", $parsedMsg);
 
         return $parsedMsg;
     }
@@ -93,13 +90,10 @@ class Utils {
      *
      * Pass an entity to this function and it checks if its an animal or not.
      */
+     
     public static function isAnimal(Entity $ent)
     {
-        if($ent instanceof Animal)
-            return true;
-
         $classname = strtolower(get_class($ent));
-
         if(strpos($classname, "bat") !== false ||
             strpos($classname, "chicken") !== false ||
             strpos($classname, "cow") !== false ||
@@ -118,7 +112,7 @@ class Utils {
             strpos($classname, "animal")
         )
             return true;
-
+        
         return false;
     }
 
@@ -128,13 +122,10 @@ class Utils {
      *
      * Pass an entity to this function and it checks if its a monster or not.
      */
+    
     public static function isMonster(Entity $ent)
     {
-        if($ent instanceof Monster)
-            return true;
-
         $classname = strtolower(get_class($ent));
-
         if(strpos($classname, "blaze") !== false ||
             strpos($classname, "cavespider") !== false ||
             strpos($classname, "elderguardian") !== false ||
@@ -249,7 +240,7 @@ class Utils {
 
         for ($i=$x1; $i<=$x2; $i++)
             for($j=$z1; $j<=$z2; $j++)
-                $plugin->getServer()->getLevelByName($reg->getLevelName())->setBiomeId($i, $j, self::biomeParse($biomeName));
+                $plugin->getServer()->getWorldManager()->getWorldByName()($reg->getLevelName())->setBiomeId($i, $j, self::biomeParse($biomeName));
     }
 
     // given an issuer object, returns the plugin object
