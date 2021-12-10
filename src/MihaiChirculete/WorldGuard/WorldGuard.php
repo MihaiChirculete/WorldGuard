@@ -270,6 +270,7 @@ class WorldGuard extends PluginBase
             }
         }
         return $currentRegion;
+        }
     }
 
     public function onPlayerLogoutRegion(Player $player)
