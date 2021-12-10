@@ -1,21 +1,19 @@
 name: WorldGuard
 main: MihaiChirculete\WorldGuard\WorldGuard
-api: [4.0.0]
-version: 1.3
+api: [3.0.0]
+version: 1.2
 author: MihaiChirculete
 website: https://github.com/MihaiChirculete/WorldGuard
-load: STARTUP
-softdepend: ["RedstoneCircuit"]
 commands:
   worldguard:
-    description: "Opens up the User Interface of WorldGuard."
+    description: Opens up the User Interface of WorldGuard.
     aliases: ["wg"]
-    permission: "worldguard.ui"
+    default: op
   region:
-    description: "Create/Manage/Delete regions."
+    description: Create/Manage/Delete regions.
     aliases: ["rg"]
-    permission: "worldguard.create"
-
+    default: op
+softdepend: ["RedstoneCircuit"]
 permissions:
   worldguard.ui:
     default: op

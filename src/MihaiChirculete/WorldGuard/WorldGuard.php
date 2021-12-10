@@ -168,35 +168,12 @@ class WorldGuard extends PluginBase
         $this->resourceManager->saveRegions($this->regions);
     }
 
-    public function getAPI4forWG(){
-
-        if (version_compare($this->getServer()->getApiVersion(), '4.0.0', '>=')) {
-            return true;
-        }
-        return false;
-    }
-   public function getWorld(Position $pos) {
-
-       if (version_compare($this->getServer()->getApiVersion(), '4.0.0', '>='))
-            return $pos->getWorld();
-       else
-            return $pos->getLevel();
-    }
-
-    public function getRawOrUUID(\WGPlayerClass $player){
-
-        if ($this->getAPI4forWG() === true) {
-            return $player->getUniqueId()->toString();
-        }
-        return $player->getRawUniqueId();
-    }
-
     public function getRegion(string $region)
     {
         return $this->regions[$region] ?? "";
     }
 
-    public function getRegionByPlayer(\WGPlayerClass $player)
+    public function getRegionByPlayer(Player $player)
     {
         if ($player instanceof Player) {
             $reg = $this->getRegionOf($player);
@@ -204,7 +181,7 @@ class WorldGuard extends PluginBase
         }
     }
 
-    public function getRegionOf(\WGPlayerClass $player): string
+    public function getRegionOf(Player $player): string
     {
         if ($player instanceof Player) {
             return $this->players[$player->getUniqueId()->toString()] ?? "";
@@ -221,14 +198,14 @@ class WorldGuard extends PluginBase
         return isset(self::FLAGS[$flag]);
     }
 
-    public function sessionizePlayer(\WGPlayerClass $player)
+    public function sessionizePlayer(Player $player)
     {
         $this->getLogger()->info("Updating session info for: " . $player->getName());
         $this->players[$player->getUniqueId()->toString()] = "";
         $this->updateRegion($player);
     }
 
-    public function getRegionFromPosition(\WGPosition $pos)
+    public function getRegionFromPosition(Position $pos)
     {
         $name = $this->getRegionNameFromPosition($pos);
         return $name !== "" ? $this->getRegion($name) : "";
@@ -282,7 +259,7 @@ class WorldGuard extends PluginBase
         }
     }
 
-    public function onRegionChange(\WGPlayerClass $player, string $oldregion, string $newregion)
+    public function onRegionChange(Player $player, string $oldregion, string $newregion)
     {
         $new = $this->getRegion($newregion);
         $old = $this->getRegion($oldregion);
@@ -458,7 +435,7 @@ class WorldGuard extends PluginBase
         return true;
     }
 
-    public function updateRegion(\WGPlayerClass $player)
+    public function updateRegion(Player $player)
     {
         $region = $this->players[$player->getUniqueId()->toString()];
         if (($newRegion = $this->getRegionNameFromPosition($player->getPosition())) !== $region) {
@@ -468,7 +445,7 @@ class WorldGuard extends PluginBase
         return true;
     }
 
-    public function processCreation(\WGPlayerClass $player)
+    public function processCreation(Player $player)
     {
         if (isset($this->creating[$id = $player->getUniqueId()->toString()], $this->process[$id])) {
             $name = $this->process[$id];

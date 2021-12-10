@@ -1,8 +1,6 @@
 <?php
 declare(strict_types=1);
-
 namespace MihaiChirculete\WorldGuard\elements;
-
 use pocketmine\form\FormValidationException;
 use function is_bool;
 class Toggle extends Element{

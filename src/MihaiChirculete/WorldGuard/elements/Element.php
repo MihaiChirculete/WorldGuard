@@ -1,7 +1,6 @@
 <?php
 declare(strict_types=1);
 namespace MihaiChirculete\WorldGuard\elements;
-
 use JsonSerializable;
 use pocketmine\form\FormValidationException;
 use function is_int;

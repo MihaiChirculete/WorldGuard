@@ -1,5 +1,6 @@
 <?php
 
+
 namespace MihaiChirculete\WorldGuard\ResourceUtils;
 
 
