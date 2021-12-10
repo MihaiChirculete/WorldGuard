@@ -157,7 +157,9 @@ class WorldGuard extends PluginBase
                 $this->regions[$name] = new Region($name, $data["pos1"], $data["pos2"], $data["level"], $data["flags"]);
             }
         }
-        $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
+        $this->getServer()
+            ->getPluginManager()
+            ->registerEvents(new EventListener($this), $this);
         foreach ($this->getServer()->getOnlinePlayers() as $p) {
             $this->sessionizePlayer($p);
         }
@@ -176,6 +178,7 @@ class WorldGuard extends PluginBase
     public function getRegionByPlayer(Player $player)
     {
         if ($player instanceof Player) {
+
             $reg = $this->getRegionOf($player);
             return $reg !== "" ? $this->getRegion($reg) : "";
         }
