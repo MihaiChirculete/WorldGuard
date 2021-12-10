@@ -57,7 +57,7 @@ class MenuForm extends Form{
 	 */
 	public function setOnSubmit(?Closure $onSubmit) : self{
 		if($onSubmit !== null){
-			Utils::validateCallableSignature(function(Player $player, Button $selected) : void{}, $onSubmit);
+		    Utils::validateCallableSignature(function(\WGPlayerClass $player, Button $selected) : void{}, $onSubmit);
 			$this->onSubmit = $onSubmit;
 		}
 		return $this;
@@ -69,7 +69,7 @@ class MenuForm extends Form{
 	 */
 	public function setOnClose(?Closure $onClose) : self{
 		if($onClose !== null){
-			Utils::validateCallableSignature(function(Player $player) : void{}, $onClose);
+		  Utils::validateCallableSignature(function(\WGPlayerClass $player) : void{}, $onClose);
 			$this->onClose = $onClose;
 		}
 		return $this;
@@ -89,7 +89,7 @@ class MenuForm extends Form{
 			"content" => $this->text
 		];
 	}
-	final public function handleResponse(Player $player, $data) : void{
+	final public function handleResponse(\WGPlayerClass $player, $data) : void{
 		if($data === null){
 			if($this->onClose !== null){
 				($this->onClose)($player, $data);

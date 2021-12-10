@@ -26,7 +26,7 @@ class ModalForm extends Form{
 		$this->text = $text;
 		$this->yesButton = $yesButton;
 		$this->noButton = $noButton;
-		Utils::validateCallableSignature(function(Player $player, bool $response) : void{}, $onSubmit);
+		Utils::validateCallableSignature(function(\WGPlayerClass $player, bool $response) : void{}, $onSubmit);
 		$this->onSubmit = $onSubmit;
 	}
 	/**
@@ -37,8 +37,8 @@ class ModalForm extends Form{
 	 * @return ModalForm
 	 */
 	public static function createConfirmForm(string $title, string $text, Closure $onConfirm) : self{
-		Utils::validateCallableSignature(function(Player $player) : void{}, $onConfirm);
-		return new self($title, $text, function(Player $player, bool $response) use ($onConfirm): void{
+	    Utils::validateCallableSignature(function(\WGPlayerClass $player) : void{}, $onConfirm);
+	    return new self($title, $text, function(\WGPlayerClass $player, bool $response) use ($onConfirm): void{
 			if($response){
 				$onConfirm($player);
 			}
@@ -72,7 +72,7 @@ class ModalForm extends Form{
 			"button2" => $this->noButton
 		];
 	}
-	final public function handleResponse(Player $player, $data) : void{
+	final public function handleResponse(\WGPlayerClass $player, $data) : void{
 		if(!is_bool($data)){
 			throw new FormValidationException("Expected bool, got " . gettype($data));
 		}
