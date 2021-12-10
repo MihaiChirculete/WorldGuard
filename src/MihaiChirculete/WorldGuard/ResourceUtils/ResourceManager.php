@@ -1,10 +1,10 @@
 <?php
 
-
 namespace MihaiChirculete\WorldGuard\ResourceUtils;
 
 use pocketmine\Server;
 use MihaiChirculete\WorldGuard\WorldGuard;
+
 
 class ResourceManager
 {
