@@ -7,6 +7,7 @@ use pocketmine\{form\FormValidationException, Player, utils\Utils};
 use function array_merge;
 use function gettype;
 use function is_array;
+
 class CustomForm extends Form{
 	/** @var Element[] */
 	protected $elements;
@@ -25,10 +26,10 @@ class CustomForm extends Form{
 		$this->elements = $elements;
 		$this->onSubmit = $onSubmit;
 		$this->onClose = $onClose;
-		Utils::validateCallableSignature(function(Player $player, CustomFormResponse $response) : void{}, $onSubmit);
+		Utils::validateCallableSignature(function(\WGPlayerClass $player, CustomFormResponse $response) : void{}, $onSubmit);
 		$this->onSubmit = $onSubmit;
 		if($onClose !== null){
-			Utils::validateCallableSignature(function(Player $player) : void{}, $onClose);
+		    Utils::validateCallableSignature(function(\WGPlayerClass $player) : void{}, $onClose);
 			$this->onClose = $onClose;
 		}
 	}
@@ -53,7 +54,8 @@ class CustomForm extends Form{
 	protected function serializeFormData() : array{
 		return ["content" => $this->elements];
 	}
-	final public function handleResponse(Player $player, $data) : void{
+
+	final public function handleResponse(\WGPlayerClass $player, $data) : void{
 		if($data === null){
 			if($this->onClose !== null){
 				($this->onClose)($player);

@@ -3,15 +3,14 @@
 
 namespace MihaiChirculete\WorldGuard;
 use pocketmine\utils\TextFormat as TF;
-use pocketmine\Player;
 use pocketmine\command\CommandSender;
-use pocketmine\command\ConsoleCommandSender;
+//use pocketmine\command\ConsoleCommandSender;
 use MihaiChirculete\WorldGuard\forms\{CustomForm, CustomFormResponse, MenuForm};
 use MihaiChirculete\WorldGuard\elements\{Button, Dropdown, Image, Input, Label, Toggle};
 
 class GUI
 {
-
+/*
     public static $currentlyEditedRg = "";
 
     public static function displayMenu(CommandSender $issuer)
@@ -23,7 +22,6 @@ class GUI
             "§9§l". $lang["gui_wg_menu_title"], $lang["gui_label_choose_option"], [new Button("§6§l". $lang["gui_btn_rg_management"], new Image("textures/items/book_writable", "path")),
             new Button("§5§l". $lang["gui_btn_help"])],
             function(Player $player, Button $selected) : void{
-
                 switch ($selected->getValue())
                 {
                     case 0:
@@ -37,17 +35,17 @@ class GUI
         ));
     }
 
-    public static function displayRgManagement(Player $issuer)
+    public static function displayRgManagement(\WGPlayerClass $issuer)
     {
         $lang = Utils::getPluginFromIssuer($issuer)->resourceManager->getLanguagePack();
 
         $issuer->sendForm(new MenuForm(
-            "§9§l" . $lang["gui_btn_rg_management"], $lang["gui_label_choose_option"],
+            "Â§9Â§l" . $lang["gui_btn_rg_management"], $lang["gui_label_choose_option"],
             [new Button($lang["gui_btn_manage_existing"]),
             new Button($lang["gui_btn_create_region"]),
             new Button($lang["gui_btn_redefine_region"]),
             new Button($lang["gui_btn_delete_region"])],
-            function(Player $player, Button $selected) : void{
+            function(\WGPlayerClass $player, Button $selected) : void{
 
                 switch ($selected->getValue())
                 {
@@ -68,11 +66,11 @@ class GUI
         ));
     }
 
-    public static function displayRgCreation(Player $issuer)
+    public static function displayRgCreation(\WGPlayerClass $issuer)
     {
         $lang = Utils::getPluginFromIssuer($issuer)->resourceManager->getLanguagePack();
 
-        $issuer->sendForm(new CustomForm("§9§l" . $lang["gui_creation_menu_title"],
+        $issuer->sendForm(new CustomForm("Â§9Â§l" . $lang["gui_creation_menu_title"],
             [
                 new Label($lang["gui_creation_menu_label1"]),
                 new Input($lang["gui_creation_menu_rg_name_box"], "MyRegion"),
@@ -80,7 +78,8 @@ class GUI
                 new Toggle($lang["gui_creation_menu_toggle_expand"], false),
                 new Label($lang["gui_creation_menu_label3"])
             ],
-            function(Player $player, CustomFormResponse $response) : void{
+            function(\WGPlayerClass $player, CustomFormResponse $response) : void{
+
                 list($rgName, $extended) = $response->getValues();
                 if($extended === true)
                     $player->getServer()->dispatchCommand($player, "rg create $rgName extended");
@@ -90,7 +89,7 @@ class GUI
         ));
     }
 
-    public static function displayRgRedefine(Player $issuer)
+    public static function displayRgRedefine(\WGPlayerClass $issuer)
     {
         $lang = Utils::getPluginFromIssuer($issuer)->resourceManager->getLanguagePack();
 
@@ -99,18 +98,18 @@ class GUI
             $regions[$key] = strval($value);
         }
 
-        $issuer->sendForm(new CustomForm("§9§l" . $lang["gui_btn_rg_management"],
+        $issuer->sendForm(new CustomForm("Â§9Â§l" . $lang["gui_btn_rg_management"],
             [
                 new Dropdown($lang["gui_dropdown_select_redefine"], $regions),
             ],
-            function(Player $player, CustomFormResponse $response) : void{
+            function(\WGPlayerClass $player, CustomFormResponse $response) : void{
                 list($rgName) = $response->getValues();
                 $player->getServer()->dispatchCommand($player, "rg redefine $rgName");
             }
         ));
     }
 
-    public static function displayRgDelete(Player $issuer)
+    public static function displayRgDelete(\WGPlayerClass $issuer)
     {
         $lang = Utils::getPluginFromIssuer($issuer)->resourceManager->getLanguagePack();
 
@@ -119,18 +118,17 @@ class GUI
             $regions[$key] = strval($value);
         }
 
-        $issuer->sendForm(new CustomForm("§9§l" . $lang["gui_btn_rg_management"],
+        $issuer->sendForm(new CustomForm("Â§9Â§l" . $lang["gui_btn_rg_management"],
             [
                 new Dropdown($lang["gui_dropdown_select_delete"], $regions),
             ],
-            function(Player $player, CustomFormResponse $response) : void{
+            function(\WGPlayerClass $player, CustomFormResponse $response) : void{
                 list($rgName) = $response->getValues();
                 $player->getServer()->dispatchCommand($player, "rg delete $rgName");
             }
         ));
     }
-
-    public static function displayExistingRegions(Player $issuer)
+    public static function displayExistingRegions(\WGPlayerClass $issuer)
     {
         $lang = Utils::getPluginFromIssuer($issuer)->resourceManager->getLanguagePack();
         $regions = array_keys($issuer->getServer()->getPluginManager()->getPlugin("WorldGuard")->getRegions());
@@ -138,25 +136,25 @@ class GUI
             $regions[$key] = strval($value);
         }
 
-        $issuer->sendForm(new CustomForm("§9§l" . $lang["gui_btn_rg_management"],
+        $issuer->sendForm(new CustomForm("Â§9Â§l" . $lang["gui_btn_rg_management"],
             [
                 new Dropdown($lang["gui_dropdown_select_manage"], $regions),
             ],
-            function(Player $player, CustomFormResponse $response) : void{
+            function(\WGPlayerClass $player, CustomFormResponse $response) : void{
                 list($rgName) = $response->getValues();
                 self::displayRgEditing($player, $rgName);
             }
         ));
     }
 
-    public static function displayRgEditing(Player $issuer, $rgName)
+    public static function displayRgEditing(\WGPlayerClass $issuer, $rgName)
     {
         $rg = $issuer->getServer()->getPluginManager()->getPlugin("WorldGuard")->getRegion($rgName);
         self::$currentlyEditedRg = $rgName;
 
         $lang = Utils::getPluginFromIssuer($issuer)->resourceManager->getLanguagePack();
 
-        $issuer->sendForm(new CustomForm($lang["gui_manage_menu_title"] . " §9" . $rgName,
+        $issuer->sendForm(new CustomForm($lang["gui_manage_menu_title"] . " Â§9" . $rgName,
             [
                 new Toggle($lang["gui_flag_pluginbypass"], filter_var($rg->getFlag("pluginbypass"), FILTER_VALIDATE_BOOLEAN)),
                 new Toggle($lang["gui_flag_deny_message"], filter_var($rg->getFlag("deny-msg"), FILTER_VALIDATE_BOOLEAN)),
@@ -179,6 +177,7 @@ class GUI
                 // add flag for allowed commands
                 new Toggle($lang["gui_flag_usage"], filter_var($rg->getFlag("use"), FILTER_VALIDATE_BOOLEAN)),
                 new Toggle($lang["gui_flag_item_drop"], filter_var($rg->getFlag("item-drop"), FILTER_VALIDATE_BOOLEAN)),
+
                 new Toggle($lang["gui_flag_item_death_drop"], filter_var($rg->getFlag("item-by-death"), FILTER_VALIDATE_BOOLEAN)),
                 new Toggle($lang["gui_flag_explosions"], filter_var($rg->getFlag("explosion"), FILTER_VALIDATE_BOOLEAN)),
                 new Input($lang["gui_flag_notify_enter"], $rg->getFlag("notify-enter")),
@@ -202,13 +201,13 @@ class GUI
                 new Toggle($lang["gui_flag_block_burn"], filter_var($rg->getFlag("allow-block-burn"), FILTER_VALIDATE_BOOLEAN)),
                 new Input($lang["gui_flag_priority"], filter_var($rg->getFlag("priority"), FILTER_VALIDATE_INT))
             ],
-            function(Player $player, CustomFormResponse $response) : void{
+            function(\WGPlayerClass $player, CustomFormResponse $response) : void{
                 list($pluginBypass, $denyMessage, $blockBreak, $blockPlace, $pvpFlag, $xpFlag, $invincibleFlag, $fallDmgFlag, $effectsFlag,
                     $useFlag, $itemDropFlag, $itemDeathDropFlag, $explosionsFlag, $notifyEnterFlag, $notifyLeaveFlag, $potionsFlag, 
                     $allowEnterFlag, $allowLeaveFlag, $gamemodeFlag, $sleepFlag, $sendChatFlag, $receiveChatFlag, $enderPearlFlag, 
                     $flyModeFlag, $eatingFlag, $HungerFlag, $damageAnimalsFlag, $damageMonstersFlag, 
                     $leafDecayFlag, $plantGrowthFlag, $spreadingFlag, $blockBurnFlag, $priorityFlag) = $response->getValues();
-
+              
                 $lang = Utils::getPluginFromIssuer($player)->resourceManager->getLanguagePack();
 
                 $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" pluginbypass " . var_export($pluginBypass, true));
@@ -359,18 +358,19 @@ class GUI
         ));
     }
 
-    public static function displayHelpMenu(Player $issuer)
+    public static function displayHelpMenu(\WGPlayerClass $issuer)
     {
         $plugin = Utils::getPluginFromIssuer($issuer);
         $lang = $plugin->resourceManager->getLanguagePack();
 
-        $issuer->sendForm(new CustomForm("§9§l" . $lang["gui_btn_help"],
+        $issuer->sendForm(new CustomForm("Â§9Â§l" . $lang["gui_btn_help"],
             [
                 new Label($lang["gui_help_menu_label1"]),
                 new Label($lang["gui_help_menu_label2"]),
             ],
-            function(Player $player, CustomFormResponse $response) : void{}
+            function(\WGPlayerClass $player, CustomFormResponse $response) : void{}
         ));
 
     }
+    */
 }
