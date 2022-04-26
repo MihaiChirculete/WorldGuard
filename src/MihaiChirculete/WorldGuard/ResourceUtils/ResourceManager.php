@@ -11,13 +11,14 @@ class ResourceManager
     /** Only 1 instance of this class will be allowed at all times */
     private static $instance = null;
     private $resUpdaterInstance = null;
-    private $pluginInstance = null;
+    public ?WorldGuard $pluginInstance;
     private $serverInstance = null;
     private $pluginVersion = null;
     private $messages = [];
     private $lang = [];
     private $config = [];
     private $regions = [];
+
     private function __construct(WorldGuard $plugin, Server $sv)
     {
         $this->pluginInstance = $plugin;
@@ -26,9 +27,10 @@ class ResourceManager
 
         $this->pluginVersion = $this->pluginInstance->getDescription()->getVersion();
     }
-    public static function getInstance(WorldGuard $plugin, Server $sv)
+
+    public static function getInstance(WorldGuard $plugin = null, Server $sv = null) : ResourceManager
     {
-        if(ResourceManager::$instance === null)
+        if (ResourceManager::$instance === null)
             ResourceManager::$instance = new ResourceManager($plugin, $sv);
 
         return ResourceManager::$instance;
@@ -69,15 +71,34 @@ class ResourceManager
         $this->baseLang = new BaseLang($lang, $this->getFile() . "resources/");
     }
     }*/
-    public function getConfig() { return $this->config; }
-    public function getLanguagePack() { return $this->lang; }
-    public function getMessages() { return $this->messages; }
-    public function getRegions() : array { return $this->regions; }
-    public function getPluginVersion() { return $this->pluginVersion; }
+    public function getConfig()
+    {
+        return $this->config;
+    }
+
+    public function getLanguagePack()
+    {
+        return $this->lang;
+    }
+
+    public function getMessages()
+    {
+        return $this->messages;
+    }
+
+    public function getRegions(): array
+    {
+        return $this->regions;
+    }
+
+    public function getPluginVersion()
+    {
+        return $this->pluginVersion;
+    }
 
     public function getConfigVersion()
     {
-        if(isset($this->config['version']))
+        if (isset($this->config['version']))
             return $this->config['version'];
 
         return null;
@@ -85,7 +106,7 @@ class ResourceManager
 
     public function getLanguagePackVersion()
     {
-        if(isset($this->lang['version']))
+        if (isset($this->lang['version']))
             return $this->lang['version'];
 
         return null;
@@ -93,7 +114,7 @@ class ResourceManager
 
     public function getMessagesVersion()
     {
-        if(isset($this->messages['version']))
+        if (isset($this->messages['version']))
             return $this->messages['version'];
 
         return null;
@@ -116,21 +137,22 @@ class ResourceManager
         /**
          * load regions if file exists and if not create a file
          */
-        if (is_file($path.'regions.yml')) {
-            $this->regions = yaml_parse_file($path.'regions.yml');
+        if (is_file($path . 'regions.yml')) {
+            $this->regions = yaml_parse_file($path . 'regions.yml');
         } else {
-            yaml_emit_file($path.'regions.yml', []);
+            yaml_emit_file($path . 'regions.yml', []);
         }
     }
 
-    public function saveRegions($regions){
+    public function saveRegions($regions): bool
+    {
         $this->regions = $regions;
 
         $data = [];
         foreach ($regions as $name => $region) {
             $data[$name] = $region->toArray();
         }
-        yaml_emit_file($this->pluginInstance->getDataFolder().'regions.yml', $data);
+        yaml_emit_file($this->pluginInstance->getDataFolder() . 'regions.yml', $data);
         return true;
     }
 
@@ -139,15 +161,15 @@ class ResourceManager
         /**
          * load config if file exists and if not create a file
          */
-        if (is_file($path.'config.yml')) {
-            $this->config = yaml_parse_file($path.'config.yml');
+        if (is_file($path . 'config.yml')) {
+            $this->config = yaml_parse_file($path . 'config.yml');
         } else {
             $this->config = $this->resUpdaterInstance->getDefaultConfig();
 
-            yaml_emit_file($path.'config.yml', $this->config);
+            yaml_emit_file($path . 'config.yml', $this->config);
         }
     }
-    
+
 
     public function loadLanguagePack()
     {
@@ -158,16 +180,16 @@ class ResourceManager
             //use en lang file
             $langFile = "lang_en.yml";
             $this->config["language"] = "en";
-            yaml_emit_file($path.'config.yml', $this->config);
+            yaml_emit_file($path . 'config.yml', $this->config);
             //create default en lang file
             if (!is_file($path . $langFile) && !$this->pluginInstance->saveResource($langFile)) {
                 $this->lang = $this->resUpdaterInstance->getDefaultLanguagePack();
-                yaml_emit_file($path.'lang_en.yml', $this->lang);
+                yaml_emit_file($path . 'lang_en.yml', $this->lang);
                 return;
             }
         }
         // load language
-        $this->lang =  yaml_parse_file($path . $langFile);
+        $this->lang = yaml_parse_file($path . $langFile);
     }
 
     public function loadMessages($path)
@@ -175,14 +197,12 @@ class ResourceManager
         /**
          * load messages if file exists and if not write the default ones
          */
-        if(is_file($path.'messages.yml'))
-        {
-            $this->messages = yaml_parse_file($path.'messages.yml');
-        }
-        else{
+        if (is_file($path . 'messages.yml')) {
+            $this->messages = yaml_parse_file($path . 'messages.yml');
+        } else {
             $this->messages = $this->resUpdaterInstance->getDefaultMessages();
 
-            yaml_emit_file($path.'messages.yml', $this->messages);
+            yaml_emit_file($path . 'messages.yml', $this->messages);
         }
     }
 
@@ -191,7 +211,7 @@ class ResourceManager
         $this->config = $config;
 
         $path = $this->pluginInstance->getDataFolder();
-        yaml_emit_file($path.'config.yml', $this->config);
+        yaml_emit_file($path . 'config.yml', $this->config);
     }
 
     public function saveMessages($messages)
@@ -199,7 +219,7 @@ class ResourceManager
         $this->messages = $messages;
 
         $path = $this->pluginInstance->getDataFolder();
-        yaml_emit_file($path.'messages.yml', $this->messages);
+        yaml_emit_file($path . 'messages.yml', $this->messages);
     }
 
     public function saveLanguagePack($langPack)

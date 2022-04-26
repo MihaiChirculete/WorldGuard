@@ -11,11 +11,11 @@ class ResourceUpdater
 {
     /** Only 1 instance of this class will be allowed at all times */
     private static $instance = null;
-    private $resourceManagerInstance = null;
+    private ?ResourceManager $resourceManagerInstance = null;
 
-    private $defaultConfig = null;
-    private $defaultMessages = null;
-    private $defaultLanguagePack = null;
+    private ?array $defaultConfig = null;
+    private ?array $defaultMessages = null;
+    private ?array $defaultLanguagePack = null;
 
     private function __construct(ResourceManager $resourceManagerInstance)
     {
@@ -28,7 +28,7 @@ class ResourceUpdater
             "knockback" => 4,
             "debugging" => false);
 
-        $this->defaultMessages = array (
+        $this->defaultMessages = array(
             "version" => $this->resourceManagerInstance->getPluginVersion(),
             "denied-enter" => "You cannot enter this area.",
             "denied-leave" => "You cannot leave this area.",
@@ -140,73 +140,83 @@ class ResourceUpdater
 
     public static function getInstance(ResourceManager $resourceManagerInstance)
     {
-        if(ResourceUpdater::$instance === null)
+        if (ResourceUpdater::$instance === null)
             ResourceUpdater::$instance = new ResourceUpdater($resourceManagerInstance);
 
         return ResourceUpdater::$instance;
     }
 
     /** Helper functions to check if a resource file is outdated */
-    public function isConfigResourceOutdated() : bool
+    public function isConfigResourceOutdated(): bool
     {
         $ver = $this->resourceManagerInstance->getConfigVersion();
 
         /** Old versions do not have this field so if its not set its obviously an outdated one */
-        if($ver === null)
+        if ($ver === null)
             return true;
 
-        if($ver !== $this->resourceManagerInstance->getPluginVersion())
+        if ($ver !== $this->resourceManagerInstance->getPluginVersion())
             return true;
 
         return false;
     }
 
-    public function isMessagesResourceOutdated() : bool
+    public function isMessagesResourceOutdated(): bool
     {
         $ver = $this->resourceManagerInstance->getMessagesVersion();
 
         /** Old versions do not have this field so if its not set its obviously an outdated one */
-        if($ver === null)
+        if ($ver === null)
             return true;
 
-        if($ver !== $this->resourceManagerInstance->getPluginVersion())
+        if ($ver !== $this->resourceManagerInstance->getPluginVersion())
             return true;
 
         return false;
     }
 
-    public function isLanguagePackResourceOutdated() : bool
+    public function isLanguagePackResourceOutdated(): bool
     {
         $ver = $this->resourceManagerInstance->getLanguagePackVersion();
 
         /** Old versions do not have this field so if its not set its obviously an outdated one */
-        if($ver === null)
+        if ($ver === null)
             return true;
 
-        if($ver !== $this->resourceManagerInstance->getPluginVersion())
+        if ($ver !== $this->resourceManagerInstance->getPluginVersion())
             return true;
 
         return false;
     }
+
     /****************************************************************** */
 
-    public function getDefaultConfig() { return $this->defaultConfig; }
-    public function getDefaultMessages() { return $this->defaultMessages; }
-    public function getDefaultLanguagePack() { return $this->defaultLanguagePack; }
+    public function getDefaultConfig()
+    {
+        return $this->defaultConfig;
+    }
+
+    public function getDefaultMessages()
+    {
+        return $this->defaultMessages;
+    }
+
+    public function getDefaultLanguagePack()
+    {
+        return $this->defaultLanguagePack;
+    }
 
     /** For each resource file check it's version and if it doesn't match have it updated */
     public function updateResourcesIfRequired($forceUpdate = false)
     {
-        if($this->isConfigResourceOutdated() || $forceUpdate === true)
-        {
+        if ($this->isConfigResourceOutdated() || $forceUpdate === true) {
             $oldConfig = $this->resourceManagerInstance->getConfig();
 
             $newConfigKeys = array_keys($this->getDefaultConfig());
 
             /** If a key from the new config is not present in the old config, then add it */
-            foreach ($newConfigKeys as $key)
-            {
-                if(!isset($oldConfig[$key]))
+            foreach ($newConfigKeys as $key) {
+                if (!isset($oldConfig[$key]))
                     $oldConfig[$key] = $this->getDefaultConfig()[$key];
             }
 
@@ -216,14 +226,12 @@ class ResourceUpdater
             $this->resourceManagerInstance->saveConfig($oldConfig);
         }
 
-        if($this->isMessagesResourceOutdated() || $forceUpdate === true)
-        {
+        if ($this->isMessagesResourceOutdated() || $forceUpdate === true) {
             $oldMessages = $this->resourceManagerInstance->getMessages();
 
             $newMessagesKeys = array_keys($this->getDefaultMessages());
-            foreach ($newMessagesKeys as $key)
-            {
-                if(!isset($oldMessages[$key]))
+            foreach ($newMessagesKeys as $key) {
+                if (!isset($oldMessages[$key]))
                     $oldMessages[$key] = $this->getDefaultMessages()[$key];
             }
 
@@ -232,14 +240,12 @@ class ResourceUpdater
             $this->resourceManagerInstance->saveMessages($oldMessages);
         }
 
-        if($this->isLanguagePackResourceOutdated() || $forceUpdate === true)
-        {
+        if ($this->isLanguagePackResourceOutdated() || $forceUpdate === true) {
             $oldLangPack = $this->resourceManagerInstance->getLanguagePack();
 
             $newLangPackKeys = array_keys($this->getDefaultLanguagePack());
-            foreach ($newLangPackKeys as $key)
-            {
-                if(!isset($oldLangPack[$key]))
+            foreach ($newLangPackKeys as $key) {
+                if (!isset($oldLangPack[$key]))
                     $oldLangPack[$key] = $this->getDefaultLanguagePack()[$key];
             }
 
