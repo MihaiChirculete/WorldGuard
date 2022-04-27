@@ -283,8 +283,7 @@ class WorldGuard extends PluginBase
             if ($old !== "") {
                 if ($old->getFlag("console-cmd-on-leave") !== "none") {
                     $cmd = str_replace("%player%", $player->getName(), $old->getFlag("console-cmd-on-leave"));
-                    //TODO: Fix this!
-                 //   $player->getServer()->dispatchCommand(new ConsoleCommandSender(), $cmd);
+                    $player->getServer()->dispatchCommand(new ConsoleCommandSender(Server::getInstance(), Server::getInstance()->getLanguage()), $cmd);
                 }
                 if ($old->getFlag("allowed-leave") === "false") {
                     if (! $player->hasPermission("worldguard.leave." . $oldregion)) {
@@ -320,8 +319,7 @@ class WorldGuard extends PluginBase
             if ($new !== "") {
                 if ($new->getFlag("console-cmd-on-enter") !== "none") {
                     $cmd = str_replace("%player%", $player->getName(), $new->getFlag("console-cmd-on-enter"));
-                    //TODO: Fix This!
-                    //$player->getServer()->dispatchCommand(new ConsoleCommandSender(), $cmd);
+                    $player->getServer()->dispatchCommand(new ConsoleCommandSender(Server::getInstance(), Server::getInstance()->getLanguage()), $cmd);
                 }
 
                 if ($new->getFlag("allowed-enter") === "false") {
