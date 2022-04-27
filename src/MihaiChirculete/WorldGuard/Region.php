@@ -24,9 +24,11 @@ namespace MihaiChirculete\WorldGuard;
 
 use pocketmine\Server;
 use pocketmine\math\Vector3;
-use pocketmine\level\Level;
+use pocketmine\world\World;
 use pocketmine\utils\TextFormat as TF;
-use pocketmine\entity\{Effect, EffectInstance};
+use pocketmine\entity\effect\Effect;
+use pocketmine\entity\effect\EffectInstance;
+use pocketmine\entity\effect\VanillaEffects;
 
 class Region {
 
@@ -54,12 +56,12 @@ class Region {
         $this->flags = $flags;
 
         foreach ($this->flags["effects"] as $id => $amplifier) {
-            $this->effects[$id] = new EffectInstance(Effect::getEffect($id), 999999999, $amplifier, false);
+            $this->effects[$id] = new EffectInstance((VanillaEffects::$id), 999999999, $amplifier, false);
         }
 
         $this->vector1 = new Vector3(...$pos1);
         $this->vector2 = new Vector3(...$pos2);
-        $this->level = Server::getInstance()->getLevelByName($level);
+        $this->level = Server::getInstance()->getWorldManager()->getWorldByName($level);
     }
 
     public function getPos1() : array
@@ -92,9 +94,9 @@ class Region {
         return $this->name;
     }
 
-    public function getLevel() : Level
+    public function getWorld() : World
     {
-        return $this->level;
+        return $this->world;
     }
 
     public function getFlags() : array
@@ -124,7 +126,7 @@ class Region {
                 if (is_numeric($avalue[1])) {
                     $this->flags["effects"][$value] = $avalue[1];
                     $effectType = Effect::getEffect($value);
-                    $this->effects[$value] = new EffectInstance($effectType, 999999999, --$avalue[1], false);
+                    $this->effects[$value] = new Effect($effectType, 999999999, --$avalue[1], false);
                     return TF::YELLOW.'Added "'.($this->effects[$value])->getType()->getName().' '.Utils::getRomanNumber(++$avalue[1]).'" effect to "'.$this->name.'" region.';
                 } else {
                     return TF::RED."Amplifier must be numerical.\n".TF::GRAY.'Example: /region flags set '.$this->name.' '.$value.' 1';
@@ -132,7 +134,8 @@ class Region {
 
             } else {
                 $this->flags["effects"][$value] = 0;
-                $this->effects[$value] = new EffectInstance(Effect::getEffect($value), 999999999, 0);
+                $this->effects[$value] = new EffectInstance(VanillaEffects::$value, 999999999, 0);
+               // $this->effects[$value] = new Effect(Effect::getEffect($value), 999999999, 0);
                 return TF::YELLOW.'Added "'.($this->effects[$value])->getId().'" effect to "'.$this->name.'" region.';
             }
             return;
