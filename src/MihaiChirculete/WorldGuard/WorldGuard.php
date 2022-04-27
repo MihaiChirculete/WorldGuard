@@ -25,6 +25,7 @@ use pocketmine\plugin\PluginBase;
 use pocketmine\command\{Command,CommandSender};
 use pocketmine\utils\TextFormat as TF;
 use pocketmine\player\Player;
+use pocketmine\player\GameMode;
 use pocketmine\world\Position;
 use pocketmine\permission\{Permission,PermissionManager,PermissionParser};
 use MihaiChirculete\WorldGuard\ResourceUtils\{ResourceManager,ResourceUpdater};
