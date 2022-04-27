@@ -4,8 +4,9 @@ api: [4.0.0]
 version: 1.3
 author: MihaiChirculete
 website: https://github.com/MihaiChirculete/WorldGuard
-load: STARTUP
+
 softdepend: ["RedstoneCircuit"]
+
 commands:
   worldguard:
     description: "Opens up the User Interface of WorldGuard."
