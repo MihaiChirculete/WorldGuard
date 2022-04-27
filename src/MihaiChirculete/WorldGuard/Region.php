@@ -114,6 +114,7 @@ class Region {
     {
         $value = $avalue[0];
 
+        /*Effects does not work properly
         if ($flag === "effects") {
             if (!is_numeric($value)) {
                 return TF::RED."Value of effect flag must be numeric.";
@@ -139,7 +140,7 @@ class Region {
                 return TF::YELLOW.'Added "'.($this->effects[$value])->getId().'" effect to "'.$this->name.'" region.';
             }
             return;
-        }
+        } */
 
         switch (WorldGuard::FLAG_TYPE[$flag]) {
             case "integer":
