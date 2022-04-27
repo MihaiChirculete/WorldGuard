@@ -157,7 +157,9 @@ class WorldGuard extends PluginBase
                 $this->regions[$name] = new Region($name, $data["pos1"], $data["pos2"], $data["level"], $data["flags"]);
             }
         }
+
         $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
+
         foreach ($this->getServer()->getOnlinePlayers() as $p) {
             $this->sessionizePlayer($p);
         }
@@ -210,6 +212,7 @@ class WorldGuard extends PluginBase
         $name = $this->getRegionNameFromPosition($pos);
         return $name !== "" ? $this->getRegion($name) : "";
     }
+
     public function getRegionNameFromPosition(Position $pos): string
     {
         $currentRegion = "";
@@ -267,7 +270,6 @@ class WorldGuard extends PluginBase
         if ($player instanceof Player) {
             if ($this->resourceManager->getConfig()["debugging"] === true) {
                 if (gettype($new) === "string") {
-
                     $this->getLogger()->info("New Region is empty");
                 } else {
                     $this->getLogger()->info("New Region: " . $new->getName());
@@ -557,17 +559,15 @@ class WorldGuard extends PluginBase
     {
         switch (strtolower($cmd->getName())) {
             case "worldguard":
-                $issuer->sendMessage("WorldGuard GUI is not currently supported on PocketMine API 4.0.0");
-                $issuer->sendMessage("We are working to fix this ASAP! Please use /rg in the meantime.");
-                // Temporarily disabled the GUI so we can release this version ASAP.
-                /*
-                 * if(!$issuer->hasPermission("worldguard.ui"))
-                 * {
-                 * $issuer->sendMessage($this->resourceManager->getMessages()["no-permission-for-command"]);
-                 * return false;
-                 * }
-                 * GUI::displayMenu($issuer);
-                 */
+                //$issuer->sendMessage("WorldGuard GUI is not currently supported on PocketMine API 4.0.0");
+               // $issuer->sendMessage("We are working to fix this ASAP! Please use /rg in the meantime.");
+                  if(!$issuer->hasPermission("worldguard.ui"))
+                  {
+                  $issuer->sendMessage($this->resourceManager->getMessages()["no-permission-for-command"]);
+                  return false;
+                  }
+                  GUI::displayMenu($issuer);
+
                 break;
             case "region":
                 if (! $issuer->hasPermission("worldguard.create") || ! $issuer->hasPermission("worldguard.modify") || ! $issuer->hasPermission("worldguard.delete")) {
@@ -711,7 +711,6 @@ class WorldGuard extends PluginBase
                                     $this->creating[$id] = [];
                                     $this->process[$id] = $args[1];
                                     $issuer->sendMessage(TF::LIGHT_PURPLE . 'Right-Click two positions to redefine your region (' . $args[1] . ').');
-
                                 }
                             }
                             break;
@@ -800,7 +799,6 @@ class WorldGuard extends PluginBase
                         " ",
                         "§9For additional help and documentation, visit WorldGuard's GitHub page:",
                         "§9https://github.com/MihaiChirculete/WorldGuard/"
-
                     ]));
                 }
                 break;
