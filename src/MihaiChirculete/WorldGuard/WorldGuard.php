@@ -213,8 +213,7 @@ class WorldGuard extends PluginBase
         return $name !== "" ? $this->getRegion($name) : "";
     }
 
-    public function getRegionNameFromPosition(Position $pos): string
-    {
+    public function getRegionNameFromPosition(Position $pos): string {
         $currentRegion = "";
         $highestPriority = - 1;
         // $global = new Position(0,0,0,$pos->getLevel());
@@ -231,23 +230,19 @@ class WorldGuard extends PluginBase
                             if ($highestPriority < intval($region->getFlag("priority"))) {
                                 $highestPriority = intval($region->getFlag("priority"));
                                 $currentRegion = $name;
-
-                           }
+                            }
                         }
                     }
-                }
 
+                }
             }
-            else if ($region->getLevelName() === $pos->getLevel()->getName()) {
         }
         if ($currentRegion == "") {
-            if ($this->regionExists("global." . $pos->getWorld()
-                ->getDisplayName())) {
+            if ($this->regionExists("global." . $pos->getWorld()->getDisplayName())) {
                 $currentRegion = "global." . $pos->getWorld()->getDisplayName();
             }
         }
         return $currentRegion;
-        }
     }
 
     public function onPlayerLogoutRegion(Player $player)
