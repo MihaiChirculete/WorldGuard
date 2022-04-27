@@ -26,8 +26,12 @@ class Dropdown extends Element{
 	/**
 	 * @return string
 	 */
-	public function getSelectedOption() : string{
-		return $this->options[$this->value];
+	public function getSelectedOption(): ?string
+	{
+		if(isset($this->options[$this->value])){
+            	return $this->options[$this->value];
+		}
+		return null;
 	}
 	/**
 	 * @return int
@@ -50,10 +54,10 @@ class Dropdown extends Element{
 			"default" => $this->default
 		];
 	}
-	public function validate($value) : void{
-		parent::validate($value);
-		if(!isset($this->options[$value])){
-			throw new FormValidationException("Option with index $value does not exist in dropdown");
+	public function validate($value): void
+	{
+		if (isset($this->options[$value])) {
+			parent::validate($value);
 		}
 	}
 }
