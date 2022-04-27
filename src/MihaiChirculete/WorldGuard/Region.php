@@ -55,9 +55,9 @@ class Region {
         }
         $this->flags = $flags;
 
-        foreach ($this->flags["effects"] as $id => $amplifier) {
+        /*foreach ($this->flags["effects"] as $id => $amplifier) {
             $this->effects[$id] = new EffectInstance((VanillaEffects::$id), 999999999, $amplifier, false);
-        }
+        }*/
 
         $this->vector1 = new Vector3(...$pos1);
         $this->vector2 = new Vector3(...$pos2);
