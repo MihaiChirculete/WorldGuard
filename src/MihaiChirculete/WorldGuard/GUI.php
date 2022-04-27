@@ -3,15 +3,15 @@
 
 namespace MihaiChirculete\WorldGuard;
 use pocketmine\utils\TextFormat as TF;
-use pocketmine\Player;
+use pocketmine\player\Player;
 use pocketmine\command\CommandSender;
-use pocketmine\command\ConsoleCommandSender;
+//use pocketmine\command\ConsoleCommandSender;
 use MihaiChirculete\WorldGuard\forms\{CustomForm, CustomFormResponse, MenuForm};
 use MihaiChirculete\WorldGuard\elements\{Button, Dropdown, Image, Input, Label, Toggle};
+use pocketmine\console\ConsoleCommandSender;
 
 class GUI
 {
-
     public static $currentlyEditedRg = "";
 
     public static function displayMenu(CommandSender $issuer)
@@ -211,147 +211,147 @@ class GUI
 
                 $lang = Utils::getPluginFromIssuer($player)->resourceManager->getLanguagePack();
 
-                $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" pluginbypass " . var_export($pluginBypass, true));
-                $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" deny-msg " . var_export($denyMessage, true));
-                $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" block-break " . var_export($blockBreak, true));
-                $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" block-place " . var_export($blockPlace, true));
-                $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" pvp " . var_export($pvpFlag, true));
-                $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" exp-drops " . var_export($xpFlag, true));
-                $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" invincible " . var_export($invincibleFlag, true));
-                $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" fall-dmg " . var_export($fallDmgFlag, true));
+                $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" pluginbypass " . var_export($pluginBypass, true));
+                $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" deny-msg " . var_export($denyMessage, true));
+                $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" block-break " . var_export($blockBreak, true));
+                $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" block-place " . var_export($blockPlace, true));
+                $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" pvp " . var_export($pvpFlag, true));
+                $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" exp-drops " . var_export($xpFlag, true));
+                $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" invincible " . var_export($invincibleFlag, true));
+                $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" fall-dmg " . var_export($fallDmgFlag, true));
                 switch ($effectsFlag)
                 {
                     case $lang["gui_effect_delete"]:
-                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 0");
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 0");
                         break;
                     case $lang["gui_effect_speed"]:
-                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 1");
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 1");
                         break;
                     case $lang["gui_effect_slowness"]:
-                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 2");
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 2");
                         break;
                     case $lang["gui_effect_haste"]:
-                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 3");
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 3");
                         break;
                     case $lang["gui_effect_fatigue"]:
-                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 4");
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 4");
                         break;
                     case $lang["gui_effect_strength"]:
-                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 5");
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 5");
                         break;
                     case $lang["gui_effect_healing"]:
-                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 6");
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 6");
                         break;
                     case $lang["gui_effect_damage"]:
-                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 7");
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 7");
                         break;
                     case $lang["gui_effect_jump_boost"]:
-                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 8");
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 8");
                         break;
                     case $lang["gui_effect_nausea"]:
-                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 9");
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 9");
                         break;
                     case $lang["gui_effect_regeneration"]:
-                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 10");
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 10");
                         break;
                     case $lang["gui_effect_resistance"]:
-                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 11");
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 11");
                         break;
                     case $lang["gui_effect_fire_resistance"]:
-                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 12");
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 12");
                         break;
                     case $lang["gui_effect_water_breathing"]:
-                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 13");
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 13");
                         break;
                     case $lang["gui_effect_invisiblilty"]:
-                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 14");
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 14");
                         break;
                     case $lang["gui_effect_blindness"]:
-                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 15");
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 15");
                         break;
                     case $lang["gui_effect_night_vision"]:
-                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 16");
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 16");
                         break;
                     case $lang["gui_effect_hunger"]:
-                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 17");
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 17");
                         break;
                     case $lang["gui_effect_weakness"]:
-                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 18");
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 18");
                         break;
                     case $lang["gui_effect_poison"]:
-                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 19");
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 19");
                         break;
                     case $lang["gui_effect_wither"]:
-                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 20");
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 20");
                         break;
                     case $lang["gui_effect_healthboost"]:
-                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 21");
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 21");
                         break;
                     case $lang["gui_effect_absorption"]:
-                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 22");
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 22");
                         break;
                     case $lang["gui_effect_saturation"]:
-                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 23");
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 23");
                         break;
                     case $lang["gui_effect_leviatation"]:
-                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 24");
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 24");
                         break;
                     case $lang["gui_effect_fatal_poison"]:
-                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 25");
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 25");
                         break;
                     case $lang["gui_effect_conduit_power"]:
-                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 26");
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" effects 26");
                         break;
                 }   
-                $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" use " . var_export($useFlag, true));
-                $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" item-drop " . var_export($itemDropFlag, true));
-                $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" item-by-death " . var_export($itemDeathDropFlag, true));
-                $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" explosion " . var_export($explosionsFlag, true));
-                if($notifyEnterFlag != '' || $notifyEnterFlag != ' '){$player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" notify-enter " . $notifyEnterFlag);}
-                if($notifyLeaveFlag != '' || $notifyLeaveFlag != ' '){$player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" notify-leave " . $notifyLeaveFlag);}
-                $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" potions " . var_export($potionsFlag, true));
-                $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" allowed-enter " . var_export($allowEnterFlag, true));
-                $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" allowed-leave " . var_export($allowLeaveFlag, true));
+                $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" use " . var_export($useFlag, true));
+                $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" item-drop " . var_export($itemDropFlag, true));
+                $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" item-by-death " . var_export($itemDeathDropFlag, true));
+                $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" explosion " . var_export($explosionsFlag, true));
+                if($notifyEnterFlag != '' || $notifyEnterFlag != ' '){$player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" notify-enter " . $notifyEnterFlag);}
+                if($notifyLeaveFlag != '' || $notifyLeaveFlag != ' '){$player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" notify-leave " . $notifyLeaveFlag);}
+                $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" potions " . var_export($potionsFlag, true));
+                $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" allowed-enter " . var_export($allowEnterFlag, true));
+                $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" allowed-leave " . var_export($allowLeaveFlag, true));
                 switch ($gamemodeFlag)
                 {
                     case $lang["gui_gm_survival"]:
-                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" game-mode survival");
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" game-mode survival");
                         break;
                     case $lang["gui_gm_creative"]:
-                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" game-mode creative");
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" game-mode creative");
                         break;
                     case $lang["gui_gm_adventure"]:
-                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" game-mode adventure");
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" game-mode adventure");
                         break;
                 }
-                $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" sleep " . var_export($sleepFlag, true));
-                $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" send-chat " . var_export($sendChatFlag, true));
-                $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" receive-chat " . var_export($receiveChatFlag, true));
-                $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" enderpearl " . var_export($enderPearlFlag, true));
+                $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" sleep " . var_export($sleepFlag, true));
+                $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" send-chat " . var_export($sendChatFlag, true));
+                $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" receive-chat " . var_export($receiveChatFlag, true));
+                $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" enderpearl " . var_export($enderPearlFlag, true));
                 switch ($flyModeFlag)
                 {
                     case "Vanilla":
-                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" fly-mode 0");
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" fly-mode 0");
                         break;
                     case $lang["gui_enabled"]:
-                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" fly-mode 1");
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" fly-mode 1");
                         break;
                     case $lang["gui_disabled"]:
-                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" fly-mode 2");
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" fly-mode 2");
                         break;
                     case "Supervised":
-                        $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" fly-mode 3");
+                        $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" fly-mode 3");
                         break;
                 }
-                $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" eat " . var_export($eatingFlag, true));
-                $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" hunger " . var_export($HungerFlag, true));
-                $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" allow-damage-animals " . var_export($damageAnimalsFlag, true));
-                $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" allow-damage-monsters " . var_export($damageMonstersFlag, true));
-                $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" allow-leaves-decay " . var_export($leafDecayFlag, true));
-                $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" allow-plant-growth " . var_export($plantGrowthFlag, true));
-                $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" allow-spreading " . var_export($spreadingFlag, true));
-                $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" allow-block-burn " . var_export($blockBurnFlag, true));
-                $player->getServer()->dispatchCommand(new ConsoleCommandSender(), "rg flags set \"" . self::$currentlyEditedRg . "\" priority " . intval($priorityFlag));
+                $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" eat " . var_export($eatingFlag, true));
+                $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" hunger " . var_export($HungerFlag, true));
+                $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" allow-damage-animals " . var_export($damageAnimalsFlag, true));
+                $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" allow-damage-monsters " . var_export($damageMonstersFlag, true));
+                $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" allow-leaves-decay " . var_export($leafDecayFlag, true));
+                $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" allow-plant-growth " . var_export($plantGrowthFlag, true));
+                $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" allow-spreading " . var_export($spreadingFlag, true));
+                $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" allow-block-burn " . var_export($blockBurnFlag, true));
+                $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" priority " . intval($priorityFlag));
                 $player->sendMessage(TF::GREEN."Region ".self::$currentlyEditedRg." updated successfully!");
 
                 self::$currentlyEditedRg = "";
