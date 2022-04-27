@@ -144,7 +144,9 @@ class GUI
             ],
             function(Player $player, CustomFormResponse $response) : void{
                 list($rgName) = $response->getValues();
-                self::displayRgEditing($player, $rgName);
+			    if($rgName !== null) {
+				    self::displayRgEditing($player, $rgName);
+			    }
             }
         ));
     }
