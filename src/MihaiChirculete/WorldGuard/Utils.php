@@ -55,12 +55,7 @@ class Utils {
     public static function disableFlight(Player $player)
     {
         $player->setAllowFlight(false);
-        //TODO: Fix This!
-     /* $pk = new SetPlayerGameTypePacket();
-        $pk->gamemode = $player->getGamemode() & 0x01;
-        $player->dataPacket($pk); */
         $player->setFlying(false);
-        $player->sendSettings();
     }
 
     public static function gm2string(int $gm) : string
