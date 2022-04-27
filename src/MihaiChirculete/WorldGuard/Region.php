@@ -55,9 +55,9 @@ class Region {
         }
         $this->flags = $flags;
 
-        foreach ($this->flags["effects"] as $id => $amplifier) {
+        /*foreach ($this->flags["effects"] as $id => $amplifier) {
             $this->effects[$id] = new EffectInstance((VanillaEffects::$id), 999999999, $amplifier, false);
-        }
+        }*/
 
         $this->vector1 = new Vector3(...$pos1);
         $this->vector2 = new Vector3(...$pos2);
@@ -114,6 +114,7 @@ class Region {
     {
         $value = $avalue[0];
 
+        /*Effects does not work properly
         if ($flag === "effects") {
             if (!is_numeric($value)) {
                 return TF::RED."Value of effect flag must be numeric.";
@@ -139,7 +140,7 @@ class Region {
                 return TF::YELLOW.'Added "'.($this->effects[$value])->getId().'" effect to "'.$this->name.'" region.';
             }
             return;
-        }
+        } */
 
         switch (WorldGuard::FLAG_TYPE[$flag]) {
             case "integer":

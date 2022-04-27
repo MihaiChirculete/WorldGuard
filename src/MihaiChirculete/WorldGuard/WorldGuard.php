@@ -31,7 +31,6 @@ use MihaiChirculete\WorldGuard\ResourceUtils\{ResourceManager,ResourceUpdater};
 
 class WorldGuard extends PluginBase
 {
-
     const FLAGS = [
         "pluginbypass" => "false",
         "deny-msg" => "true",
@@ -158,9 +157,9 @@ class WorldGuard extends PluginBase
                 $this->regions[$name] = new Region($name, $data["pos1"], $data["pos2"], $data["level"], $data["flags"]);
             }
         }
-        $this->getServer()
-            ->getPluginManager()
-            ->registerEvents(new EventListener($this), $this);
+
+        $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
+
         foreach ($this->getServer()->getOnlinePlayers() as $p) {
             $this->sessionizePlayer($p);
         }
@@ -232,11 +231,14 @@ class WorldGuard extends PluginBase
                             if ($highestPriority < intval($region->getFlag("priority"))) {
                                 $highestPriority = intval($region->getFlag("priority"));
                                 $currentRegion = $name;
-                            }
+
+                           }
                         }
                     }
                 }
+
             }
+            else if ($region->getLevelName() === $pos->getLevel()->getName()) {
         }
         if ($currentRegion == "") {
             if ($this->regionExists("global." . $pos->getWorld()
@@ -245,6 +247,7 @@ class WorldGuard extends PluginBase
             }
         }
         return $currentRegion;
+        }
     }
 
     public function onPlayerLogoutRegion(Player $player)
@@ -564,6 +567,7 @@ class WorldGuard extends PluginBase
                   return false;
                   }
                   GUI::displayMenu($issuer);
+
                 break;
             case "region":
                 if (! $issuer->hasPermission("worldguard.create") || ! $issuer->hasPermission("worldguard.modify") || ! $issuer->hasPermission("worldguard.delete")) {
