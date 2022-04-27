@@ -23,11 +23,13 @@ namespace MihaiChirculete\WorldGuard;
 
 use pocketmine\plugin\PluginBase;
 use pocketmine\command\{Command,CommandSender};
+use pocketmine\console\ConsoleCommandSender;
+use pocketmine\Server;
 use pocketmine\utils\TextFormat as TF;
 use pocketmine\player\Player;
 use pocketmine\player\GameMode;
 use pocketmine\world\Position;
-use pocketmine\permission\{Permission,PermissionManager,PermissionParser};
+use pocketmine\permission\{DefaultPermissions,Permission,PermissionManager,PermissionParser};
 use MihaiChirculete\WorldGuard\ResourceUtils\{ResourceManager,ResourceUpdater};
 
 class WorldGuard extends PluginBase
