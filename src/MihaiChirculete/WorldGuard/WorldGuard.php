@@ -332,18 +332,18 @@ class WorldGuard extends PluginBase
                         if ($gm !== "false") {
                             if ($gm == "0" || $gm == "1" || $gm == "2" || $gm == "3") {
                                 $player->setGamemode($gm);
-                                if ($gm === 0 || $gm === 2)
-                                    Utils::disableFlight($player);
+                                if ($gm === 0 || $gm === 2) 
+                                Utils::disableFlight($player);
                             } else if ($gm == "creative") {
-                                $player->setGamemode(1);
+                                $player->setGamemode(GameMode::CREATIVE());
                             } else if ($gm == "survival") {
-                                $player->setGamemode(0);
+                                $player->setGamemode(GameMode::SURVIVAL());
                                 Utils::disableFlight($player);
                             } else if ($gm == "adventure") {
-                                $player->setGamemode(2);
+                                $player->setGamemode(GameMode::ADVENTURE());
                                 Utils::disableFlight($player);
                             } else if ($gm == "spectator") {
-                                $player->setGamemode(3);
+                                $player->setGamemode(GameMode::SPECTATOR());
                             }
                         }
                     }
@@ -451,99 +451,98 @@ class WorldGuard extends PluginBase
             unset($map[0][3], $map[1][3]);
             $this->regions[$name] = new Region($name, $map[0], $map[1], $level, self::FLAGS);
             unset($this->process[$id], $this->creating[$id]);
-            /*
-             * $permission = new Permission("worldguard.enter." . $name, "Allows player to enter the ".$name." region.", PermissionParser::DEFAULT_OP);
-             * $permission->addParent("worldguard.enter", true);
-             * PermissionManager::getInstance()->addPermission($permission);
-             *
-             * $permission = new Permission("worldguard.leave." . $name, "Allows player to leave the " . $name . " region.", PermissionParser::DEFAULT_OP);
-             * $permission->addParent("worldguard.leave", true);
-             * PermissionManager::getInstance()->addPermission($permission);
-             *
-             * $permission = new Permission("worldguard.place." . $name, "Allows player to build blocks in " . $name . " region.", PermissionParser::DEFAULT_OP);
-             * $permission->addParent("worldguard.place", true);
-             * PermissionManager::getInstance()->addPermission($permission);
-             *
-             * $permission = new Permission("worldguard.block-place." . $name, "Allows player to build blocks in " . $name . " region.", PermissionParser::DEFAULT_OP);
-             * $permission->addParent("worldguard.block-place", true);
-             * PermissionManager::getInstance()->addPermission($permission);
-             *
-             * $permission = new Permission("worldguard.break." . $name, "Allows player to break blocks in " . $name . " region.", PermissionParser::DEFAULT_OP);
-             * $permission->addParent("worldguard.break", true);
-             * PermissionManager::getInstance()->addPermission($permission);
-             *
-             * $permission = new Permission("worldguard.block-break." . $name, "Allows player to break blocks in " . $name . " region.", PermissionParser::DEFAULT_OP);
-             * $permission->addParent("worldguard.block-break", true);
-             * PermissionManager::getInstance()->addPermission($permission);
-             *
-             * $permission = new Permission("worldguard.edit." . $name, "Allows player to edit blocks in " . $name . " region.", PermissionParser::DEFAULT_OP);
-             * $permission->addParent("worldguard.edit", true);
-             * PermissionManager::getInstance()->addPermission($permission);
-             *
-             * $permission = new Permission("worldguard.eat." . $name, "Allows player to eat in " . $name . " region.", PermissionParser::DEFAULT_OP);
-             * $permission->addParent("worldguard.eat", true);
-             * PermissionManager::getInstance()->addPermission($permission);
-             *
-             * $permission = new Permission("worldguard.drop." . $name, "Allows player to drop items in " . $name . " region.", PermissionParser::DEFAULT_OP);
-             * $permission->addParent("worldguard.drop", true);
-             * PermissionManager::getInstance()->addPermission($permission);
-             *
-             * $permission = new Permission("worldguard.usechest." . $name, "Allows player to use chests in " . $name . " region.", PermissionParser::DEFAULT_OP);
-             * $permission->addParent("worldguard.usechest", true);
-             * PermissionManager::getInstance()->addPermission($permission);
-             *
-             * $permission = new Permission("worldguard.usechestender." . $name, "Allows player to use ender chests in " . $name . " region.", PermissionParser::DEFAULT_OP);
-             * $permission->addParent("worldguard.usechestender", true);
-             * PermissionManager::getInstance()->addPermission($permission);
-             *
-             * $permission = new Permission("worldguard.usetrappedchest." . $name, "Allows player to use trapped chests in " . $name . " region.", PermissionParser::DEFAULT_OP);
-             * $permission->addParent("worldguard.usetrappedchest", true);
-             * PermissionManager::getInstance()->addPermission($permission);
-             *
-             * $permission = new Permission("worldguard.enchantingtable." . $name, "Allows player to use enchanting table in " . $name . " region.", PermissionParser::DEFAULT_OP);
-             * $permission->addParent("worldguard.enchantingtable", true);
-             * PermissionManager::getInstance()->addPermission($permission);
-             *
-             * $permission = new Permission("worldguard.usedoors." . $name, "Allows player to use doors in " . $name . " region.", PermissionParser::DEFAULT_OP);
-             * $permission->addParent("worldguard.usedoors", true);
-             * PermissionManager::getInstance()->addPermission($permission);
-             *
-             * $permission = new Permission("worldguard.usetrapdoors." . $name, "Allows player to use trapdoors in " . $name . " region.", PermissionParser::DEFAULT_OP);
-             * $permission->addParent("worldguard.usetrapdoors", true);
-             * PermissionManager::getInstance()->addPermission($permission);
-             *
-             * $permission = new Permission("worldguard.usegates." . $name, "Allows player to use gates in " . $name . " region.", PermissionParser::DEFAULT_OP);
-             * $permission->addParent("worldguard.usegates", true);
-             * PermissionManager::getInstance()->addPermission($permission);
-             *
-             * $permission = new Permission("worldguard.usefurnaces." . $name, "Allows player to use furnaces in " . $name . " region.", PermissionParser::DEFAULT_OP);
-             * $permission->addParent("worldguard.usefurnaces", true);
-             * PermissionManager::getInstance()->addPermission($permission);
-             *
-             * $permission = new Permission("worldguard.useanvil." . $name, "Allows player to use anvils in " . $name . " region.", PermissionParser::DEFAULT_OP);
-             * $permission->addParent("worldguard.useanvil", true);
-             * PermissionManager::getInstance()->addPermission($permission);
-             *
-             * $permission = new Permission("worldguard.usecauldron." . $name, "Allows player to use cauldron in " . $name . " region.", PermissionParser::DEFAULT_OP);
-             * $permission->addParent("worldguard.usecauldron", true);
-             * PermissionManager::getInstance()->addPermission($permission);
-             *
-             * $permission = new Permission("worldguard.usebrewingstand." . $name, "Allows player to use brewing stands in " . $name . " region.", PermissionParser::DEFAULT_OP);
-             * $permission->addParent("worldguard.usebrewingstand", true);
-             * PermissionManager::getInstance()->addPermission($permission);
-             *
-             * $permission = new Permission("worldguard.usebeacon." . $name, "Allows player to use beacons in " . $name . " region.", PermissionParser::DEFAULT_OP);
-             * $permission->addParent("worldguard.usebeacon", true);
-             * PermissionManager::getInstance()->addPermission($permission);
-             *
-             * $permission = new Permission("worldguard.usepressureplate." . $name, "Allows player to use pressureplates in " . $name . " region.", PermissionParser::DEFAULT_OP);
-             * $permission->addParent("worldguard.usepressureplate", true);
-             * PermissionManager::getInstance()->addPermission($permission);
-             *
-             * $permission = new Permission("worldguard.usebutton." . $name, "Allows player to use buttons in " . $name . " region.", PermissionParser::DEFAULT_OP);
-             * $permission->addParent("worldguard.usebutton", true);
-             * PermissionManager::getInstance()->addPermission($permission);
-             */
+
+            $permission = new Permission("worldguard.enter." . $name, "Allows player to enter the ".$name." region.", [PermissionParser::DEFAULT_OP]);
+            //$permission->addParent("worldguard.enter", true);
+            PermissionManager::getInstance()->addPermission($permission);
+             
+            $permission = new Permission("worldguard.leave." . $name, "Allows player to leave the " . $name . " region.", [PermissionParser::DEFAULT_OP]);
+            //$permission->addParent("worldguard.leave", true);
+            PermissionManager::getInstance()->addPermission($permission);
+             
+            $permission = new Permission("worldguard.place." . $name, "Allows player to build blocks in " . $name . " region.", [PermissionParser::DEFAULT_OP]);
+            //$permission->addParent("worldguard.place", true);
+            PermissionManager::getInstance()->addPermission($permission);
+             
+            $permission = new Permission("worldguard.block-place." . $name, "Allows player to build blocks in " . $name . " region.", [PermissionParser::DEFAULT_OP]);
+            //$permission->addParent("worldguard.block-place", true);
+            PermissionManager::getInstance()->addPermission($permission);
+             
+            $permission = new Permission("worldguard.break." . $name, "Allows player to break blocks in " . $name . " region.", [PermissionParser::DEFAULT_OP]);
+            //$permission->addParent("worldguard.break", true);
+            PermissionManager::getInstance()->addPermission($permission);
+             
+            $permission = new Permission("worldguard.block-break." . $name, "Allows player to break blocks in " . $name . " region.", [PermissionParser::DEFAULT_OP]);
+            //$permission->addParent("worldguard.block-break", true);
+            PermissionManager::getInstance()->addPermission($permission);
+             
+            $permission = new Permission("worldguard.edit." . $name, "Allows player to edit blocks in " . $name . " region.", [PermissionParser::DEFAULT_OP]);
+            //$permission->addParent("worldguard.edit", true);
+            PermissionManager::getInstance()->addPermission($permission);
+             
+            $permission = new Permission("worldguard.eat." . $name, "Allows player to eat in " . $name . " region.", [PermissionParser::DEFAULT_OP]);
+            //$permission->addParent("worldguard.eat", true);
+            PermissionManager::getInstance()->addPermission($permission);
+             
+            $permission = new Permission("worldguard.drop." . $name, "Allows player to drop items in " . $name . " region.", [PermissionParser::DEFAULT_OP]);
+            //$permission->addParent("worldguard.drop", true);
+            PermissionManager::getInstance()->addPermission($permission);
+             
+            $permission = new Permission("worldguard.usechest." . $name, "Allows player to use chests in " . $name . " region.", [PermissionParser::DEFAULT_OP]);
+            //$permission->addParent("worldguard.usechest", true);
+            PermissionManager::getInstance()->addPermission($permission);
+             
+            $permission = new Permission("worldguard.usechestender." . $name, "Allows player to use ender chests in " . $name . " region.", [PermissionParser::DEFAULT_OP]);
+            //$permission->addParent("worldguard.usechestender", true);
+            PermissionManager::getInstance()->addPermission($permission);
+             
+            $permission = new Permission("worldguard.usetrappedchest." . $name, "Allows player to use trapped chests in " . $name . " region.", [PermissionParser::DEFAULT_OP]);
+            //$permission->addParent("worldguard.usetrappedchest", true);
+            PermissionManager::getInstance()->addPermission($permission);
+             
+            $permission = new Permission("worldguard.enchantingtable." . $name, "Allows player to use enchanting table in " . $name . " region.", [PermissionParser::DEFAULT_OP]);
+            //$permission->addParent("worldguard.enchantingtable", true);
+            PermissionManager::getInstance()->addPermission($permission);
+             
+            $permission = new Permission("worldguard.usedoors." . $name, "Allows player to use doors in " . $name . " region.", [PermissionParser::DEFAULT_OP]);
+            //$permission->addParent("worldguard.usedoors", true);
+            PermissionManager::getInstance()->addPermission($permission);
+             
+            $permission = new Permission("worldguard.usetrapdoors." . $name, "Allows player to use trapdoors in " . $name . " region.", [PermissionParser::DEFAULT_OP]);
+            //$permission->addParent("worldguard.usetrapdoors", true);
+            PermissionManager::getInstance()->addPermission($permission);
+             
+            $permission = new Permission("worldguard.usegates." . $name, "Allows player to use gates in " . $name . " region.", [PermissionParser::DEFAULT_OP]);
+            //$permission->addParent("worldguard.usegates", true);
+            PermissionManager::getInstance()->addPermission($permission);
+             
+            $permission = new Permission("worldguard.usefurnaces." . $name, "Allows player to use furnaces in " . $name . " region.", [PermissionParser::DEFAULT_OP]);
+            //$permission->addParent("worldguard.usefurnaces", true);
+            PermissionManager::getInstance()->addPermission($permission);
+             
+            $permission = new Permission("worldguard.useanvil." . $name, "Allows player to use anvils in " . $name . " region.", [PermissionParser::DEFAULT_OP]);
+            //$permission->addParent("worldguard.useanvil", true);
+            PermissionManager::getInstance()->addPermission($permission);
+             
+            $permission = new Permission("worldguard.usecauldron." . $name, "Allows player to use cauldron in " . $name . " region.", [PermissionParser::DEFAULT_OP]);
+            //$permission->addParent("worldguard.usecauldron", true);
+            PermissionManager::getInstance()->addPermission($permission);
+             
+            $permission = new Permission("worldguard.usebrewingstand." . $name, "Allows player to use brewing stands in " . $name . " region.", [PermissionParser::DEFAULT_OP]);
+            //$permission->addParent("worldguard.usebrewingstand", true);
+            PermissionManager::getInstance()->addPermission($permission);
+             
+            $permission = new Permission("worldguard.usebeacon." . $name, "Allows player to use beacons in " . $name . " region.", [PermissionParser::DEFAULT_OP]);
+            //$permission->addParent("worldguard.usebeacon", true);
+            PermissionManager::getInstance()->addPermission($permission);
+             
+            $permission = new Permission("worldguard.usepressureplate." . $name, "Allows player to use pressureplates in " . $name . " region.", [PermissionParser::DEFAULT_OP]);
+            //$permission->addParent("worldguard.usepressureplate", true);
+            PermissionManager::getInstance()->addPermission($permission);
+             
+            $permission = new Permission("worldguard.usebutton." . $name, "Allows player to use buttons in " . $name . " region.", [PermissionParser::DEFAULT_OP]);
+            //$permission->addParent("worldguard.usebutton", true);
+            PermissionManager::getInstance()->addPermission($permission);
             $this->resourceManager->saveRegions($this->regions);
             return $name;
         }
@@ -554,8 +553,6 @@ class WorldGuard extends PluginBase
     {
         switch (strtolower($cmd->getName())) {
             case "worldguard":
-                //$issuer->sendMessage("WorldGuard GUI is not currently supported on PocketMine API 4.0.0");
-               // $issuer->sendMessage("We are working to fix this ASAP! Please use /rg in the meantime.");
                   if(!$issuer->hasPermission("worldguard.ui"))
                   {
                   $issuer->sendMessage($this->resourceManager->getMessages()["no-permission-for-command"]);
