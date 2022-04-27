@@ -2,7 +2,8 @@
 declare(strict_types=1);
 namespace MihaiChirculete\WorldGuard\forms;
 use Closure;
-use pocketmine\{form\FormValidationException, Player, utils\Utils};
+use pocketmine\player\Player;
+use pocketmine\{form\FormValidationException, utils\Utils};
 use function gettype;
 use function is_bool;
 class ModalForm extends Form{
