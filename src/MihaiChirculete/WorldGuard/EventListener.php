@@ -83,19 +83,6 @@ class EventListener implements Listener {
                 }
             }
         }
-        if ($event->getItem()->getID() == 368) {
-            $player = $event->getPlayer();
-            if(($region = $this->plugin->getRegionByPlayer($event->getPlayer())) !== ""){
-                if ($region->getFlag("enderpearl") === "false") {
-                    $event->cancel();
-                    //TODO: Fix this flag! It does not work!
-                    if ($region->getFlag("deny-msg") === "true") {
-                        $player->sendMessage(TF::RED. $this->plugin->resourceManager->getMessages()["denied-ender-pearls"]);
-                    }
-                    return false;
-                }
-            }
-        }
         if (isset($this->plugin->creating[$id = ($player = $event->getPlayer())->getUniqueId()->toString()])) {
             if ($event->getAction() === $event::RIGHT_CLICK_BLOCK) {
                 $block = $event->getBlock();
@@ -136,37 +123,37 @@ class EventListener implements Listener {
             if ($reg->getFlag("pluginbypass") === "false") {
                 $block = $event->getBlock()->getId();
                 if ($reg->getFlag("use") === "false") {
-                    if($player->hasPermission("worldguard.usechest." . $reg->getName()) && $block === Block::CHEST)
+                    if($player->hasPermission("worldguard.usechest." . $reg->getName()) && $block === BlockLegacyIds::CHEST)
                         return;
-                    if($player->hasPermission("worldguard.usechestender." . $reg->getName()) && $block === Block::ENDER_CHEST)
+                    if($player->hasPermission("worldguard.usechestender." . $reg->getName()) && $block === BlockLegacyIds::ENDER_CHEST)
                         return;
-                    if($player->hasPermission("worldguard.usetrappedchest." . $reg->getName()) && $block === Block::TRAPPED_CHEST)
+                    if($player->hasPermission("worldguard.usetrappedchest." . $reg->getName()) && $block === BlockLegacyIds::TRAPPED_CHEST)
                         return;
-                    if($player->hasPermission("worldguard.enchantingtable." . $reg->getName()) && $block === Block::ENCHANTING_TABLE)
+                    if($player->hasPermission("worldguard.enchantingtable." . $reg->getName()) && $block === BlockLegacyIds::ENCHANTING_TABLE)
                         return;
-                    if($player->hasPermission("worldguard.usefurnaces." . $reg->getName()) && $block === Block::FURNACE )
+                    if($player->hasPermission("worldguard.usefurnaces." . $reg->getName()) && $block === BlockLegacyIds::FURNACE )
                         return;
-                    if($player->hasPermission("worldguard.usedoors." . $reg->getName()) && ($block === Block::ACACIA_DOOR_BLOCK || $block === Block::BIRCH_DOOR_BLOCK || $block === Block::DARK_OAK_DOOR_BLOCK || $block === Block::IRON_DOOR_BLOCK || $block === Block::JUNGLE_DOOR_BLOCK || $block === Block::OAK_DOOR_BLOCK || $block === Block::SPRUCE_DOOR_BLOCK || $block === Block::WOODEN_DOOR_BLOCK))
+                    if($player->hasPermission("worldguard.usedoors." . $reg->getName()) && ($block === BlockLegacyIds::ACACIA_DOOR_BLOCK || $block === BlockLegacyIds::BIRCH_DOOR_BLOCK || $block === BlockLegacyIds::DARK_OAK_DOOR_BLOCK || $block === BlockLegacyIds::IRON_DOOR_BLOCK || $block === BlockLegacyIds::JUNGLE_DOOR_BLOCK || $block === BlockLegacyIds::OAK_DOOR_BLOCK || $block === BlockLegacyIds::SPRUCE_DOOR_BLOCK || $block === BlockLegacyIds::WOODEN_DOOR_BLOCK))
                         return;
-                    if($player->hasPermission("worldguard.usetrapdoors." . $reg->getName()) && ($block === Block::IRON_TRAPDOOR || $block === Block::TRAPDOOR || $block === Block::WOODEN_TRAPDOOR ))
+                    if($player->hasPermission("worldguard.usetrapdoors." . $reg->getName()) && ($block === BlockLegacyIds::IRON_TRAPDOOR || $block === BlockLegacyIds::TRAPDOOR || $block === BlockLegacyIds::WOODEN_TRAPDOOR ))
                         return;
-                    if($player->hasPermission("worldguard.usegates." . $reg->getName()) && ($block === Block::ACACIA_FENCE_GATE  || $block === Block::BIRCH_FENCE_GATE || $block === Block::DARK_OAK_FENCE_GATE || $block === Block::FENCE_GATE || $block === Block::JUNGLE_FENCE_GATE || $block === Block::OAK_FENCE_GATE || $block === Block::SPRUCE_FENCE_GATE ))
+                    if($player->hasPermission("worldguard.usegates." . $reg->getName()) && ($block === BlockLegacyIds::ACACIA_FENCE_GATE  || $block === BlockLegacyIds::BIRCH_FENCE_GATE || $block === BlockLegacyIds::DARK_OAK_FENCE_GATE || $block === BlockLegacyIds::FENCE_GATE || $block === BlockLegacyIds::JUNGLE_FENCE_GATE || $block === BlockLegacyIds::OAK_FENCE_GATE || $block === BlockLegacyIds::SPRUCE_FENCE_GATE ))
                         return;
-                    if($player->hasPermission("worldguard.useanvil." . $reg->getName()) && ($block === Block::ANVIL))
+                    if($player->hasPermission("worldguard.useanvil." . $reg->getName()) && ($block === BlockLegacyIds::ANVIL))
                         return;
-                    if($player->hasPermission("worldguard.usecauldron." . $reg->getName()) && ($block === Block::CAULDRON_BLOCK))
+                    if($player->hasPermission("worldguard.usecauldron." . $reg->getName()) && ($block === BlockLegacyIds::CAULDRON_BLOCK))
                         return;
-                    if($player->hasPermission("worldguard.usebrewingstand." . $reg->getName()) && ($block === Block::BREWING_STAND_BLOCK ))
+                    if($player->hasPermission("worldguard.usebrewingstand." . $reg->getName()) && ($block === BlockLegacyIds::BREWING_STAND_BLOCK ))
                         return;
-                    if($player->hasPermission("worldguard.usebeacon." . $reg->getName()) && ($block === Block::BEACON ))
+                    if($player->hasPermission("worldguard.usebeacon." . $reg->getName()) && ($block === BlockLegacyIds::BEACON ))
                         return;
-                    if($player->hasPermission("worldguard.usecraftingtable." . $reg->getName()) && ($block === Block::BEACON ))
+                    if($player->hasPermission("worldguard.usecraftingtable." . $reg->getName()) && ($block === BlockLegacyIds::CRAFTING_TABLE ))
                         return;
-                    if($player->hasPermission("worldguard.usenoteblock." . $reg->getName()) && ($block === Block::NOTE_BLOCK ))
+                    if($player->hasPermission("worldguard.usenoteblock." . $reg->getName()) && ($block === BlockLegacyIds::NOTE_BLOCK ))
                         return;
-                    if($player->hasPermission("worldguard.usepressureplate." . $reg->getName()) && ($block === Block::WOODEN_PRESSURE_PLATE  || $block === Block::LIGHT_WEIGHTED_PRESSURE_PLATE || $block === Block::HEAVY_WEIGHTED_PRESSURE_PLATE || $block === Block::STONE_PRESSURE_PLATE ))
+                    if($player->hasPermission("worldguard.usepressureplate." . $reg->getName()) && ($block === BlockLegacyIds::WOODEN_PRESSURE_PLATE  || $block === BlockLegacyIds::LIGHT_WEIGHTED_PRESSURE_PLATE || $block === BlockLegacyIds::HEAVY_WEIGHTED_PRESSURE_PLATE || $block === BlockLegacyIds::STONE_PRESSURE_PLATE ))
                         return;
-                    if($player->hasPermission("worldguard.usebutton." . $reg->getName()) && ($block === Block::STONE_BUTTON || $block === Block::WOODEN_BUTTON ))
+                    if($player->hasPermission("worldguard.usebutton." . $reg->getName()) && ($block === BlockLegacyIds::STONE_BUTTON || $block === BlockLegacyIds::WOODEN_BUTTON ))
                         return;
                     if ($player->hasPermission(DefaultPermissions::ROOT_OPERATOR)){
                         return;
@@ -198,7 +185,38 @@ class EventListener implements Listener {
             }
         }
     }
-
+	
+    public function blockEnderpeals(ProjectileLaunchEvent $event)
+    {
+        $tile = $event->getEntity();
+        $player = $tile->getOwningEntity();
+        if ($player instanceof Player) {
+            if ($tile instanceof EnderPearl) {
+                if (($region = $this->plugin->getRegionByPlayer($player)) !== "") {
+                    if ($region->getFlag("enderpearl") === "false") {
+                        $event->cancel();
+                        if ($region->getFlag("deny-msg") === "true") {
+                            $player->sendMessage(TF::RED . $this->plugin->resourceManager->getMessages()["denied-ender-pearls"]);
+                        }
+                    }
+                }
+            } elseif ($tile instanceof Arrow) {
+                if (($region = $this->plugin->getRegionByPlayer($player)) !== "") {
+                    if ($region->getFlag("bow") === "false") {
+                        $event->cancel();
+                        if ($region->getFlag("deny-msg") === "true") {
+                            $player->sendMessage(TF::RED . "You can not use bow in this area.");
+                        }
+                    }
+                }
+            }
+        }
+    }
+	
+	
+	
+	
+	
     public function onBlockUpdate(BlockUpdateEvent $event){
         $block = $event->getBlock();
         $getblpos = $block->getPosition();
@@ -333,13 +351,13 @@ class EventListener implements Listener {
         if (($victim) instanceof Player) {
             if (($reg = $this->plugin->getRegionByPlayer($victim)) !== "") {
                 if ($reg->getFlag("pvp") === "false"){
-         	    	if(($damager) instanceof Player) {
+         	    if(($damager) instanceof Player) {
                         if ($reg->getFlag("deny-msg") === "true") {
                             $damager->sendMessage(TF::RED. $this->plugin->resourceManager->getMessages()["denied-pvp"]);
                         }
-                        $event->cancel();
-                        return true;
-                	}
+         	    $event->cancel();
+         	    return true;
+         	    }
             	}
             }
             if (($damager) instanceof Player) {
