@@ -23,12 +23,14 @@
 namespace MihaiChirculete\WorldGuard;
 
 use pocketmine\Server;
-use pocketmine\math\Vector3;
+use pocketmine\world\Position;
 use pocketmine\world\World;
 use pocketmine\utils\TextFormat as TF;
+use pocketmine\data\bedrock\EffectIdMap;
 use pocketmine\entity\effect\Effect;
 use pocketmine\entity\effect\EffectInstance;
 use pocketmine\entity\effect\VanillaEffects;
+use MihaiChirculete\WorldGuard\ResourceUtils\ResourceManager;
 
 class Region {
 
@@ -38,8 +40,6 @@ class Region {
     private $name = "";
     private $flags = [];
 
-    private $vector1;
-    private $vector2;
     private $level;
     private $effects = [];
 
@@ -55,12 +55,9 @@ class Region {
         }
         $this->flags = $flags;
 
-        /*foreach ($this->flags["effects"] as $id => $amplifier) {
-            $this->effects[$id] = new EffectInstance((VanillaEffects::$id), 999999999, $amplifier, false);
-        }*/
-
-        $this->vector1 = new Vector3(...$pos1);
-        $this->vector2 = new Vector3(...$pos2);
+        foreach ($this->flags["effects"] as $id => $amplifier) {
+            $this->effects[$id] = new EffectInstance((EffectIdMap::getInstance().>fromId($id), 999999999, $amplifier, false);
+        }
         $this->level = Server::getInstance()->getWorldManager()->getWorldByName($level);
     }
 
@@ -74,16 +71,6 @@ class Region {
         return $this->pos2;
     }
 
-    public function getVectorPoint1() : Vector3
-    {
-        return $this->vector1;
-    }
-
-    public function getVectorPoint2() : Vector3
-    {
-        return $this->vector2;
-    }
-
     public function getLevelName() : string
     {
         return $this->levelname;
@@ -93,7 +80,7 @@ class Region {
     {
         return $this->name;
     }
-
+                                                     
     public function getWorld() : World
     {
         return $this->world;
@@ -114,20 +101,21 @@ class Region {
     {
         $value = $avalue[0];
 
-        /*Effects does not work properly
         if ($flag === "effects") {
             if (!is_numeric($value)) {
                 return TF::RED."Value of effect flag must be numeric.";
             }
             if (!$value > 0) {
                 $this->flags["effects"] = [];
+                ResourceManager::getInstance()->saveRegions(ResourceManager::getInstance()->pluginInstance->getRegions());
                 return TF::YELLOW.'All "effects" (of "'.$this->name.'") would be removed.';
             }
             if (isset($avalue[1])) {
                 if (is_numeric($avalue[1])) {
                     $this->flags["effects"][$value] = $avalue[1];
-                    $effectType = Effect::getEffect($value);
-                    $this->effects[$value] = new Effect($effectType, 999999999, --$avalue[1], false);
+                    $effectType = EffectIdMap::getInstance()->fromID($value);
+                    $this->effects[$value] = new EffectInstance($effectType, 999999999, --$avalue[1], false);
+                    ResourceManager::getInstance()->saveRegions(ResourceManager::getInstance()->pluginInstance->getRegions());
                     return TF::YELLOW.'Added "'.($this->effects[$value])->getType()->getName().' '.Utils::getRomanNumber(++$avalue[1]).'" effect to "'.$this->name.'" region.';
                 } else {
                     return TF::RED."Amplifier must be numerical.\n".TF::GRAY.'Example: /region flags set '.$this->name.' '.$value.' 1';
@@ -136,11 +124,10 @@ class Region {
             } else {
                 $this->flags["effects"][$value] = 0;
                 $this->effects[$value] = new EffectInstance(VanillaEffects::$value, 999999999, 0);
-               // $this->effects[$value] = new Effect(Effect::getEffect($value), 999999999, 0);
+                ResourceManager::getInstance()->saveRegions(ResourceManager::getInstance()->pluginInstance->getRegions());
                 return TF::YELLOW.'Added "'.($this->effects[$value])->getId().'" effect to "'.$this->name.'" region.';
             }
-            return;
-        } */
+        } 
 
         switch (WorldGuard::FLAG_TYPE[$flag]) {
             case "integer":
