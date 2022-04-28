@@ -123,7 +123,7 @@ class Region {
 
             } else {
                 $this->flags["effects"][$value] = 0;
-                $this->effects[$value] = new EffectInstance(VanillaEffects::$value, 999999999, 0);
+                $this->effects[$value] = new EffectInstance(EffectIdMap::getInstance()->fromId($value), 999999999, 0);
                 ResourceManager::getInstance()->saveRegions(ResourceManager::getInstance()->pluginInstance->getRegions());
                 return TF::YELLOW.'Added "'.($this->effects[$value])->getId().'" effect to "'.$this->name.'" region.';
             }
