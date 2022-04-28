@@ -23,9 +23,10 @@
 namespace MihaiChirculete\WorldGuard;
 
 use pocketmine\player\Player;
-//use pocketmine\network\mcpe\protocol\SetPlayerGameTypePacket;
+use pocketmine\network\mcpe\protocol\SetPlayerGameTypePacket;
 use pocketmine\entity\Entity;
-use \pocketmine\world\biome\Biome;
+use pocketmine\data\bedrock\BiomeIds;
+use pocketmine\world\biome\Biome;
 
 class Utils {
 
@@ -88,26 +89,26 @@ class Utils {
      
     public static function isAnimal(Entity $ent)
     {
-        $classname = strtolower(get_class($ent));
-        if(strpos($classname, "bat") !== false ||
-            strpos($classname, "chicken") !== false ||
-            strpos($classname, "cow") !== false ||
-            strpos($classname, "donkey") !== false ||
-            strpos($classname, "horse") !== false ||
-            strpos($classname, "llama") !== false ||
-            strpos($classname, "mooshroom") !== false ||
-            strpos($classname, "mule") !== false ||
-            strpos($classname, "ocelot") !== false ||
-            strpos($classname, "parrot") !== false ||
-            strpos($classname, "pig") !== false ||
-            strpos($classname, "polarbear") !== false ||
-            strpos($classname, "rabbit") !== false ||
-            strpos($classname, "sheep") !== false ||
-            strpos($classname, "wolf") !== false ||
-            strpos($classname, "animal")
-        )
+        if($ent instanceof Animal)
             return true;
-        
+        $classname = strtolower(get_class($ent));
+        if(str_contains($classname, "bat") !== false ||
+            str_contains($classname, "chicken") !== false ||
+            str_contains($classname, "cow") !== false ||
+            str_contains($classname, "donkey") !== false ||
+            str_contains($classname, "horse") !== false ||
+            str_contains($classname, "llama") !== false ||
+            str_contains($classname, "mooshroom") !== false ||
+            str_contains($classname, "mule") !== false ||
+            str_contains($classname, "ocelot") !== false ||
+            str_contains($classname, "parrot") !== false ||
+            str_contains($classname, "pig") !== false ||
+            str_contains($classname, "polarbear") !== false ||
+            str_contains($classname, "rabbit") !== false ||
+            str_contains($classname, "sheep") !== false ||
+            str_contains($classname, "wolf") !== false ||
+            strpos($classname, "animal"))
+            return true;
         return false;
     }
 
@@ -120,44 +121,43 @@ class Utils {
     
     public static function isMonster(Entity $ent)
     {
-        $classname = strtolower(get_class($ent));
-        if(strpos($classname, "blaze") !== false ||
-            strpos($classname, "cavespider") !== false ||
-            strpos($classname, "elderguardian") !== false ||
-            strpos($classname, "enderdragon") !== false ||
-            strpos($classname, "enderman") !== false ||
-            strpos($classname, "endermite") !== false ||
-            strpos($classname, "evoker") !== false ||
-            strpos($classname, "ghast") !== false ||
-            strpos($classname, "guardian") !== false ||
-            strpos($classname, "husk") !== false ||
-            strpos($classname, "magmacube") !== false ||
-            strpos($classname, "pigzombie") !== false ||
-            strpos($classname, "shulker") !== false ||
-            strpos($classname, "silverfish") !== false ||
-            strpos($classname, "skeleton") !== false ||
-            strpos($classname, "slime") !== false ||
-            strpos($classname, "spider") !== false ||
-            strpos($classname, "stray") !== false ||
-            strpos($classname, "undead") !== false ||
-            strpos($classname, "vex") !== false ||
-            strpos($classname, "vindicator") !== false ||
-            strpos($classname, "witch") !== false ||
-            strpos($classname, "wither") !== false ||
-            strpos($classname, "witherskeleton") !== false ||
-            strpos($classname, "zombievillager") !== false ||
-            strpos($classname, "monster")
-        )
+        if($ent instanceof Monster)
             return true;
-
+        $classname = strtolower(get_class($ent));
+        if(str_contains($classname, "blaze") !== false ||
+            str_contains($classname, "cavespider") !== false ||
+            str_contains($classname, "elderguardian") !== false ||
+            str_contains($classname, "enderdragon") !== false ||
+            str_contains($classname, "enderman") !== false ||
+            str_contains($classname, "endermite") !== false ||
+            str_contains($classname, "evoker") !== false ||
+            str_contains($classname, "ghast") !== false ||
+            str_contains($classname, "guardian") !== false ||
+            str_contains($classname, "husk") !== false ||
+            str_contains($classname, "magmacube") !== false ||
+            str_contains($classname, "pigzombie") !== false ||
+            str_contains($classname, "shulker") !== false ||
+            str_contains($classname, "silverfish") !== false ||
+            str_contains($classname, "skeleton") !== false ||
+            str_contains($classname, "slime") !== false ||
+            str_contains($classname, "spider") !== false ||
+            str_contains($classname, "stray") !== false ||
+            str_contains($classname, "undead") !== false ||
+            str_contains($classname, "vex") !== false ||
+            str_contains($classname, "vindicator") !== false ||
+            str_contains($classname, "witch") !== false ||
+            str_contains($classname, "wither") !== false ||
+            str_contains($classname, "witherskeleton") !== false ||
+            str_contains($classname, "zombievillager") !== false ||
+            strpos($classname, "monster"))
+            return true;
         return false;
     }
 
     private static function biomeParse($biomeName) : int
     {
         $biomeName = strtolower($biomeName);
-        switch ($biomeName)
-        {
+        switch ($biomeName){
             case "birch_forest":
                 return Biome::BIRCH_FOREST;
                 break;
@@ -171,8 +171,6 @@ class Utils {
                 break;
 
             case "hell":
-                return Biome::BIRCH_FOREST;
-                break;
 
             case "ice_plains":
                 return Biome::ICE_PLAINS;
