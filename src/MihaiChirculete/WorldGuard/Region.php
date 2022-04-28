@@ -116,7 +116,7 @@ class Region {
                     $effectType = EffectIdMap::getInstance()->fromID($value);
                     $this->effects[$value] = new EffectInstance($effectType, 999999999, --$avalue[1], false);
                     ResourceManager::getInstance()->saveRegions(ResourceManager::getInstance()->pluginInstance->getRegions());
-                    return TF::YELLOW.'Added "'.($this->effects[$value])->getType()->getName().' '.Utils::getRomanNumber(++$avalue[1]).'" effect to "'.$this->name.'" region.';
+                    return TF::YELLOW . 'Added "' . ($this->effects[$value])->getType()->getName() . ' ' . Utils::getRomanNumber(++$avalue[1]) . '" effect to "' . $this->name . '" region.';
                 } else {
                     return TF::RED."Amplifier must be numerical.\n".TF::GRAY.'Example: /region flags set '.$this->name.' '.$value.' 1';
                 }
@@ -125,7 +125,7 @@ class Region {
                 $this->flags["effects"][$value] = 0;
                 $this->effects[$value] = new EffectInstance(EffectIdMap::getInstance()->fromId($value), 999999999, 0);
                 ResourceManager::getInstance()->saveRegions(ResourceManager::getInstance()->pluginInstance->getRegions());
-                return TF::YELLOW.'Added "'.($this->effects[$value])->getId().'" effect to "'.$this->name.'" region.';
+                return TF::YELLOW . 'Added "' . EffectIDMap::getInstance()->toID(($this->effects[$value])->getType()) . '" effect to "' . $this->name . '" region.';
             }
         } 
 
