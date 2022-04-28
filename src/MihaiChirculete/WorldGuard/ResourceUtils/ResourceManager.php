@@ -11,7 +11,7 @@ class ResourceManager
     /** Only 1 instance of this class will be allowed at all times */
     private static $instance = null;
     private $resUpdaterInstance = null;
-    private $pluginInstance = null;
+    private ?WorldGuard $pluginInstance;
     private $serverInstance = null;
     private $pluginVersion = null;
     private $messages = [];
@@ -26,7 +26,7 @@ class ResourceManager
 
         $this->pluginVersion = $this->pluginInstance->getDescription()->getVersion();
     }
-    public static function getInstance(WorldGuard $plugin, Server $sv)
+    public static function getInstance(WorldGuard $plugin = null, Server $sv = null)
     {
         if(ResourceManager::$instance === null)
             ResourceManager::$instance = new ResourceManager($plugin, $sv);
