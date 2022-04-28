@@ -401,7 +401,7 @@ class WorldGuard extends PluginBase
                         $this->getLogger()->info("Saving the player's current effects that the region overwrites, and giving the new effects from the region.");
                     }
                     foreach ($newRegionEffects as $effect) {
-                        $player->getEffects()->add($effect)
+                        $player->getEffects()->add($effect);
                     }
                 }
             }
