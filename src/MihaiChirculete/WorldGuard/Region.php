@@ -56,7 +56,7 @@ class Region {
         $this->flags = $flags;
 
         foreach ($this->flags["effects"] as $id => $amplifier) {
-            $this->effects[$id] = new EffectInstance((EffectIdMap::getInstance().>fromId($id), 999999999, $amplifier, false);
+            $this->effects[$id] = new EffectInstance(EffectIdMap::getInstance()->fromId($id), 999999999, $amplifier, false);
         }
         $this->level = Server::getInstance()->getWorldManager()->getWorldByName($level);
     }
