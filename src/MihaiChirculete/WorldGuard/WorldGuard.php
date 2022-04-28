@@ -391,7 +391,7 @@ class WorldGuard extends PluginBase
                         $this->getLogger()->info("Removing region-given effects, and re-adding any effects the player had.");
                     }
                     foreach ($new->getFlag("effects") as $effect) {
-                        $player->removeEffect($effect);
+                        $player->getEffects()->remove($effect->getType());
                     }
                 }
 
@@ -401,7 +401,7 @@ class WorldGuard extends PluginBase
                         $this->getLogger()->info("Saving the player's current effects that the region overwrites, and giving the new effects from the region.");
                     }
                     foreach ($newRegionEffects as $effect) {
-                        $player->addEffect($effect);
+                        $player->getEffects()->add($effect)
                     }
                 }
             }
