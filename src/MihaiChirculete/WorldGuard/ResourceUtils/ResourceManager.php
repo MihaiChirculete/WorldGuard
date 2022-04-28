@@ -11,7 +11,7 @@ class ResourceManager
     /** Only 1 instance of this class will be allowed at all times */
     private static $instance = null;
     private $resUpdaterInstance = null;
-    private ?WorldGuard $pluginInstance;
+    public ?WorldGuard $pluginInstance;
     private $serverInstance = null;
     private $pluginVersion = null;
     private $messages = [];
