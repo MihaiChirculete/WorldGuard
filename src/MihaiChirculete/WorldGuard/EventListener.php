@@ -553,7 +553,7 @@ class EventListener implements Listener {
         if ($exhaustEvent->getPlayer() instanceof Player){
             if(($region = $this->plugin->getRegionByPlayer($exhaustEvent->getPlayer())) !== ""){
                 if($region->getFlag("hunger") === "false") {
-                    $exhaustEvent->cancel(true);
+                    $exhaustEvent->cancel();
                 }
             }
         }
