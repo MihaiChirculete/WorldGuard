@@ -561,14 +561,14 @@ class EventListener implements Listener {
 
     public function onLeafDecay(LeavesDecayEvent $event)
     {
-        if(($region = $this->plugin->getRegionFromPosition($event->getBlock()->asPosition())) !== "")
+        if(($region = $this->plugin->getRegionFromPosition($event->getBlock()->getPosition())) !== "")
             if($region->getFlag("allow-leaves-decay") === "false")
                 $event->cancel();
     }
 
     public function onPlantGrowth(BlockGrowEvent $event)
     {
-        if(($region = $this->plugin->getRegionFromPosition($event->getBlock()->asPosition())) !== "")
+        if(($region = $this->plugin->getRegionFromPosition($event->getBlock()->getPosition())) !== "")
             if($region->getFlag("allow-plant-growth") === "false")
                 $event->cancel();
     }
