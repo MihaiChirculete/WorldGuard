@@ -158,50 +158,52 @@ class Utils {
     {
         $biomeName = strtolower($biomeName);
         switch ($biomeName){
-            case "birch_forest":
-                return Biome::BIRCH_FOREST;
-                break;
-
-            case "desert":
-                return Biome::DESERT;
-                break;
-
-            case "forest":
-                return Biome::FOREST;
-                break;
-
-            case "hell":
-
-            case "ice_plains":
-                return Biome::ICE_PLAINS;
-                break;
-
-            case "mountains":
-                return Biome::MOUNTAINS;
-                break;
-
             case "ocean":
-                return Biome::OCEAN;
+                return BiomeIDs::OCEAN;
                 break;
-
+                
             case "plains":
-                return Biome::PLAINS;
+                return BiomeIDs::PLAINS;
                 break;
-
-            case "river":
-                return Biome::RIVER;
+                
+            case "desert":
+                return BiomeIDs::DESERT;
                 break;
-
-            case "small_mountains":
-                return Biome::SMALL_MOUNTAINS;
+                
+             case "mountains":
+                return BiomeIDs::EXTREME_HILLS;
                 break;
-
-            case "swamp":
-                return Biome::SWAMP;
+                
+            case "forest":
+                return BiomeIDs::FOREST;
                 break;
-
+                
             case "taiga":
-                return Biome::TAIGA;
+                return BiomeIDs::TAIGA;
+                break;
+            
+            case "swamp":
+                return BiomeIDs::SWAMPLAND;
+                break;
+                
+            case "river":
+                return BiomeIDs::RIVER;
+                break;
+                
+            case "hell":
+                return BiomeIDs::HELL;
+                break;
+                
+            case "ice_plains":
+                return BiomeIDs::ICE_PLAINS;
+                break;
+
+            case "small_mountain":
+                return BiomeIDs::EXTREME_HILLS_EDGE;
+                break;
+                
+            case "birch_forest":
+                return BiomeIDs::BIRCH_FOREST;
                 break;
         }
     }
