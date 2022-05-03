@@ -363,9 +363,11 @@ class WorldGuard extends PluginBase
                 }
                 //
                 // EFFECTS
-                //
+                // TODO: EFFECTS REMOVING and RGEFFECTS Removing
                 // delete only effect, if it is in effect flag on region changing
-                $rgEffects = $old->getFlag("effects");
+
+
+                /*$rgEffects = $old->getFlags("effects");
                 foreach ($player->getEffects() as $effect) {
                     if (array_key_exists($effect->getId(), $rgEffects)) {
                         if ($this->resourceManager->getConfig()["debugging"] === true) {
@@ -373,7 +375,9 @@ class WorldGuard extends PluginBase
                         }
                         $player->removeEffect($effect->getId());
                     }
-                }
+                }*/
+
+
                 if ($new != null && ! empty($new)) {
                     $newRegionEffects = $new->getEffects();
                 } else {
