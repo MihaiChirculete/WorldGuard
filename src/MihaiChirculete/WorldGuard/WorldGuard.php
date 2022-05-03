@@ -253,7 +253,7 @@ class WorldGuard extends PluginBase
         // if player is loggedIn in WG Region and Logout
         $wgReg = $this->getRegion($player);
         if ($player instanceof Player && $wgReg !== "") {
-            $player->removeAllEffects();
+            $player->getEffects()->clear();
             if ($this->resourceManager->getConfig()["debugging"] === true) {
                 $this->getLogger()->info("Instance of player is in WorldGuard Region! Effects from Region should be deleted");
             }
@@ -296,17 +296,6 @@ class WorldGuard extends PluginBase
                 }
                 if ($old->getFlag("receive-chat") === "false") {
                     unset($this->muted[$player->getUniqueId()->toString()]);
-                }
-
-                // delete only effect, if it is in effect flag on region changing
-                $rgEffects = $old->getFlag("effects");
-                foreach ($player->getEffects() as $effect) {
-                    if (array_key_exists($effect->getId(), $rgEffects)) {
-                        if ($this->resourceManager->getConfig()["debugging"] === true) {
-                            echo "effect: " . var_export($effect, true) . "effectflag: " . var_export($rgEffects, true);
-                        }
-                        $player->removeEffect($effect->getId());
-                    }
                 }
 
                 if ($old->getFlight() === self::FLY_SUPERVISED) {
@@ -375,6 +364,16 @@ class WorldGuard extends PluginBase
                 //
                 // EFFECTS
                 //
+                // delete only effect, if it is in effect flag on region changing
+                $rgEffects = $old->getFlag("effects");
+                foreach ($player->getEffects() as $effect) {
+                    if (array_key_exists($effect->getId(), $rgEffects)) {
+                        if ($this->resourceManager->getConfig()["debugging"] === true) {
+                            echo "effect: " . var_export($effect, true) . "effectflag: " . var_export($rgEffects, true);
+                        }
+                        $player->removeEffect($effect->getId());
+                    }
+                }
                 if ($new != null && ! empty($new)) {
                     $newRegionEffects = $new->getEffects();
                 } else {
