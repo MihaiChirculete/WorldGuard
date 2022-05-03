@@ -340,7 +340,8 @@ class EventListener implements Listener {
     {
         if (!$event->getFrom()->equals($event->getTo())) {
             if ($this->plugin->updateRegion($player = $event->getPlayer()) !== true) {
-                $player->setMotion($event->getFrom()->subtract($player->getLocation())->normalize()->multiply($this->plugin->getKnockback()));
+		//TODO: Get better Location if Region lower, Knockback needs to be lower
+		$player->setMotion($event->getFrom()->subtract($player->getPosition()->getX(), $player->getPosition()->getY(), $player->getPosition()->getZ())->normalize()->multiply($this->plugin->getKnockback()));
             }
         }
     }
