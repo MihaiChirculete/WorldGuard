@@ -367,7 +367,7 @@ class WorldGuard extends PluginBase
                 // delete only effect, if it is in effect flag on region changing
 
                 if($old instanceof Region) {
-                $rgEffects = $old->getFlags("effects");
+                    $rgEffects = $old->getFlags("effects");
                     foreach ($player->getEffects() as $effect) {
                         if (array_key_exists($effect->getId(), $rgEffects)) {
                             if ($this->resourceManager->getConfig()["debugging"] === true) {
