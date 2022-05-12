@@ -326,13 +326,6 @@ class EventListener implements Listener {
         }
     }
             
-    public function onBurn(BlockBurnEvent $event) {
-        if (($region = $this->plugin->getRegionFromPosition($event->getBlock())) !== "") {
-            if ($region->getFlag("allow-block-burn") === "false")
-                $event->cancel();
-        }
-    }
-
     /**
     * @priority MONITOR
     */
@@ -579,5 +572,12 @@ class EventListener implements Listener {
         if(($region = $this->plugin->getRegionFromPosition($event->getBlock()->getPosition())) !== "")
             if($region->getFlag("allow-spreading") === "false")
                 $event->cancel();
+    }
+    public function onBurn(BlockBurnEvent $event) 
+    {
+        if (($region = $this->plugin->getRegionFromPosition($event->getBlock()->getPosition())) !== "") {
+            if ($region->getFlag("allow-block-burn") === "false")
+                $event->cancel();
+        }
     }
 }
