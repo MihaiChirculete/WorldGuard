@@ -371,7 +371,7 @@ class WorldGuard extends PluginBase
                             if ($this->resourceManager->getConfig()["debugging"] === true) {
                                 echo "effect: " . var_export($effect, true) . "effectflag: " . var_export($rgEffects, true);
                             }
-                            $player->getEffects()->remove($effect);
+                            $player->getEffects()->remove($effect->getType());
                         }
                     }
                 }
@@ -392,8 +392,8 @@ class WorldGuard extends PluginBase
                     if ($this->resourceManager->getConfig()["debugging"] === true) {
                         $this->getLogger()->info("Removing region-given effects, and re-adding any effects the player had.");
                     }
-                    foreach ($new->getFlag("effects") as $effect) {
-                        $player->getEffects()->remove($effect);
+                    foreach ($oldRegionEffects as $effect) {
+                        $player->getEffects()->remove($effect->getType());
                     }
                 }
 
