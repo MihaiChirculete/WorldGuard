@@ -253,7 +253,7 @@ class WorldGuard extends PluginBase
         // if player is loggedIn in WG Region and Logout
         $wgReg = $this->getRegion($player);
         if ($player instanceof Player && $wgReg !== "") {
-            $player->removeAllEffects();
+            $player->getEffects()->clear();
             if ($this->resourceManager->getConfig()["debugging"] === true) {
                 $this->getLogger()->info("Instance of player is in WorldGuard Region! Effects from Region should be deleted");
             }
@@ -296,17 +296,6 @@ class WorldGuard extends PluginBase
                 }
                 if ($old->getFlag("receive-chat") === "false") {
                     unset($this->muted[$player->getUniqueId()->toString()]);
-                }
-
-                // delete only effect, if it is in effect flag on region changing
-                $rgEffects = $old->getFlag("effects");
-                foreach ($player->getEffects() as $effect) {
-                    if (array_key_exists($effect->getId(), $rgEffects)) {
-                        if ($this->resourceManager->getConfig()["debugging"] === true) {
-                            echo "effect: " . var_export($effect, true) . "effectflag: " . var_export($rgEffects, true);
-                        }
-                        $player->removeEffect($effect->getId());
-                    }
                 }
 
                 if ($old->getFlight() === self::FLY_SUPERVISED) {
@@ -372,9 +361,21 @@ class WorldGuard extends PluginBase
                         }
                     }
                 }
-                //
+
                 // EFFECTS
-                //
+
+                if($old instanceof Region) {
+                    $rgEffects = $old->getFlag("effects");
+                    foreach ($player->getEffects() as $effect) {
+                        if (array_key_exists($effect->getId(), $rgEffects)) {
+                            if ($this->resourceManager->getConfig()["debugging"] === true) {
+                                echo "effect: " . var_export($effect, true) . "effectflag: " . var_export($rgEffects, true);
+                            }
+                            $player->getEffects()->remove($effect->getType());
+                        }
+                    }
+                }
+
                 if ($new != null && ! empty($new)) {
                     $newRegionEffects = $new->getEffects();
                 } else {
@@ -385,13 +386,14 @@ class WorldGuard extends PluginBase
                 } else {
                     $oldRegionEffects = null;
                 }
+                
                 // Iterate all old effects and remove them
                 if (! empty($oldRegionEffects) && $oldRegionEffects != null) {
                     if ($this->resourceManager->getConfig()["debugging"] === true) {
                         $this->getLogger()->info("Removing region-given effects, and re-adding any effects the player had.");
                     }
-                    foreach ($new->getFlag("effects") as $effect) {
-                        $player->removeEffect($effect);
+                    foreach ($oldRegionEffects as $effect) {
+                        $player->getEffects()->remove($effect->getType());
                     }
                 }
 
@@ -401,7 +403,7 @@ class WorldGuard extends PluginBase
                         $this->getLogger()->info("Saving the player's current effects that the region overwrites, and giving the new effects from the region.");
                     }
                     foreach ($newRegionEffects as $effect) {
-                        $player->addEffect($effect);
+                        $player->getEffects()->add($effect);
                     }
                 }
             }

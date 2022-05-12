@@ -14,7 +14,7 @@ class GUI
 {
     public static $currentlyEditedRg = "";
 
-    public static function displayMenu(CommandSender $issuer)
+    public static function displayMenu(Player $issuer)
     {
         $plugin = Utils::getPluginFromIssuer($issuer);
         $lang = $plugin->resourceManager->getLanguagePack();
