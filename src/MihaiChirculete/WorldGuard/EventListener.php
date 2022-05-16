@@ -483,7 +483,7 @@ class EventListener implements Listener {
     public function onExplode(EntityExplodeEvent $event)
     {
         foreach ($event->getBlockList() as $block) {
-            if (($region = $this->plugin->getRegionFromPosition($block)) !== "") {
+            if (($region = $this->plugin->getRegionFromPosition($block->getPosition())) !== "") {
                 if ($region->getFlag("explosion") === "false") {
                     $event->cancel();
                     return;
@@ -498,7 +498,7 @@ class EventListener implements Listener {
      */
     public function onSleep(PlayerBedEnterEvent $event)
     {
-        if (($region = $this->plugin->getRegionFromPosition($event->getBed())) !== "") {
+        if (($region = $this->plugin->getRegionFromPosition($event->getBed()->getPosition())) !== "") {
             if ($region->getFlag("sleep") === "false") {
                 $event->cancel();
             }
