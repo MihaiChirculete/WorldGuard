@@ -24,7 +24,7 @@ namespace MihaiChirculete\WorldGuard;
 
 use pocketmine\block\{BlockLegacyIds, Block};
 use pocketmine\event\block\{BlockPlaceEvent, BlockBreakEvent, LeavesDecayEvent, BlockGrowEvent, BlockUpdateEvent, BlockSpreadEvent, BlockBurnEvent};
-use pocketmine\event\entity\{EntityDamageEvent, EntityDamageByEntityEvent, EntityExplodeEvent, ProjectileLaunchEvent};
+use pocketmine\event\entity\{EntityDamageEvent, EntityDamageByEntityEvent, EntityExplodeEvent, EntityTeleportEvent, ProjectileLaunchEvent};
 use pocketmine\event\Listener;
 use pocketmine\event\player\{PlayerJoinEvent, PlayerMoveEvent, PlayerInteractEvent, PlayerItemConsumeEvent, PlayerCommandPreprocessEvent, PlayerDropItemEvent, PlayerBedEnterEvent, PlayerChatEvent, PlayerExhaustEvent, PlayerDeathEvent, PlayerQuitEvent};
 use pocketmine\permission\DefaultPermissions;
@@ -335,6 +335,21 @@ class EventListener implements Listener {
             if ($this->plugin->updateRegion($player = $event->getPlayer()) !== true) {
 		//TODO: Get better Location if Region lower, Knockback needs to be lower
 		$player->setMotion($event->getFrom()->subtract($player->getPosition()->getX(), $player->getPosition()->getY(), $player->getPosition()->getZ())->normalize()->multiply($this->plugin->getKnockback()));
+            }
+        }
+    }
+
+    /**
+    * @priority MONITOR
+    */
+    public function onTeleport(EntityTeleportEvent $event)
+    {
+        $entity = $event->getEntity();
+        if (!($entity) instanceof Player) return;
+        if (!$event->getFrom()->equals($event->getTo())) {
+            if ($this->plugin->updateRegion($entity) !== true) {
+		//TODO: Get better Location if Region lower, Knockback needs to be lower
+		$entity->setMotion($event->getFrom()->subtract($entity->getPosition()->getX(), $entity->getPosition()->getY(), $entity->getPosition()->getZ())->normalize()->multiply($this->plugin->getKnockback()));
             }
         }
     }
