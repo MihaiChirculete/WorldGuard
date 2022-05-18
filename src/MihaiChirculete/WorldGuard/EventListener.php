@@ -348,8 +348,7 @@ class EventListener implements Listener {
         if (!($entity) instanceof Player) return;
         if (!$event->getFrom()->equals($event->getTo())) {
             if ($this->plugin->updateRegion($entity) !== true) {
-		//TODO: Get better Location if Region lower, Knockback needs to be lower
-		$entity->setMotion($event->getFrom()->subtract($entity->getPosition()->getX(), $entity->getPosition()->getY(), $entity->getPosition()->getZ())->normalize()->multiply($this->plugin->getKnockback()));
+		$event->cancel();
             }
         }
     }
