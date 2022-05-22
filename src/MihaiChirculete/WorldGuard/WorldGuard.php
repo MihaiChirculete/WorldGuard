@@ -439,7 +439,7 @@ class WorldGuard extends PluginBase
     {
         $region = $this->players[$player->getUniqueId()->getBytes()];
         if (($newRegion = $this->getRegionNameFromPosition($player->getPosition())) !== $region) {
-            $this->players[$player->getUniqueId()->toString()] = $newRegion;
+            $this->players[$player->getUniqueId()->getBytes()] = $newRegion;
             return $this->onRegionChange($player, $region, $newRegion);
         }
         return true;
@@ -447,7 +447,7 @@ class WorldGuard extends PluginBase
 
     public function processCreation(Player $player)
     {
-        if (isset($this->creating[$id = $player->getUniqueId()->toString()], $this->process[$id])) {
+        if (isset($this->creating[$id = $player->getUniqueId()->getBytes()], $this->process[$id])) {
             $name = $this->process[$id];
             $map = $this->creating[$id];
             $level = $map[0][3];
