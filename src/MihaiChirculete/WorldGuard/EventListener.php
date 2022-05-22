@@ -84,7 +84,7 @@ class EventListener implements Listener {
                 }
             }
         }
-        if (isset($this->plugin->creating[$id = ($player = $event->getPlayer())->getUniqueId()->toString()])) {
+        if (isset($this->plugin->creating[$id = ($player = $event->getPlayer())->getUniqueId()->getBytes()])) {
             if ($event->getAction() === $event::RIGHT_CLICK_BLOCK) {
                 $block = $event->getBlock();
                 $x = $block->getPosition()->getX();
@@ -98,7 +98,7 @@ class EventListener implements Listener {
                     $z = ($z + 1);
                 }
                 $player->sendMessage(TF::YELLOW.'Selected position: X'.$x.', Y: '.$y.', Z: '.$z.', Level: '.$world);
-                if (!isset($this->plugin->extended[$id = ($player = $event->getPlayer())->getUniqueId()->toString()])){
+                if (!isset($this->plugin->extended[$id = ($player = $event->getPlayer())->getUniqueId()->getBytes()])){
                     $this->plugin->creating[$id][] = [$x, $y, $z, $world];
                 }
                 else{
