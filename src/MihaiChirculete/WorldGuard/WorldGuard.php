@@ -219,7 +219,7 @@ class WorldGuard extends PluginBase
     public function getRegionNameFromPosition(Position $pos): string {
         $currentRegion = "";
         $highestPriority = - 1;
-        // $global = new Position(0,0,0,$pos->getLevel());
+        // $global = new Position(0,0,0,$pos->getWorld()->getDisplayName());
         foreach ($this->regions as $name => $region) {
             if ($region->getLevelName() === $pos->getWorld()->getDisplayName()) {
                 $reg1 = $region->getPos1();
@@ -619,28 +619,26 @@ class WorldGuard extends PluginBase
                                         }
                                     } else {
                                         if ($args[1] == "global") {
-                                            if ($this->regionExists($args[1] . "." . $issuer->getLevel()
-                                                ->getName())) {
+                                            if ($this->regionExists($args[1] . "." . $issuer->getWorld()->getDisplayName())) {
                                                 $issuer->sendMessage(TF::RED . "A global region for this world already exists!");
                                                 return false;
                                             } else {
                                                 unset($this->creating[$id = $issuer->getUniqueId()->getBytes()], $this->process[$id]);
-                                                $this->process[$id] = ("global." . $issuer->getLevel()->getName());
+                                                $this->process[$id] = ("global." . $issuer->getWorld()->getDisplayName());
                                                 $this->creating[$id][] = [
                                                     0,
                                                     0,
                                                     0,
-                                                    $issuer->getLevel()->getName()
+                                                    $issuer->getWorld()->getDisplayName()
                                                 ];
                                                 $this->creating[$id][] = [
                                                     0,
                                                     0,
                                                     0,
-                                                    $issuer->getLevel()->getName()
+                                                    $issuer->getWorld()->getDisplayName()
                                                 ];
                                                 $this->processCreation($issuer);
-                                                $issuer->sendMessage(TF::GREEN . "Global region for world " . $issuer->getLevel()
-                                                    ->getName() . " created.");
+                                                $issuer->sendMessage(TF::GREEN . "Global region for world " . $issuer->getWorld()->getDisplayName() . " created.");
                                             }
                                         } else {
                                             unset($this->creating[$id = $issuer->getUniqueId()->getBytes()], $this->process[$id]);
