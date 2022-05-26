@@ -320,9 +320,9 @@ class WorldGuard extends PluginBase
                 if (($gm = $new->getGamemode()) !== $player->getGamemode()) {
                     if (! $player->hasPermission("worldguard.bypass.gamemode." . $newregion)) {
                         if ($gm !== "false") {
-                            if ($gm == "survival" || $gm == "creative" || $gm == "adventure" || $gm == "spectator") {
+                            if ($gm == "0" || $gm == "1" || $gm == "2" || $gm == "3") {
                                 $player->setGamemode($gm);
-                                if ($gm === "survival" || $gm === "adventure") 
+                                if ($gm === 0 || $gm === 2) 
                                 Utils::disableFlight($player);
                             } else if ($gm == "creative") {
                                 $player->setGamemode(GameMode::CREATIVE());
