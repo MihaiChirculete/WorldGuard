@@ -345,12 +345,13 @@ class EventListener implements Listener {
     */
     public function onTeleport(EntityTeleportEvent $event)
     {
-        $entity = $event->getEntity();
-        if (!($entity) instanceof Player) return;
+        $tpissuer = $event->getEntity();
         if (!$event->getFrom()->equals($event->getTo())) {
-            if ($this->plugin->updateRegion($entity) !== true) {
-		$event->cancel();
-            }
+        	if ($tpissuer instanceof Player) {
+            		if ($this->plugin->updateRegion($tpissuer) !== true) {
+			$event->cancel();
+            		}
+        	}
         }
     }
 
