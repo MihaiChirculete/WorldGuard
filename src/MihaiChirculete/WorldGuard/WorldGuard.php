@@ -346,7 +346,7 @@ class WorldGuard extends PluginBase
                 }
                 if (! $player->hasPermission("worldguard.bypass.fly." . $newregion)) {
                     if (($flight = $new->getFlight()) !== self::FLY_VANILLA) {
-                        if (!$player->getGamemode(GameMode::CREATIVE())) {
+                        if ($player->getGamemode(GameMode::CREATIVE())) {
                             switch ($flight) {
                                 case self::FLY_ENABLE:
                                 case self::FLY_SUPERVISED:
