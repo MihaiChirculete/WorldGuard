@@ -318,18 +318,20 @@ class WorldGuard extends PluginBase
                     }
                 }
                 if (($gm = $new->getGamemode()) !== $player->getGamemode()) {
-                    if (! $player->hasPermission("worldguard.bypass.gamemode." . $newregion)) {
-                        if ($gm !== "false") {
-                            if ($gm == "creative") {
-                                $player->setGamemode(GameMode::CREATIVE());
-                            } else if ($gm == "survival") {
-                                $player->setGamemode(GameMode::SURVIVAL());
-                                Utils::disableFlight($player);
-                            } else if ($gm == "adventure") {
-                                $player->setGamemode(GameMode::ADVENTURE());
-                                Utils::disableFlight($player);
-                            } else if ($gm == "spectator") {
-                                $player->setGamemode(GameMode::SPECTATOR());
+                    if (!$player->hasPermission(DefaultPermissions::ROOT_OPERATOR) {
+                        if (! $player->hasPermission("worldguard.bypass.gamemode." . $newregion)) {
+                            if ($gm !== "false") {
+                                if ($gm == "creative") {
+                                    $player->setGamemode(GameMode::CREATIVE());
+                                } else if ($gm == "survival") {
+                                    $player->setGamemode(GameMode::SURVIVAL());
+                                    Utils::disableFlight($player);
+                                } else if ($gm == "adventure") {
+                                    $player->setGamemode(GameMode::ADVENTURE());
+                                    Utils::disableFlight($player);
+                                } else if ($gm == "spectator") {
+                                    $player->setGamemode(GameMode::SPECTATOR());
+                                }
                             }
                         }
                     }
