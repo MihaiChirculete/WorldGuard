@@ -318,8 +318,8 @@ class WorldGuard extends PluginBase
                     }
                 }
                 if (($gm = $new->getGamemode()) !== $player->getGamemode()) {
-                    if (!$player->hasPermission(DefaultPermissions::ROOT_OPERATOR) {
-                        if (! $player->hasPermission("worldguard.bypass.gamemode." . $newregion)) {
+                    if (!$player->hasPermission(DefaultPermissions::ROOT_OPERATOR)) {
+                        if (!$player->hasPermission("worldguard.bypass.gamemode." . $newregion)) {
                             if ($gm !== "false") {
                                 if ($gm == "creative") {
                                     $player->setGamemode(GameMode::CREATIVE());
