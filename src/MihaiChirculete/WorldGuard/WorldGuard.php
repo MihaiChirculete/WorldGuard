@@ -189,7 +189,7 @@ class WorldGuard extends PluginBase
     public function getRegionOf(Player $player): string
     {
         if ($player instanceof Player) {
-            return $this->players[$player->getUniqueId()->toString()] ?? "";
+            return $this->players[$player->getUniqueId()->getBytes()] ?? "";
         }
     }
 
@@ -206,7 +206,7 @@ class WorldGuard extends PluginBase
     public function sessionizePlayer(Player $player)
     {
         $this->getLogger()->info("Updating session info for: " . $player->getName());
-        $this->players[$player->getUniqueId()->toString()] = "";
+        $this->players[$player->getUniqueId()->getBytes()] = "";
         $this->updateRegion($player);
     }
 
@@ -219,7 +219,7 @@ class WorldGuard extends PluginBase
     public function getRegionNameFromPosition(Position $pos): string {
         $currentRegion = "";
         $highestPriority = - 1;
-        // $global = new Position(0,0,0,$pos->getLevel());
+        // $global = new Position(0,0,0,$pos->getWorld()->getDisplayName());
         foreach ($this->regions as $name => $region) {
             if ($region->getLevelName() === $pos->getWorld()->getDisplayName()) {
                 $reg1 = $region->getPos1();
@@ -295,11 +295,11 @@ class WorldGuard extends PluginBase
                     $player->sendTip(Utils::aliasParse($player, $msg));
                 }
                 if ($old->getFlag("receive-chat") === "false") {
-                    unset($this->muted[$player->getUniqueId()->toString()]);
+                    unset($this->muted[$player->getUniqueId()->getBytes()]);
                 }
 
                 if ($old->getFlight() === self::FLY_SUPERVISED) {
-                    if ($player->getGamemode() != 1) {
+                    if ($player->getGamemode() != "creative") {
                         Utils::disableFlight($player);
                     }
                 }
@@ -318,22 +318,20 @@ class WorldGuard extends PluginBase
                     }
                 }
                 if (($gm = $new->getGamemode()) !== $player->getGamemode()) {
-                    if (! $player->hasPermission("worldguard.bypass.gamemode." . $newregion)) {
-                        if ($gm !== "false") {
-                            if ($gm == "0" || $gm == "1" || $gm == "2" || $gm == "3") {
-                                $player->setGamemode($gm);
-                                if ($gm === 0 || $gm === 2) 
-                                Utils::disableFlight($player);
-                            } else if ($gm == "creative") {
-                                $player->setGamemode(GameMode::CREATIVE());
-                            } else if ($gm == "survival") {
-                                $player->setGamemode(GameMode::SURVIVAL());
-                                Utils::disableFlight($player);
-                            } else if ($gm == "adventure") {
-                                $player->setGamemode(GameMode::ADVENTURE());
-                                Utils::disableFlight($player);
-                            } else if ($gm == "spectator") {
-                                $player->setGamemode(GameMode::SPECTATOR());
+                    if (!$player->hasPermission(DefaultPermissions::ROOT_OPERATOR)) {
+                        if (!$player->hasPermission("worldguard.bypass.gamemode." . $newregion)) {
+                            if ($gm !== "false") {
+                                if ($gm == "creative") {
+                                    $player->setGamemode(GameMode::CREATIVE());
+                                } else if ($gm == "survival") {
+                                    $player->setGamemode(GameMode::SURVIVAL());
+                                    Utils::disableFlight($player);
+                                } else if ($gm == "adventure") {
+                                    $player->setGamemode(GameMode::ADVENTURE());
+                                    Utils::disableFlight($player);
+                                } else if ($gm == "spectator") {
+                                    $player->setGamemode(GameMode::SPECTATOR());
+                                }
                             }
                         }
                     }
@@ -342,11 +340,11 @@ class WorldGuard extends PluginBase
                     $player->sendTip(Utils::aliasParse($player, $msg));
                 }
                 if ($new->getFlag("receive-chat") === "false") {
-                    $this->muted[$player->getUniqueId()->toString()] = $player;
+                    $this->muted[$player->getUniqueId()->getBytes()] = $player;
                 }
                 if (! $player->hasPermission("worldguard.bypass.fly." . $newregion)) {
                     if (($flight = $new->getFlight()) !== self::FLY_VANILLA) {
-                        if (!$player->getGamemode()->equals(GameMode::CREATIVE())) {
+                        if ($player->getGamemode(GameMode::CREATIVE())) {
                             switch ($flight) {
                                 case self::FLY_ENABLE:
                                 case self::FLY_SUPERVISED:
@@ -437,9 +435,9 @@ class WorldGuard extends PluginBase
 
     public function updateRegion(Player $player)
     {
-        $region = $this->players[$player->getUniqueId()->toString()];
+        $region = $this->players[$player->getUniqueId()->getBytes()];
         if (($newRegion = $this->getRegionNameFromPosition($player->getPosition())) !== $region) {
-            $this->players[$player->getUniqueId()->toString()] = $newRegion;
+            $this->players[$player->getUniqueId()->getBytes()] = $newRegion;
             return $this->onRegionChange($player, $region, $newRegion);
         }
         return true;
@@ -447,7 +445,7 @@ class WorldGuard extends PluginBase
 
     public function processCreation(Player $player)
     {
-        if (isset($this->creating[$id = $player->getUniqueId()->toString()], $this->process[$id])) {
+        if (isset($this->creating[$id = $player->getUniqueId()->getBytes()], $this->process[$id])) {
             $name = $this->process[$id];
             $map = $this->creating[$id];
             $level = $map[0][3];
@@ -608,7 +606,7 @@ class WorldGuard extends PluginBase
                                 } else {
                                     if (isset($args[2])) {
                                         if ($args[2] == "extended") {
-                                            unset($this->creating[$id = $issuer->getUniqueId()->toString()], $this->process[$id]);
+                                            unset($this->creating[$id = $issuer->getUniqueId()->getBytes()], $this->process[$id]);
                                             $this->creating[$id] = [];
                                             $this->process[$id] = $args[1];
                                             $this->extended[$id] = [];
@@ -619,31 +617,29 @@ class WorldGuard extends PluginBase
                                         }
                                     } else {
                                         if ($args[1] == "global") {
-                                            if ($this->regionExists($args[1] . "." . $issuer->getLevel()
-                                                ->getName())) {
+                                            if ($this->regionExists($args[1] . "." . $issuer->getWorld()->getDisplayName())) {
                                                 $issuer->sendMessage(TF::RED . "A global region for this world already exists!");
                                                 return false;
                                             } else {
-                                                unset($this->creating[$id = $issuer->getUniqueId()->toString()], $this->process[$id]);
-                                                $this->process[$id] = ("global." . $issuer->getLevel()->getName());
+                                                unset($this->creating[$id = $issuer->getUniqueId()->getBytes()], $this->process[$id]);
+                                                $this->process[$id] = ("global." . $issuer->getWorld()->getDisplayName());
                                                 $this->creating[$id][] = [
                                                     0,
                                                     0,
                                                     0,
-                                                    $issuer->getLevel()->getName()
+                                                    $issuer->getWorld()->getDisplayName()
                                                 ];
                                                 $this->creating[$id][] = [
                                                     0,
                                                     0,
                                                     0,
-                                                    $issuer->getLevel()->getName()
+                                                    $issuer->getWorld()->getDisplayName()
                                                 ];
                                                 $this->processCreation($issuer);
-                                                $issuer->sendMessage(TF::GREEN . "Global region for world " . $issuer->getLevel()
-                                                    ->getName() . " created.");
+                                                $issuer->sendMessage(TF::GREEN . "Global region for world " . $issuer->getWorld()->getDisplayName() . " created.");
                                             }
                                         } else {
-                                            unset($this->creating[$id = $issuer->getUniqueId()->toString()], $this->process[$id]);
+                                            unset($this->creating[$id = $issuer->getUniqueId()->getBytes()], $this->process[$id]);
                                             $this->creating[$id] = [];
                                             $this->process[$id] = $args[1];
                                             $issuer->sendMessage(TF::YELLOW . 'Right-Click two positions to complete creating the region (' . $args[1] . ').');
@@ -702,7 +698,7 @@ class WorldGuard extends PluginBase
                                     $issuer->sendMessage(TF::RED . $args[1] . ' region does not exist. Use /region list to get a list of all regions.');
                                     return false;
                                 } else {
-                                    unset($this->creating[$id = $issuer->getUniqueId()->toString()], $this->process[$id]);
+                                    unset($this->creating[$id = $issuer->getUniqueId()->getBytes()], $this->process[$id]);
                                     $this->creating[$id] = [];
                                     $this->process[$id] = $args[1];
                                     $issuer->sendMessage(TF::LIGHT_PURPLE . 'Right-Click two positions to redefine your region (' . $args[1] . ').');

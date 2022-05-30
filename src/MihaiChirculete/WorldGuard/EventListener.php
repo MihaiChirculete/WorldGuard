@@ -84,7 +84,7 @@ class EventListener implements Listener {
                 }
             }
         }
-        if (isset($this->plugin->creating[$id = ($player = $event->getPlayer())->getUniqueId()->toString()])) {
+        if (isset($this->plugin->creating[$id = ($player = $event->getPlayer())->getUniqueId()->getBytes()])) {
             if ($event->getAction() === $event::RIGHT_CLICK_BLOCK) {
                 $block = $event->getBlock();
                 $x = $block->getPosition()->getX();
@@ -98,7 +98,7 @@ class EventListener implements Listener {
                     $z = ($z + 1);
                 }
                 $player->sendMessage(TF::YELLOW.'Selected position: X'.$x.', Y: '.$y.', Z: '.$z.', Level: '.$world);
-                if (!isset($this->plugin->extended[$id = ($player = $event->getPlayer())->getUniqueId()->toString()])){
+                if (!isset($this->plugin->extended[$id = ($player = $event->getPlayer())->getUniqueId()->getBytes()])){
                     $this->plugin->creating[$id][] = [$x, $y, $z, $world];
                 }
                 else{
@@ -345,12 +345,13 @@ class EventListener implements Listener {
     */
     public function onTeleport(EntityTeleportEvent $event)
     {
-        $entity = $event->getEntity();
-        if (!($entity) instanceof Player) return;
+        $tpissuer = $event->getEntity();
         if (!$event->getFrom()->equals($event->getTo())) {
-            if ($this->plugin->updateRegion($entity) !== true) {
-		$event->cancel();
-            }
+        	if ($tpissuer instanceof Player) {
+            		if ($this->plugin->updateRegion($tpissuer) !== true) {
+			$event->cancel();
+            		}
+        	}
         }
     }
 
