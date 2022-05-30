@@ -1,7 +1,7 @@
 name: WorldGuard
 main: MihaiChirculete\WorldGuard\WorldGuard
 api: [4.0.0]
-version: 1.32
+version: 1.33
 author: MihaiChirculete
 website: https://github.com/MihaiChirculete/WorldGuard
 
