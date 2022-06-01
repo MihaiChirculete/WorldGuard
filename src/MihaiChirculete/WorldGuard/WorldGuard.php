@@ -435,7 +435,7 @@ class WorldGuard extends PluginBase
 
     public function updateRegion(Player $player)
     {
-        $region = $this->players[$player->getUniqueId()->getBytes()];
+        $region = isset($this->players[$player->getUniqueId()->getBytes()]) ?? $this->players[$player->getUniqueId()->getBytes()] : null;
         if (($newRegion = $this->getRegionNameFromPosition($player->getPosition())) !== $region) {
             $this->players[$player->getUniqueId()->getBytes()] = $newRegion;
             return $this->onRegionChange($player, $region, $newRegion);
