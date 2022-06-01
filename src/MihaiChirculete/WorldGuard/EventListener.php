@@ -30,6 +30,7 @@ use pocketmine\event\Listener;
 use pocketmine\event\player\{PlayerJoinEvent, PlayerMoveEvent, PlayerInteractEvent, PlayerItemConsumeEvent, PlayerCommandPreprocessEvent, PlayerDropItemEvent, PlayerBedEnterEvent, PlayerChatEvent, PlayerExhaustEvent, PlayerDeathEvent, PlayerQuitEvent};
 use pocketmine\permission\DefaultPermissions;
 use pocketmine\player\Player;
+use pocketmine\scheduler\ClosureTask;
 use pocketmine\utils\TextFormat as TF;
 use pocketmine\world\Position;
 use function json_encode;
@@ -333,10 +334,12 @@ class EventListener implements Listener {
     public function onMove(PlayerMoveEvent $event)
     {
         if (!$event->getFrom()->equals($event->getTo())) {
-            if ($this->plugin->updateRegion($player = $event->getPlayer()) !== true) {
-		//TODO: Get better Location if Region lower, Knockback needs to be lower
-		$player->setMotion($event->getFrom()->subtract($player->getPosition()->getX(), $player->getPosition()->getY(), $player->getPosition()->getZ())->normalize()->multiply($this->plugin->getKnockback()));
-            }
+            $this->plugin->getScheduler()->scheduleTask(new ClosureTask(function() use($event): void{
+                if ($this->plugin->updateRegion($player = $event->getPlayer()) !== true) {
+		    //TODO: Get better Location if Region lower, Knockback needs to be lower
+		    $player->setMotion($event->getFrom()->subtract($player->getPosition()->getX(), $player->getPosition()->getY(), $player->getPosition()->getZ())->normalize()->multiply($this->plugin->getKnockback()));
+                }
+            }));
         }
     }
 
@@ -348,9 +351,11 @@ class EventListener implements Listener {
         $tpissuer = $event->getEntity();
         if (!$event->getFrom()->equals($event->getTo())) {
         	if ($tpissuer instanceof Player) {
-            		if ($this->plugin->updateRegion($tpissuer) !== true) {
-			$event->cancel();
-            		}
+            		$this->plugin->getScheduler()->scheduleTask(new ClosureTask(function() use($event, $tpissuer): void{
+            		    if ($this->plugin->updateRegion($tpissuer) !== true) {
+			$tpissuer->teleport($event->getFrom());
+            		    }
+            		}));
         	}
         }
     }
