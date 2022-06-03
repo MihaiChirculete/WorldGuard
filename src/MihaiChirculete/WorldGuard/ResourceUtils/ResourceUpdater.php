@@ -91,6 +91,7 @@ class ResourceUpdater
             "gui_flag_send_chat" => "Allow sending chat messages",
             "gui_flag_rcv_chat" => "Allow receiving chat messages",
             "gui_flag_enderpearl" => "Allow use of ender pearls",
+            "gui_flag_bow" => "Allow use of bows",
             "gui_flag_fly_mode" => "Fly mode",
             "gui_enabled" => "Enabled",
             "gui_disabled" => "Disabled",
