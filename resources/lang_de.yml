@@ -43,6 +43,7 @@ gui_flag_sleep: Erlaube das Schlafen
 gui_flag_send_chat: Erlaube das Schreiben von Nachrichten im Chat
 gui_flag_rcv_chat: Erlaube das Erhalten von Nachrichten im Chat
 gui_flag_enderpearl: Erlaube das Verwenden von Ender Perlen
+gui_flag_bow: 'Erlaube das Verwenden von Bögen'
 gui_flag_fly_mode: Flugmodus
 gui_enabled: Aktiviert
 gui_disabled: Deaktiviert
