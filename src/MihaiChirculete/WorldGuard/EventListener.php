@@ -49,9 +49,6 @@ class EventListener implements Listener {
 
     public function __construct(WorldGuard $plugin){$this->plugin = $plugin;}
 
-    /**
-    * @priority MONITOR
-    */
     public function onJoin(PlayerJoinEvent $event)
     {
         $this->plugin->sessionizePlayer($event->getPlayer());
@@ -234,10 +231,6 @@ class EventListener implements Listener {
         }
     }
 
-    /**
-     * @param BlockPlaceEvent $event
-     * @ignoreCancelled true
-     */
     public function onPlace(BlockPlaceEvent $event) {
         $player = $event->getPlayer();
         $block = $event->getBlock();
@@ -273,9 +266,6 @@ class EventListener implements Listener {
         }
     }
 
-    /**
-     * @param BlockBreakEvent $event
-     */
     public function onBreak(BlockBreakEvent $event) {
         $player = $event->getPlayer();
         $block = $event->getBlock();
@@ -327,9 +317,6 @@ class EventListener implements Listener {
         }
     }
             
-    /**
-    * @priority MONITOR
-    */
     public function onMove(PlayerMoveEvent $event)
     {
         if (!$event->getFrom()->equals($event->getTo())) {
@@ -340,9 +327,6 @@ class EventListener implements Listener {
         }
     }
 
-    /**
-    * @priority MONITOR
-    */
     public function onTeleport(EntityTeleportEvent $event)
     {
         $tpissuer = $event->getEntity();
@@ -452,10 +436,6 @@ class EventListener implements Listener {
         return;
 	}
 
-    /**
-     * @param PlayerCommandPreprocessEvent $event
-     * @ignoreCancelled true
-     */
     public function onCommand(PlayerCommandPreprocessEvent $event) {
         if($this->plugin->getRegionByPlayer($event->getPlayer()) !== "")
             if(strpos(strtolower($event->getMessage()), '/f claim') === 0)
@@ -476,10 +456,6 @@ class EventListener implements Listener {
         }
     }
 
-    /**
-     * @param PlayerDropItemEvent $event
-     * @ignoreCancelled true
-     */
     public function onDrop(PlayerDropItemEvent $event) {
         if (($reg = $this->plugin->getRegionByPlayer($player = $event->getPlayer())) !== "") {
             if ($reg->getFlag("item-drop") === "false" && !$player->hasPermission("worldguard.drop." . $reg->getName())) {
@@ -492,10 +468,6 @@ class EventListener implements Listener {
         }
     }
 
-    /**
-     * @param EntityExplodeEvent $event
-     * @ignoreCancelled true
-     */
     public function onExplode(EntityExplodeEvent $event)
     {
         foreach ($event->getBlockList() as $block) {
@@ -508,10 +480,6 @@ class EventListener implements Listener {
         }
     }
 
-    /**
-     * @param PlayerBedEnterEvent $event
-     * @ignoreCancelled true
-     */
     public function onSleep(PlayerBedEnterEvent $event)
     {
         if (($region = $this->plugin->getRegionFromPosition($event->getBed()->getPosition())) !== "") {
@@ -521,10 +489,6 @@ class EventListener implements Listener {
         }
     }
 
-    /**
-     * @param PlayerChatEvent $event
-     * @ignoreCancelled true
-     */
     public function onChat(PlayerChatEvent $event)
     {
         if (($reg = $this->plugin->getRegionByPlayer($player = $event->getPlayer())) !== "") {
