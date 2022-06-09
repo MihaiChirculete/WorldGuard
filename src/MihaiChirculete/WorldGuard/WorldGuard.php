@@ -376,19 +376,19 @@ class WorldGuard extends PluginBase
                     }
                 }
 
-                if ($new != null && ! empty($new)) {
+                if ($new !== null && $new !== "") {
                     $newRegionEffects = $new->getEffects();
                 } else {
                     $newRegionEffects = null;
                 }
-                if ($old != null && ! empty($old)) {
+                if ($old !== null && $old !== "") {
                     $oldRegionEffects = $old->getEffects();
                 } else {
                     $oldRegionEffects = null;
                 }
                 
                 // Iterate all old effects and remove them
-                if (! empty($oldRegionEffects) && $oldRegionEffects != null) {
+                if ($oldRegionEffects != null && $oldRegionEffects != "") {
                     if ($this->resourceManager->getConfig()["debugging"] === true) {
                         $this->getLogger()->info("Removing region-given effects, and re-adding any effects the player had.");
                     }
@@ -398,7 +398,7 @@ class WorldGuard extends PluginBase
                 }
 
                 // Iterate all new effects and add them
-                if (! empty($newRegionEffects) && $newRegionEffects != null) {
+                if ($newRegionEffects != null && $newRegionEffects != "") {
                     if ($this->resourceManager->getConfig()["debugging"] === true) {
                         $this->getLogger()->info("Saving the player's current effects that the region overwrites, and giving the new effects from the region.");
                     }
