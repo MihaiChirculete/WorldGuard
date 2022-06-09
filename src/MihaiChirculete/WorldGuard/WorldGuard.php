@@ -262,7 +262,7 @@ class WorldGuard extends PluginBase
         }
     }
 
-    public function onRegionChange(Player $player, string $oldregion, string $newregion)
+    public function onRegionChange(Player $player, ?string $oldregion, ?string $newregion)
     {
         $new = $this->getRegion($newregion);
         $old = $this->getRegion($oldregion);
@@ -282,7 +282,7 @@ class WorldGuard extends PluginBase
                     $this->getLogger()->info("Old Region: " . $old->getName());
                 }
             }
-            if ($old !== "") {
+            if ($old !== null && $old !== "") {
                 if ($old->getFlag("console-cmd-on-leave") !== "none") {
                     $cmd = str_replace("%player%", $player->getName(), $old->getFlag("console-cmd-on-leave"));
                     $player->getServer()->dispatchCommand(new ConsoleCommandSender(Server::getInstance(), Server::getInstance()->getLanguage()), $cmd);
@@ -307,7 +307,7 @@ class WorldGuard extends PluginBase
                 }
             }
 
-            if ($new !== "") {
+            if ($new !== null && $new !== "") {
                 if ($new->getFlag("console-cmd-on-enter") !== "none") {
                     $cmd = str_replace("%player%", $player->getName(), $new->getFlag("console-cmd-on-enter"));
                     $player->getServer()->dispatchCommand(new ConsoleCommandSender(Server::getInstance(), Server::getInstance()->getLanguage()), $cmd);
