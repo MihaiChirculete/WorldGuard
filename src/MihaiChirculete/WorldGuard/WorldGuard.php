@@ -175,7 +175,7 @@ class WorldGuard extends PluginBase
         $this->resourceManager->saveRegions($this->regions);
     }
 
-    public function getRegion(string $region)
+    public function getRegion(?string $region)
     {
         return $this->regions[$region] ?? "";
     }
