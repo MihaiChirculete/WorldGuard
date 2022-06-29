@@ -492,6 +492,10 @@ class WorldGuard extends PluginBase
             $permission = new Permission("worldguard.drop." . $name, "Allows player to drop items in " . $name . " region.", [PermissionParser::DEFAULT_OP]);
             //$permission->addParent("worldguard.drop", true);
             PermissionManager::getInstance()->addPermission($permission);
+            
+            $permission = new Permission("worldguard.barrel." . $name, "Allows player to use barrels in " . $name . " region.", [PermissionParser::DEFAULT_OP]);
+            //$permission->addParent("worldguard.barrel", true);
+            PermissionManager::getInstance()->addPermission($permission);
              
             $permission = new Permission("worldguard.usechest." . $name, "Allows player to use chests in " . $name . " region.", [PermissionParser::DEFAULT_OP]);
             //$permission->addParent("worldguard.usechest", true);
@@ -509,7 +513,7 @@ class WorldGuard extends PluginBase
             //$permission->addParent("worldguard.enchantingtable", true);
             PermissionManager::getInstance()->addPermission($permission);
 
-            $permission = new Permission("worldguard.usebow." . $name, "Allows player to use doors in " . $name . " region.", [PermissionParser::DEFAULT_OP]);
+            $permission = new Permission("worldguard.usebow." . $name, "Allows player to use bows in " . $name . " region.", [PermissionParser::DEFAULT_OP]);
             //$permission->addParent("worldguard.usebow", true);
             PermissionManager::getInstance()->addPermission($permission);
             
