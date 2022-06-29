@@ -48,6 +48,8 @@ permissions:
     default: op
   worldguard.usebow:
     default: op
+  worldguard.usebarrel:
+    default: op
   worldguard.usechest:
     default: op
   worldguard.usechestender:
