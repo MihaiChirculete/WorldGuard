@@ -208,7 +208,7 @@ class EventListener implements Listener {
             } elseif ($tile instanceof Arrow) {
                 if (($region = $this->plugin->getRegionByPlayer($player)) !== "") {
                     if ($region->getFlag("bow") === "false") {
-			if($player->hasPermission("worldguard.usebow." . $reg->getName())) {
+			if($player->hasPermission("worldguard.usebow." . $region->getName())) {
                         	$event->cancel();
                         	if ($region->getFlag("deny-msg") === "true") {
                             	$player->sendMessage(TF::RED . "You can not use bow in this area.");
