@@ -50,6 +50,7 @@ class WorldGuard extends PluginBase
         "blocked-cmds" => [],
         "allowed-cmds" => [],
         "use" => "false",
+        "useframe" => "false",
         "item-drop" => "true",
         "item-by-death" => "true",
         "explosion" => "false",
@@ -92,6 +93,7 @@ class WorldGuard extends PluginBase
         "blocked-cmds" => "array",
         "allowed-cmds" => "array",
         "use" => "boolean",
+        "useframe" => "boolean",
         "item-drop" => "boolean",
         "item-by-death" => "boolean",
         "explosion" => "boolean",
@@ -546,6 +548,11 @@ class WorldGuard extends PluginBase
             $permission = new Permission("worldguard.usebutton." . $name, "Allows player to use buttons in " . $name . " region.", [PermissionParser::DEFAULT_OP]);
             //$permission->addParent("worldguard.usebutton", true);
             PermissionManager::getInstance()->addPermission($permission);
+            
+            $permission = new Permission("worldguard.interactframe." . $name, "Allows player to interact with frames in " . $name . " region.", [PermissionParser::DEFAULT_OP]);
+            //$permission->addParent("worldguard.interactframe", true);
+            PermissionManager::getInstance()->addPermission($permission);
+            
             $this->resourceManager->saveRegions($this->regions);
             return $name;
         }
