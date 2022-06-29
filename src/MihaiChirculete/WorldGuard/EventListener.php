@@ -126,7 +126,7 @@ class EventListener implements Listener {
                         return;
 		}
                 if ($reg->getFlag("use") === "false") {
-                    if($player->hasPermission("worldguard.barrel." . $reg->getName()) && $block === BlockLegacyIds::BARREL)
+                    if($player->hasPermission("worldguard.usebarrel." . $reg->getName()) && $block === BlockLegacyIds::BARREL)
                         return;
                     if($player->hasPermission("worldguard.usechest." . $reg->getName()) && $block === BlockLegacyIds::CHEST)
                         return;
