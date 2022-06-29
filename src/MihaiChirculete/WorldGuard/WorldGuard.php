@@ -508,7 +508,11 @@ class WorldGuard extends PluginBase
             $permission = new Permission("worldguard.enchantingtable." . $name, "Allows player to use enchanting table in " . $name . " region.", [PermissionParser::DEFAULT_OP]);
             //$permission->addParent("worldguard.enchantingtable", true);
             PermissionManager::getInstance()->addPermission($permission);
-             
+
+            $permission = new Permission("worldguard.usebow." . $name, "Allows player to use doors in " . $name . " region.", [PermissionParser::DEFAULT_OP]);
+            //$permission->addParent("worldguard.usebow", true);
+            PermissionManager::getInstance()->addPermission($permission);
+            
             $permission = new Permission("worldguard.usedoors." . $name, "Allows player to use doors in " . $name . " region.", [PermissionParser::DEFAULT_OP]);
             //$permission->addParent("worldguard.usedoors", true);
             PermissionManager::getInstance()->addPermission($permission);
