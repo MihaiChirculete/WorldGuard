@@ -493,8 +493,8 @@ class WorldGuard extends PluginBase
             //$permission->addParent("worldguard.drop", true);
             PermissionManager::getInstance()->addPermission($permission);
             
-            $permission = new Permission("worldguard.barrel." . $name, "Allows player to use barrels in " . $name . " region.", [PermissionParser::DEFAULT_OP]);
-            //$permission->addParent("worldguard.barrel", true);
+            $permission = new Permission("worldguard.usebarrel." . $name, "Allows player to use barrels in " . $name . " region.", [PermissionParser::DEFAULT_OP]);
+            //$permission->addParent("worldguard.usebarrel", true);
             PermissionManager::getInstance()->addPermission($permission);
              
             $permission = new Permission("worldguard.usechest." . $name, "Allows player to use chests in " . $name . " region.", [PermissionParser::DEFAULT_OP]);
