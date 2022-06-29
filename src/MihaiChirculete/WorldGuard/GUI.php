@@ -180,6 +180,7 @@ class GUI
                 // add flag for blocked commands
                 // add flag for allowed commands
                 new Toggle($lang["gui_flag_usage"], filter_var($rg->getFlag("use"), FILTER_VALIDATE_BOOLEAN)),
+                new Toggle($lang["gui_flag_usageframe"], filter_var($rg->getFlag("useframe"), FILTER_VALIDATE_BOOLEAN)),
                 new Toggle($lang["gui_flag_item_drop"], filter_var($rg->getFlag("item-drop"), FILTER_VALIDATE_BOOLEAN)),
                 new Toggle($lang["gui_flag_item_death_drop"], filter_var($rg->getFlag("item-by-death"), FILTER_VALIDATE_BOOLEAN)),
                 new Toggle($lang["gui_flag_explosions"], filter_var($rg->getFlag("explosion"), FILTER_VALIDATE_BOOLEAN)),
@@ -207,7 +208,7 @@ class GUI
             ],
             function(Player $player, CustomFormResponse $response) : void{
                 list($pluginBypass, $denyMessage, $blockBreak, $blockPlace, $pvpFlag, $xpFlag, $invincibleFlag, $fallDmgFlag, $effectsFlag,
-                    $useFlag, $itemDropFlag, $itemDeathDropFlag, $explosionsFlag, $notifyEnterFlag, $notifyLeaveFlag, $potionsFlag, 
+                    $useFlag, $useFrameFlag, $itemDropFlag, $itemDeathDropFlag, $explosionsFlag, $notifyEnterFlag, $notifyLeaveFlag, $potionsFlag, 
                     $allowEnterFlag, $allowLeaveFlag, $gamemodeFlag, $sleepFlag, $sendChatFlag, $receiveChatFlag, $enderPearlFlag, $bowFlag,
                     $flyModeFlag, $eatingFlag, $HungerFlag, $damageAnimalsFlag, $damageMonstersFlag, 
                     $leafDecayFlag, $plantGrowthFlag, $spreadingFlag, $blockBurnFlag, $priorityFlag) = $response->getValues();
@@ -307,6 +308,7 @@ class GUI
                         break;
                 }   
                 $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" use " . var_export($useFlag, true));
+		$player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" useframe " . var_export($useFrameFlag, true));
                 $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" item-drop " . var_export($itemDropFlag, true));
                 $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" item-by-death " . var_export($itemDeathDropFlag, true));
                 $player->getServer()->dispatchCommand(new ConsoleCommandSender($player->getServer(), $player->getServer()->getLanguage()), "rg flags set \"" . self::$currentlyEditedRg . "\" explosion " . var_export($explosionsFlag, true));
