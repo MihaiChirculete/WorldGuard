@@ -117,9 +117,14 @@ class EventListener implements Listener {
                 return;
             }
         }
+	    
         if (($reg = $this->plugin->getRegionByPlayer($player)) !== "") {
             if ($reg->getFlag("pluginbypass") === "false") {
                 $block = $event->getBlock()->getId();
+		if ($reg->getFlag("interactframe") === "false") {
+                    if($player->hasPermission("worldguard.interactframe." . $reg->getName()) && $block === BlockLegacyIds::FRAME_BLOCK)
+                        return;
+		}
                 if ($reg->getFlag("use") === "false") {
                     if($player->hasPermission("worldguard.usechest." . $reg->getName()) && $block === BlockLegacyIds::CHEST)
                         return;
@@ -201,9 +206,11 @@ class EventListener implements Listener {
             } elseif ($tile instanceof Arrow) {
                 if (($region = $this->plugin->getRegionByPlayer($player)) !== "") {
                     if ($region->getFlag("bow") === "false") {
-                        $event->cancel();
-                        if ($region->getFlag("deny-msg") === "true") {
-                            $player->sendMessage(TF::RED . "You can not use bow in this area.");
+			if($player->hasPermission("worldguard.usebow." . $reg->getName())) {
+                        	$event->cancel();
+                        	if ($region->getFlag("deny-msg") === "true") {
+                            	$player->sendMessage(TF::RED . "You can not use bow in this area.");
+				}
                         }
                     }
                 }
