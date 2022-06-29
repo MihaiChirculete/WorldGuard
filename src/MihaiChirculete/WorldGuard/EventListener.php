@@ -122,7 +122,7 @@ class EventListener implements Listener {
             if ($reg->getFlag("pluginbypass") === "false") {
                 $block = $event->getBlock()->getId();
 		if ($reg->getFlag("interactframe") === "false") {
-                    if($player->hasPermission("worldguard.interactframe." . $reg->getName()) && $block === BlockLegacyIds::FRAME_BLOCK)
+                    if($player->hasPermission("worldguard.interactframe." . $reg->getName()) && $block === BlockLegacyIds::ITEM_FRAME_BLOCK)
                         return;
 		}
                 if ($reg->getFlag("use") === "false") {
