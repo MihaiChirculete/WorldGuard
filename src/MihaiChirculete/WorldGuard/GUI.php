@@ -180,7 +180,7 @@ class GUI
                 // add flag for blocked commands
                 // add flag for allowed commands
                 new Toggle($lang["gui_flag_usage"], filter_var($rg->getFlag("use"), FILTER_VALIDATE_BOOLEAN)),
-                new Toggle($lang["gui_flag_usageframe"], filter_var($rg->getFlag("useframe"), FILTER_VALIDATE_BOOLEAN)),
+                new Toggle($lang["gui_flag_interactframe"], filter_var($rg->getFlag("useframe"), FILTER_VALIDATE_BOOLEAN)),
                 new Toggle($lang["gui_flag_item_drop"], filter_var($rg->getFlag("item-drop"), FILTER_VALIDATE_BOOLEAN)),
                 new Toggle($lang["gui_flag_item_death_drop"], filter_var($rg->getFlag("item-by-death"), FILTER_VALIDATE_BOOLEAN)),
                 new Toggle($lang["gui_flag_explosions"], filter_var($rg->getFlag("explosion"), FILTER_VALIDATE_BOOLEAN)),
