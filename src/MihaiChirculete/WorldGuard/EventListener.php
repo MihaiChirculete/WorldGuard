@@ -39,7 +39,7 @@ class EventListener implements Listener {
     //The reason why item IDs are being used directly, rather than ItemIds::CONSTANTs is for the cross-compatibility amongst forks.
 
     //These are the items that can be activated with the "use" flag enabled.
-    const USABLES = [23, 25, 54, 58, 61, 62, 63, 64, 68, 69, 70, 71, 72, 77, 84, 92, 93, 94, 96, 107, 116, 117, 118, 125, 130, 131, 132, 137, 138, 143, 145, 146, 147, 148, 149, 150, 154, 167, 183, 184, 185, 186, 187, 188, 189, 193, 194, 195, 196, 197];
+    const USABLES = [23, 25, 54, 58, 61, 62, 63, 64, 68, 69, 70, 71, 72, 77, 84, 92, 93, 94, 96, 107, 116, 117, 118, 125, 130, 131, 132, 137, 138, 143, 145, 146, 147, 148, 149, 150, 154, 167, 183, 184, 185, 186, 187, 188, 189, 193, 194, 195, 196, 197, 458];
 
     const POTIONS = [373, 374, 437, 438, 444];
 
@@ -126,6 +126,8 @@ class EventListener implements Listener {
                         return;
 		}
                 if ($reg->getFlag("use") === "false") {
+                    if($player->hasPermission("worldguard.barrel." . $reg->getName()) && $block === BlockLegacyIds::BARREL)
+                        return;
                     if($player->hasPermission("worldguard.usechest." . $reg->getName()) && $block === BlockLegacyIds::CHEST)
                         return;
                     if($player->hasPermission("worldguard.usechestender." . $reg->getName()) && $block === BlockLegacyIds::ENDER_CHEST)
