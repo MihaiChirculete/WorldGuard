@@ -50,6 +50,7 @@ class WorldGuard extends PluginBase
         "blocked-cmds" => [],
         "allowed-cmds" => [],
         "use" => "false",
+        "interactframe" => "false",
         "item-drop" => "true",
         "item-by-death" => "true",
         "explosion" => "false",
@@ -92,6 +93,7 @@ class WorldGuard extends PluginBase
         "blocked-cmds" => "array",
         "allowed-cmds" => "array",
         "use" => "boolean",
+        "interactframe" => "boolean",
         "item-drop" => "boolean",
         "item-by-death" => "boolean",
         "explosion" => "boolean",
@@ -490,6 +492,10 @@ class WorldGuard extends PluginBase
             $permission = new Permission("worldguard.drop." . $name, "Allows player to drop items in " . $name . " region.", [PermissionParser::DEFAULT_OP]);
             //$permission->addParent("worldguard.drop", true);
             PermissionManager::getInstance()->addPermission($permission);
+            
+            $permission = new Permission("worldguard.usebarrel." . $name, "Allows player to use barrels in " . $name . " region.", [PermissionParser::DEFAULT_OP]);
+            //$permission->addParent("worldguard.usebarrel", true);
+            PermissionManager::getInstance()->addPermission($permission);
              
             $permission = new Permission("worldguard.usechest." . $name, "Allows player to use chests in " . $name . " region.", [PermissionParser::DEFAULT_OP]);
             //$permission->addParent("worldguard.usechest", true);
@@ -506,7 +512,11 @@ class WorldGuard extends PluginBase
             $permission = new Permission("worldguard.enchantingtable." . $name, "Allows player to use enchanting table in " . $name . " region.", [PermissionParser::DEFAULT_OP]);
             //$permission->addParent("worldguard.enchantingtable", true);
             PermissionManager::getInstance()->addPermission($permission);
-             
+
+            $permission = new Permission("worldguard.usebow." . $name, "Allows player to use bows in " . $name . " region.", [PermissionParser::DEFAULT_OP]);
+            //$permission->addParent("worldguard.usebow", true);
+            PermissionManager::getInstance()->addPermission($permission);
+            
             $permission = new Permission("worldguard.usedoors." . $name, "Allows player to use doors in " . $name . " region.", [PermissionParser::DEFAULT_OP]);
             //$permission->addParent("worldguard.usedoors", true);
             PermissionManager::getInstance()->addPermission($permission);
@@ -546,6 +556,11 @@ class WorldGuard extends PluginBase
             $permission = new Permission("worldguard.usebutton." . $name, "Allows player to use buttons in " . $name . " region.", [PermissionParser::DEFAULT_OP]);
             //$permission->addParent("worldguard.usebutton", true);
             PermissionManager::getInstance()->addPermission($permission);
+            
+            $permission = new Permission("worldguard.interactframe." . $name, "Allows player to interact with frames in " . $name . " region.", [PermissionParser::DEFAULT_OP]);
+            //$permission->addParent("worldguard.interactframe", true);
+            PermissionManager::getInstance()->addPermission($permission);
+            
             $this->resourceManager->saveRegions($this->regions);
             return $name;
         }

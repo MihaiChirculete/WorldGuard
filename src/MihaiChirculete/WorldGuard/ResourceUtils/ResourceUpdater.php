@@ -75,6 +75,7 @@ class ResourceUpdater
             "gui_flag_invincible" => "Invincible",
             "gui_flag_fall_dmg" => "Fall damage",
             "gui_flag_usage" => "Use",
+            "gui_flag_interactframe" => "Interact with frames",
             "gui_flag_item_drop" => "Item drop",
             "gui_flag_item_death_drop" => "Item drop by death",
             "gui_flag_explosions" => "Explosions",
