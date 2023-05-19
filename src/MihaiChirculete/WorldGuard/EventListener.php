@@ -43,7 +43,7 @@ class EventListener implements Listener {
 
     const POTIONS = [373, 374, 437, 438, 444];
 
-    const OTHER = [256, 259, 269, 273, 277, 284, 290, 291, 292, 293, 294];
+    const OTHER = [256, 259, 269, 273, 277, 284, 290, 291, 292, 293, 294, 351];
 
     private $plugin;
 
