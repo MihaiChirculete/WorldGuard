@@ -50,7 +50,6 @@ class WorldGuard extends PluginBase
         "blocked-cmds" => [],
         "allowed-cmds" => [],
         "use" => "false",
-        "interactframe" => "false",
         "item-drop" => "true",
         "item-by-death" => "true",
         "explosion" => "false",
@@ -93,7 +92,6 @@ class WorldGuard extends PluginBase
         "blocked-cmds" => "array",
         "allowed-cmds" => "array",
         "use" => "boolean",
-        "interactframe" => "boolean",
         "item-drop" => "boolean",
         "item-by-death" => "boolean",
         "explosion" => "boolean",
@@ -228,14 +226,14 @@ class WorldGuard extends PluginBase
             if ($region->getLevelName() === $pos->getWorld()->getDisplayName()) {
                 $reg1 = $region->getPos1();
                 $reg2 = $region->getPos2();
-                $x = array_flip(range($reg1[0], $reg2[0]));
-                if (isset($x[$pos->x])) {
-                    $y = array_flip(range($reg1[1], $reg2[1]));
+                $x = array_flip(range((int)(floor($reg1[0])), (int)(floor($reg2[0]))));
+                if (isset($x[(int)$pos->x])) {
+                    $y = array_flip(range((int)(floor($reg1[1])), (int)(floor($reg2[1]))));
                     if (isset($y[$pos->y])) {
-                        $z = array_flip(range($reg1[2], $reg2[2]));
+                        $z = array_flip(range((int)(floor($reg1[2])), (int)(floor($reg2[2]))));
                         if (isset($z[$pos->z])) {
-                            if ($highestPriority < intval($region->getFlag("priority"))) {
-                                $highestPriority = intval($region->getFlag("priority"));
+                            if ($highestPriority < (int)($region->getFlag("priority"))) {
+                                $highestPriority = (int)($region->getFlag("priority"));
                                 $currentRegion = $name;
                             }
                         }
@@ -492,10 +490,6 @@ class WorldGuard extends PluginBase
             $permission = new Permission("worldguard.drop." . $name, "Allows player to drop items in " . $name . " region.", [PermissionParser::DEFAULT_OP]);
             //$permission->addParent("worldguard.drop", true);
             PermissionManager::getInstance()->addPermission($permission);
-            
-            $permission = new Permission("worldguard.usebarrel." . $name, "Allows player to use barrels in " . $name . " region.", [PermissionParser::DEFAULT_OP]);
-            //$permission->addParent("worldguard.usebarrel", true);
-            PermissionManager::getInstance()->addPermission($permission);
              
             $permission = new Permission("worldguard.usechest." . $name, "Allows player to use chests in " . $name . " region.", [PermissionParser::DEFAULT_OP]);
             //$permission->addParent("worldguard.usechest", true);
@@ -512,11 +506,7 @@ class WorldGuard extends PluginBase
             $permission = new Permission("worldguard.enchantingtable." . $name, "Allows player to use enchanting table in " . $name . " region.", [PermissionParser::DEFAULT_OP]);
             //$permission->addParent("worldguard.enchantingtable", true);
             PermissionManager::getInstance()->addPermission($permission);
-
-            $permission = new Permission("worldguard.usebow." . $name, "Allows player to use bows in " . $name . " region.", [PermissionParser::DEFAULT_OP]);
-            //$permission->addParent("worldguard.usebow", true);
-            PermissionManager::getInstance()->addPermission($permission);
-            
+             
             $permission = new Permission("worldguard.usedoors." . $name, "Allows player to use doors in " . $name . " region.", [PermissionParser::DEFAULT_OP]);
             //$permission->addParent("worldguard.usedoors", true);
             PermissionManager::getInstance()->addPermission($permission);
@@ -556,11 +546,6 @@ class WorldGuard extends PluginBase
             $permission = new Permission("worldguard.usebutton." . $name, "Allows player to use buttons in " . $name . " region.", [PermissionParser::DEFAULT_OP]);
             //$permission->addParent("worldguard.usebutton", true);
             PermissionManager::getInstance()->addPermission($permission);
-            
-            $permission = new Permission("worldguard.interactframe." . $name, "Allows player to interact with frames in " . $name . " region.", [PermissionParser::DEFAULT_OP]);
-            //$permission->addParent("worldguard.interactframe", true);
-            PermissionManager::getInstance()->addPermission($permission);
-            
             $this->resourceManager->saveRegions($this->regions);
             return $name;
         }
