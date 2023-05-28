@@ -2,7 +2,7 @@
 branches:
 - master
 projects:
-  WorldGuard:
+  WorldGuard-Fix:
     path: ""
     icon: icon.png
     model: default
